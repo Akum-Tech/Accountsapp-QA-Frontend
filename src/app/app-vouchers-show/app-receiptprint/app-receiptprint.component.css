@@ -1,0 +1,18 @@
+.printWrapper {
+    width: 1000px;
+    margin: auto;
+    border: 1px solid #ccc;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 70px;
+    margin: 8px 30px 8px 8px;
+    width: 100px;
+}
+.company_name_set{
+    font-family:'Gilroy-ExtraBold';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+}

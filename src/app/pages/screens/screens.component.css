@@ -1,0 +1,124 @@
+.screens {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.section-heading{
+  margin-bottom: 50px;
+}
+.section-heading h6{
+  font-family:'Gilroy-Light';
+  font-size: 16px;
+  line-height: 1.2em;
+  color: #fd5c4c;
+  letter-spacing: 2px;
+}
+
+.section-heading h2 {
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  font-family:'Gilroy-ExtraBold';
+  text-transform: uppercase;
+}
+
+img.img-fluid.image-set.ng-star-inserted {
+  height: 450px;
+  width: auto;
+  margin: auto;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.10);
+  border: 0.5px solid #e2e2e2;
+  background: #fff;
+}
+.screens h4 {
+  text-align: center;
+  margin: 15px 0;
+  color: #5b5b5b;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+::ng-deep.screens .owl-stage-outer{
+  position: relative;
+}
+
+::ng-deep .screens .owl-next{
+  position: absolute;
+  z-index: 9;
+  right: 15px;
+  top: -95px;
+  height: 35px;
+  width: 35px;
+  line-height: 25px;
+  font-size: 20px !important;
+  border-radius: 20px !important;
+  background-color: #4c42c5 !important;
+  text-align: center;
+  color: #fff !important;
+  border: 1.5px solid #4c42c5;
+}
+
+::ng-deep .screens .owl-prev{
+  position: absolute;
+  z-index: 9;
+  right: 55px;
+  top: -95px;
+  height: 35px;
+  width: 35px;
+  line-height: 25px;
+  font-size: 20px !important;
+  border-radius: 20px !important;
+  background-color: #4c42c5 !important;
+  text-align: center;
+  color: #fff !important;
+  border: 1.5px solid #4c42c5;
+}
+
+.owl-theme .owl-nav{
+  padding:2px 0 !important;
+}
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+
+  ::ng-deep.screens .owl-stage-outer{
+    right: 0px;
+  }
+  .section-heading h2 {
+    font-size: 30px;
+  }
+  .section-heading h6{
+    font-size: 16px;
+  }
+  ::ng-deep .screens .owl-next{
+    right: 0px;
+    top: 35%;
+  }
+  ::ng-deep .screens .owl-prev{
+    top: 35%;
+    left: 0px;
+  }
+}
+  
+  
+/* ================================================ / Media Query ipad / =================================================== */
+  
+@media (min-width:768px) and (max-width: 1024px) {
+
+  ::ng-deep.screens .owl-stage-outer{
+    right: 0px;
+  }
+  img.img-fluid.image-set.ng-star-inserted{
+    height: 250px;
+  }
+  .screens h4{
+    font-size: 12px;
+  }
+  .section-heading h2{
+    font-size: 30px;
+  }
+}

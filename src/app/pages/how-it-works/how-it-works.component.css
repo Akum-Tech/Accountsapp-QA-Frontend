@@ -1,0 +1,36 @@
+.title-backgournd {
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  background-position: center;
+}
+
+.dtlsBox span {
+  color: #ccc;
+  font-size: 70px;
+  font-family: "Gilroy-ExtraBold";
+  line-height: 50px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.dtlsBox h4 {
+  line-height: 36px;
+  color: #333;
+  font-family: "Gilroy-ExtraBold";
+}
+
+/* =================================================== / Media Query Phone / =================================================== */
+@media (min-width: 320px) and (max-width: 480px) {
+  .row-reverse {
+      flex-direction: column-reverse;
+  }
+
+  .dtlsBox {
+      text-align: center;
+  }
+}
+/* ================================================ / Media Query ipad / =================================================== */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+}

@@ -1,0 +1,66 @@
+<!-- Custom styles for this template-->
+<nav  class="navbar navbar-expand navbar-dark bg-dark static-top adminNavbar">
+    <div id="content">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn text-sidebar bg-turbo-yellow">
+            <i class="fa fa-align-left" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"></form>
+    <div class="heading ml-auto display-set-one">
+        <div class="dropdown dropleft" ngbDropdown>
+            <button class="btn toggle-btn" type="button" ngbDropdownToggle>
+            <i class="fa fa-ellipsis-h btn-dots" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu" ngbDropdownMenu>
+                <ul>
+                    <!-- <li class="mr-1"><a class="change-company" routerLink="/company" routerLinkActive="active"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a></li> -->
+                    <li class="mr-1"><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0 display-set-two">
+        <!-- <li class="mr-1"><a class="change-company" routerLink="/company" routerLinkActive="active"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a></li> -->
+        <li><a class="change-company" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="side_navbar" [hidden]="IsHidden">
+    <nav id="sidebar">
+        <ul class="list-unstyled components">
+            <li>
+                <a  class="nav-link" routerLink="/admin/admindashboard" routerLinkActive="active">Dashboard</a>
+            </li>
+           
+            <li>
+                <a class="nav-link" routerLink="/admin/admin-userdetail" routerLinkActive="active">User Detail</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/admin-units" routerLinkActive="active">Units</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/admin-accounts" routerLinkActive="active">Master Account</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/admintaxes" routerLinkActive="active">Taxable</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/buyplan-changes" routerLinkActive="active">Subscription Plan</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/state-add" routerLinkActive="active">State</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/free-trial" routerLinkActive="active">Free Trial</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/organizationinfo" routerLinkActive="active">Organization Info</a>
+            </li>
+            <li>
+                <a  class="nav-link" routerLink="/admin/plan-detail" routerLinkActive="active">User Plan Detail</a>
+            </li>
+        </ul>
+    </nav>
+  </div>

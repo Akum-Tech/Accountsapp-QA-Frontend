@@ -1,0 +1,133 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" class="admin-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Overview</li>
+            </ol> -->
+            <!-- Icon Cards-->
+            
+            <div class="row summary-box">
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/account-group">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" > Add/Edit Account Group</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/ledger">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" > Add/Edit Ledger</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/items">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" > Add/Edit Stock Item</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 set-line">
+                    <h2 class=" title-name-set" >
+                        Vouchers 
+                    </h2>
+                </div>
+            </div>
+            <div class="row summary-box">
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body" routerLink="/admin/viewsalesinvoice">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name"  >Add/Edit Sales</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/viewpurchasevoucher">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" >Add/Edit Purchase</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/receipt">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" >Add/Edit Receipt</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/payment">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" >Add/Edit Payment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 set-line">
+                    <h2 class="title-name-set" >
+                        Accounts Books 
+                    </h2>
+                </div>
+            </div>
+            <div class="row summary-box">
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/ledgeraccount">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" >Display Ledger</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-4">
+                    <div class="card  o-hidden h-80">
+                        <div class="card-body"  routerLink="/admin/cashbabkbook">
+                            <div class="card-body-icon">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </div>
+                            <div class="mr-5 card-name" >Display Cash book</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

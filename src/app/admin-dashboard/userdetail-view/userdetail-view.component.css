@@ -1,0 +1,134 @@
+
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 24px;
+    text-align: center;
+    margin: 10px 0px;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 1.5px;
+    width: 10%;
+    margin: 8px auto;
+}
+.user-col{
+    background: #74716d2e;
+}
+.user-col-view{
+    background:#d7d7d745;
+}
+.printWrapper h3{
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    padding: 4px;
+    font-size: 16px;
+    color: #000;
+}
+.printWrapper h2{
+    font-family: 'Gilroy-Light';
+    text-transform: capitalize;
+    padding:4px;
+    font-size: 16px;
+    color: #000;
+}
+.company-title{
+    background: #000000c2;
+}
+.company-title h1{
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    padding: 4px;
+    font-size: 18px;
+    color: rgb(252 247 241 / 94%);
+    letter-spacing: 0.3px;
+    margin-top: 5px;
+}
+.company-header {
+    font-family: 'Gilroy-Light';
+    letter-spacing: 0.3px;
+    background-color: #74716d66 !important;
+    color: #000 !important;
+    text-transform: capitalize;
+}
+.table-responsive{
+    margin-top: 0px;
+    /* border: 1px solid #ccc; */
+}
+.user-header th{
+    padding: 5px 1px;
+    vertical-align: middle;
+    text-transform: capitalize;
+    background-color: #74716d66 !important;
+    font-family: 'Gilroy-ExtraBold';
+    font-size: 16px;
+}
+.user-table-body td{
+    padding: 3px 10px;
+    vertical-align: middle;
+    text-transform: capitalize;
+    font-family: 'Gilroy-Light';
+    background:#d7d7d745;
+    font-size: 14px;
+}
+.mt-25{
+    margin-top: 20px;
+}
+span{
+    display: table-cell;
+}
+.user-form span:first-child{
+    width: 25%;
+}
+.date-set{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.date-btn{
+    padding: 3px 18px !important;
+    background-color: #090909b3;
+    color: #fff !important;
+    border-radius: 3px;
+}
+.date-btn-red{
+    padding: 3px 18px !important;
+    background-color: #f80202;
+    color: #fff !important;
+    border-radius: 3px;   
+}
+.edit-date-plan{
+    margin-bottom: 2px;
+    margin-left: 20px;
+    width: 80px;
+}
+.company-msg h4 {
+    font-family: 'Gilroy-ExtraBold';
+    font-size: 20px;
+    text-transform: capitalize;
+    color: #f80202;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 30px;
+    text-align: center;
+}
+/* =================================================== / Media Query Phone / =================================================== */
+@media (min-width:320px) and (max-width: 480px) {
+    span{
+        display: block;
+    }
+    .user-form span:first-child {
+        width: 40%;
+    }
+    .mt-25{
+        margin-top: 10px;
+    }
+}
+/* =================================================== / Media Query ipad / =================================================== */
+@media (min-width:768px) and (max-width: 1024px) {
+    .user-form span:first-child {
+        width: 40%;
+    }
+}

@@ -1,0 +1,19 @@
+<h1 *ngIf="dataNotFount">---------------------------------------------------DOWNLOAD------------------------------------------</h1>
+
+<!-- =========================== ERROR MESSAGE SHOW ============================== -->
+
+
+<ng-template #invalidurlmodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"> MESSAGE</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/home" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body done-modal header-filed">
+       <h1>Invalid URL..!   Please Enter Valid URL.</h1>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn footer-btn" routerLink="/home" routerLinkActive="active" (click)="d('Cross click')">OK</button>
+    </div>
+</ng-template>

@@ -1,0 +1,816 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+
+    <div id="content-wrapper">
+        <div class="container-fluid header-filed">
+                <ol class="breadcrumb">
+
+                    <li>
+                        <div class="header-filed set-title pd-10">
+                            <h3>Trial Balance</h3>
+                        </div>
+                    </li>
+        
+                    <li class="float-set">
+                        <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button>
+                        <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                        <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button>
+                        <button class="btn action-btn dwnload-btn"> <i class="fa fa-download" aria-hidden="true"></i> </button> -->
+                        <button (click)="printPage()" *ngIf="trailbalancelist != ''" class="add-btn">PRINT</button>
+                    </li>
+
+                </ol>
+               <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+           
+              
+
+            <div class="row date-select">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate"   placeholder="Select Start Date" [(ngModel)]="trailbalance.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate"[max]="current_periad_enddate" [min]="current_periad_startdate"  placeholder="Select End Date"  [(ngModel)]="trailbalance.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!trailbalance.start_date || !trailbalance.end_date" (click)="trailbalanceshow()" >DISPLAY</button>
+                </div>
+            </div>
+            <div class="sale-bill">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+            <div class="container-fluid sale-bill" *ngIf="!loader && trailbalancelist != ''">
+                <div class="table-responsive">
+                  <table class="reports table">
+                        <thead class="table-header">
+                            <tr class="border-right">
+                                <th rowspan="2">Particulars</th>
+                                <th rowspan="2">Opening Balance</th>
+                                <th colspan="2" >
+                                    Transactions
+                                    <div class="row">
+                                        <div class="col-sm-6 border-right">Dr.</div>
+                                        <div class="col-sm-6 border-right">Cr.</div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">Closing Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let balance of trailbalancelist.Capital_Account">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.bankL">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>                            
+                            <tr *ngFor="let balance of trailbalancelist.bankA">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Current_Liabilities">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Fixed_Assets">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Current_Assets">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr  *ngFor="let balance of trailbalancelist.Sundry_Creditors">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Sundry_Debtors">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Purchase_Accounts">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Sales_Accounts">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Indirect_Expenses">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.debitAmount >= 0">{{getType(balance.debitAmount)}}</span>
+                                    <span *ngIf="balance.debitAmount < 0">{{getType(balance.debitAmount*(-1))}}</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Indirect_Income">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Direct_Expenses">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Direct_Income">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.case">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Taxes">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Stock_in_Hand">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">Stock In Hand</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.Profit_Loss">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">Profit & Loss</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let balance of trailbalancelist.ledgerdiffrence">
+                                <td [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'">{{balance.name}}</td>
+                                 <td class="text-set">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(balance.debitAmount)}}</td>
+                                <td class="text-set">{{getType(balance.creditAmount)}}</td>
+                                <td class="text-set">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot  class="table-header">
+                            <tr class="border-right">
+                                <th>Grand Total </th>
+                                <td class="text-set">
+                                    <span *ngIf="trailbalancelist.totalopen >= 0">{{getType(trailbalancelist.totalopen)}} Cr.</span>
+                                    <span *ngIf="trailbalancelist.totalopen < 0">{{getType(trailbalancelist.totalopen*(-1))}} Dr.</span>
+                                </td>
+                                <td class="text-set">{{getType(trailbalancelist.totaldebit)}}</td>
+                                <td class="text-set">{{getType(trailbalancelist.totalcredit)}}</td>
+                                <td class="text-set">                                    
+                                    <span *ngIf="trailbalancelist.totalclose >= 0">{{getType(trailbalancelist.totalclose)}} Cr.</span>
+                                    <span *ngIf="trailbalancelist.totalclose < 0">{{getType(trailbalancelist.totalclose*(-1))}} Dr.</span>
+                               </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="Reports-error-msg"  *ngIf="!dataNotFount && trailbalancelist == ''">
+                <h4>No Data Found .</h4>
+            </div> 
+
+               <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+               <div id="print-section" style="display: none;">
+                <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                    <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                    <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                                </td>
+                                <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                    <h1 style="margin: 0;font-size:26px;text-transform: uppercase;">TRAIL BALANCE</h1>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                        <tbody>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{trailbalance.start_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{trailbalance.end_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <thead>
+                            <tr style="border-right: 0.5px solid #00000078;">
+                                <th rowspan="2" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Particulars</th>
+                                <th rowspan="2" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Opening Balance</th>
+                                <th colspan="2" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Transactions</th>
+                                <th rowspan="2" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Closing Balance</th>
+                            </tr>
+                            <tr style="border-right: 0.5px solid #00000078;border-top: 0.5px solid #00000078;">
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Dr.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;border-right: 0.5px solid #00000078">Cr.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Capital_Account">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.bankL">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.bankA">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Current_Liabilities">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Fixed_Assets">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Current_Assets">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Sundry_Creditors">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Sundry_Debtors">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Purchase_Accounts">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Sales_Accounts">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Indirect_Expenses">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Indirect_Income">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Direct_Expenses">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Direct_Income">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.case">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Taxes">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Stock_in_Hand">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.Profit_Loss">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #00000078;" *ngFor="let balance of trailbalancelist.ledgerdiffrence">
+                                <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" [ngClass]="balance.ismain?'main-group':balance.issub?'sub-group':'ledger-group'"> {{balance.name}} </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.open_amount >= 0">{{getType(balance.open_amount)}}</span>
+                                    <span *ngIf="balance.open_amount < 0">{{getType(balance.open_amount*(-1))}}</span>
+                                    <span *ngIf="balance.open_type == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.open_type ==  'debit'"> Dr.</span>
+                                 </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;" >{{getType(balance.debitAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(balance.creditAmount)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="balance.closeing_amount >= 0">{{getType(balance.closeing_amount)}}</span>
+                                    <span *ngIf="balance.closeing_amount < 0">{{getType(balance.closeing_amount*(-1))}}</span>
+                                    <span *ngIf="balance.accounttype == 'credit'"> Cr.</span>
+                                    <span *ngIf="balance.accounttype ==  'debit'"> Dr.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">Grand Total  </th>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="trailbalancelist.totalopen >= 0">{{getType(trailbalancelist.totalopen)}} Cr.</span>
+                                    <span *ngIf="trailbalancelist.totalopen < 0">{{getType(trailbalancelist.totalopen*(-1))}} Dr.</span>
+                                </td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(trailbalancelist.totaldebit)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(trailbalancelist.totalcredit)}}</td>
+                                <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="trailbalancelist.totalclose >= 0">{{getType(trailbalancelist.totalclose)}} Cr.</span>
+                                    <span *ngIf="trailbalancelist.totalclose < 0">{{getType(trailbalancelist.totalclose*(-1))}} Dr.</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div> 
+            <!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+        
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<app-user-footer></app-user-footer>

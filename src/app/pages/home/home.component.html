@@ -1,0 +1,330 @@
+ <app-header></app-header>
+<section class="banner" id="banner">
+    <div class="container">
+        <div class="banner-wrapper">
+            <div class="row align-items-center">
+                <!-- <div class="col-12 col-sm-7 text-center timerText">
+                    <img src="assets/images/banner-logo.png" class="img-fluid">
+                    <p>My Accounts App<br> <span style="color: #010101;">is Ready For Launch</span></p>
+                    <p id="demo"></p>
+                </div>
+
+                <div class="col-12 col-sm-5">
+                    <img src="assets/images/feature-icon/desktop.png" class="img-fluid desktopImg">
+                </div> -->
+
+                <div class="col-12 col-sm-12 col-lg-6 col-md-12">
+                    <div class="bannerText">
+                        <img src="assets/images/feature-icon/element1.svg" class="iconElement1 dance3">
+                        <img src="assets/images/feature-icon/element2.svg" class="iconElement2 dance4">
+                        <h1>Web based accounting for small businesses. The small business<br> are benefitted with its unique features. </h1>
+                        <!-- <p>My Accounts app is web based accounting for small businesses. The small business are benefitted with its unique features. </p> -->
+                        <ul>
+                            <li>Cloud base data so no worry of data loss.</li>
+                            <li>Multiuser Facility.</li>
+                            <li>Use from anywhere and anytime.</li>
+                            <li>GST Ready Ledgers.</li>
+                            <li>Maintain Stock & stock groups.</li>
+                            <li>Share Invoices, Ledger reports on WhatsApp and Email.</li>
+                        </ul>
+                        <h2>Try My Accounts App for Free</h2>
+
+                        <form [formGroup]="signupform" #userSignForm="ngForm" autocomplete="off">
+                            <div class="row">
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="form-group signup-fild">
+                                        <input class="form-control" placeholder="Name" type="text" formControlName="name" autocomplete="nope"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="form-group signup-fild">
+                                        <input class="form-control" placeholder="Phone No" formControlName="phoneno" (keypress)="numberOnly($event)" maxlength="10" type="text" autocomplete="nope"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="form-group signup-fild">
+                                        <input class="form-control" placeholder="Email" type="text" formControlName="email" optionLabel="text" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="form-group signup-fild">
+                                        <input autocomplete="new-password" placeholder="Password"  class="form-control" minlength=6 type="password" id="loginpassword" formControlName="inputpass" optionLabel="text"  />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="form-group signup-fild">
+                                        <input  class="form-control" placeholder="Confirm Password" type="password" id="loginpassword" minlength="6" formControlName="conformpass" optionLabel="text"  />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-md-6">
+                                    <div class="signup-footer playStoreBtn mt-0">
+                                        <button class="btn signup-btn btnIos" (click)="signup()">Sign Up</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="playStoreBtn">
+                            <!-- <a href="#" class="btnIos">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 26.466 31.494">
+                                <path id="Icon_awesome-apple" data-name="Icon awesome-apple" d="M22.409,18.893a6.564,6.564,0,0,1,3.516-5.962,7.555,7.555,0,0,0-5.955-3.136c-2.5-.2-5.224,1.455-6.223,1.455-1.055,0-3.473-1.385-5.372-1.385C4.451,9.928.281,12.994.281,19.23A17.525,17.525,0,0,0,1.294,24.94c.9,2.58,4.148,8.909,7.538,8.8,1.772-.042,3.023-1.259,5.33-1.259,2.236,0,3.4,1.259,5.372,1.259,3.417-.049,6.356-5.8,7.214-8.388a6.97,6.97,0,0,1-4.338-6.462ZM18.429,7.348a6.622,6.622,0,0,0,1.688-5.1A7.456,7.456,0,0,0,15.342,4.7a6.726,6.726,0,0,0-1.8,5.055,5.905,5.905,0,0,0,4.887-2.412Z" transform="translate(-0.281 -2.25)"/>
+                            </svg> Download for iOS</a>
+                            <a href="#" class="btnAndroid">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 31.488">
+                                <path id="Icon_awesome-android" data-name="Icon awesome-android" d="M6.3,14.379v8.142a1.927,1.927,0,0,1-1.934,1.948A2.1,2.1,0,0,1,2.25,22.521V14.379a2.1,2.1,0,0,1,2.116-1.934A1.942,1.942,0,0,1,6.3,14.379Zm.759,11.039A2.077,2.077,0,0,0,9.141,27.5h1.4l.021,4.3a1.941,1.941,0,0,0,3.881,0V27.5h2.616v4.3a1.951,1.951,0,0,0,3.9,0V27.5h1.42a2.074,2.074,0,0,0,2.067-2.081V12.8H7.059V25.418ZM24.5,12.122H6.982a7.9,7.9,0,0,1,4.472-6.989L10.111,2.651a.271.271,0,1,1,.471-.267l1.364,2.5a9.5,9.5,0,0,1,7.615,0l1.357-2.5a.271.271,0,1,1,.471.267L20.046,5.133A7.921,7.921,0,0,1,24.5,12.122Zm-12-3.9a.738.738,0,0,0-.738-.738.739.739,0,0,0,0,1.477A.738.738,0,0,0,12.495,8.22Zm7.973,0a.728.728,0,1,0-.717.738A.734.734,0,0,0,20.468,8.22Zm6.666,4.226A1.928,1.928,0,0,0,25.2,14.379v8.142a1.94,1.94,0,0,0,1.934,1.948,2.094,2.094,0,0,0,2.116-1.948V14.379A2.082,2.082,0,0,0,27.134,12.445Z" transform="translate(-2.25 -2.245)"/>
+                            </svg> Download for Android</a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 col-md-12">
+                    <div class="bannerImg">
+                        <img src="assets/images/feature-icon/responsive-screen.webp" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="feature" class="feature-section section-padding">
+    <div class="container">
+        <div class="section-title">Feature Overview</div>
+        <div class="row align-items-center">
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" viewBox="0 0 57.143 40">
+                                <path id="Icon_awesome-cloud-upload-alt" data-name="Icon awesome-cloud-upload-alt" d="M48,19.625A8.582,8.582,0,0,0,40,7.964a8.528,8.528,0,0,0-4.759,1.446,14.287,14.287,0,0,0-26.67,7.125c0,.241.009.482.018.723A12.861,12.861,0,0,0,12.857,42.25H45.714A11.428,11.428,0,0,0,48,19.625ZM35.125,25.107H29.286v10a1.433,1.433,0,0,1-1.429,1.429H23.571a1.433,1.433,0,0,1-1.429-1.429v-10H16.3a1.426,1.426,0,0,1-1.009-2.438l9.411-9.411a1.433,1.433,0,0,1,2.018,0l9.411,9.411A1.428,1.428,0,0,1,35.125,25.107Z" transform="translate(0 -2.25)" fill="#fff"/>
+                            </svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>Cloud Based</h3>
+                        <p>Cloud base data so no worry of data loss in case of loss of mobile or laptop.</p>
+                    </span>
+                </div>
+
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon" style="background: #ff6c51;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" viewBox="0 0 35 40">
+                                <path id="Icon_awesome-hand-pointer" data-name="Icon awesome-hand-pointer" d="M35,18.75v7.5a3.124,3.124,0,0,1-.083.716l-2.5,10.625A3.125,3.125,0,0,1,29.375,40H13.125A3.125,3.125,0,0,1,10.6,38.713L.6,24.963a3.125,3.125,0,1,1,5.055-3.676l2.472,3.4V3.125a3.125,3.125,0,1,1,6.25,0V18.75H15V15.625a3.125,3.125,0,0,1,6.25,0V18.75h.625V16.875a3.125,3.125,0,1,1,6.25,0V18.75h.625a3.125,3.125,0,1,1,6.25,0ZM15,25h-.625v7.5H15Zm6.875,0H21.25v7.5h.625Zm6.875,0h-.625v7.5h.625Z" fill="#fff"/>
+                              </svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>Easy to use</h3>
+                        <p>Use from anywhere and anytime.</p>
+                    </span>
+                </div>
+
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon" style="background: #8484f2;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" viewBox="0 0 40 40">
+                                <path id="Icon_awesome-layer-group" data-name="Icon awesome-layer-group" d="M.97,11.564l18.2,8.255a2,2,0,0,0,1.663,0l18.2-8.255a1.746,1.746,0,0,0,0-3.127L20.832.181a2,2,0,0,0-1.663,0L.97,8.436a1.746,1.746,0,0,0,0,3.128Zm38.06,6.9L34.492,16.4,21.864,22.128a4.5,4.5,0,0,1-3.728,0L5.509,16.4.97,18.461a1.744,1.744,0,0,0,0,3.125l18.2,8.249a2.006,2.006,0,0,0,1.663,0l18.2-8.249a1.744,1.744,0,0,0,0-3.125Zm0,9.984L34.509,26.4,21.864,32.128a4.5,4.5,0,0,1-3.728,0L5.491,26.4.97,28.445a1.744,1.744,0,0,0,0,3.125l18.2,8.249a2.006,2.006,0,0,0,1.663,0l18.2-8.249a1.744,1.744,0,0,0,0-3.125Z" transform="translate(0 0)" fill="#fff"/>
+                              </svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>Maintain</h3>
+                        <p>Maintain Stock & stock groups.</p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4 text-center aos-init aos-animate" data-aos="fade-up" data-aos-duration="1000">
+                <img src="assets/images/feature-icon/mobile.webp" class="featureMobileImg img-fluid banner-one__moc">
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon" style="background: #f9a577;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" viewBox="0 0 57.143 40">
+                                <path id="Icon_awesome-users" data-name="Icon awesome-users" d="M8.571,19.393a5.714,5.714,0,1,0-5.714-5.714A5.72,5.72,0,0,0,8.571,19.393Zm40,0a5.714,5.714,0,1,0-5.714-5.714A5.72,5.72,0,0,0,48.571,19.393Zm2.857,2.857H45.714a5.7,5.7,0,0,0-4.027,1.661,13.06,13.06,0,0,1,6.705,9.768h5.893a2.854,2.854,0,0,0,2.857-2.857V27.964A5.72,5.72,0,0,0,51.429,22.25Zm-22.857,0a10,10,0,1,0-10-10A9.995,9.995,0,0,0,28.571,22.25Zm6.857,2.857h-.741a13.806,13.806,0,0,1-12.232,0h-.741A10.288,10.288,0,0,0,11.429,35.393v2.571a4.287,4.287,0,0,0,4.286,4.286H41.429a4.287,4.287,0,0,0,4.286-4.286V35.393A10.288,10.288,0,0,0,35.429,25.107Zm-19.973-1.2a5.7,5.7,0,0,0-4.027-1.661H5.714A5.72,5.72,0,0,0,0,27.964v2.857a2.854,2.854,0,0,0,2.857,2.857H8.741A13.093,13.093,0,0,1,15.455,23.911Z" transform="translate(0 -2.25)" fill="#fff"/>
+                            </svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>Multiuser Facility</h3>
+                        <p>Its multiuser facility provides you to use parallel devices at the same time.</p>
+                    </span>
+                </div>
+
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon" style="background: #5948DF;line-height: 60px;">
+                            <svg style="height: 35px;" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#fff" viewBox="0 0 122.88 111.5"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>gst</title><path class="cls-1" d="M122.88,58.58l-35,52.92L60,93.6l1.85-3.91,20.43,13,.25.17a4.15,4.15,0,0,0,5.73-1.32l1.13-1.8.06,0,5.27-8.57,24-35.3,4.21,2.69ZM30.72,14.92a20.23,20.23,0,0,1,7.19,1.15l-1.66,6.8h-.61a21.59,21.59,0,0,0-3.32-1.38,10.68,10.68,0,0,0-3.06-.42,5.28,5.28,0,0,0-2.71.57,3.37,3.37,0,0,0-1.36,2,16.14,16.14,0,0,0-.42,4.22,16.7,16.7,0,0,0,.42,4.29,3.32,3.32,0,0,0,1.44,2.07,5.87,5.87,0,0,0,2.94.6A8.34,8.34,0,0,0,31,34.7V33.47l-.11-4.18,7-.5-.12,3.38V39a25,25,0,0,1-8.87,1.69q-6,0-9.11-3.21T16.7,28.29q0-6.54,3.63-9.95t10.39-3.42Zm20.46,0a20.28,20.28,0,0,1,7.22,1.35l-1.23,6.26L56.09,23a17.48,17.48,0,0,0-3.19-1.58,7.89,7.89,0,0,0-2.53-.57,2.48,2.48,0,0,0-1.4.34,1.05,1.05,0,0,0-.52.92,1.47,1.47,0,0,0,.79,1.25,21.33,21.33,0,0,0,2.63,1.37,34.62,34.62,0,0,1,3.53,1.78,8.12,8.12,0,0,1,2.42,2.27,5.92,5.92,0,0,1,1,3.55,7.42,7.42,0,0,1-1.29,4.25,8.83,8.83,0,0,1-3.67,3,12.93,12.93,0,0,1-5.53,1.12,25.68,25.68,0,0,1-8.22-1.46l1.12-6.69.76-.46a15.27,15.27,0,0,0,3.79,2.13,9.51,9.51,0,0,0,3.36.79,2.66,2.66,0,0,0,1.56-.36,1.13,1.13,0,0,0,.47-.91,1.62,1.62,0,0,0-.82-1.36A17.54,17.54,0,0,0,47.72,31a31,31,0,0,1-3.48-1.75A7.82,7.82,0,0,1,41.88,27a6,6,0,0,1-1-3.55,7.64,7.64,0,0,1,1.31-4.36A8.91,8.91,0,0,1,45.84,16a12.32,12.32,0,0,1,5.34-1.11Zm28.4,1-.42,5.61-5.07-.23h-.46l-.19,10.87.3,8.06H66.06l.39-7.29-.2-11.64h-.5l-5.1.23L60.18,21l.43-5.61H79.16l.42.54Zm-31,67.4L48,82.72l-8.3,8.53a2.09,2.09,0,0,1-.14.17,2.51,2.51,0,0,1-3.55,0l-8.7-8.7-9,8.54h0a2.51,2.51,0,0,1-3.5-.05L6.3,82.59l-1.78,2A2.51,2.51,0,0,1,0,83.15V2.51A2.51,2.51,0,0,1,2.51,0H93.87a2.5,2.5,0,0,1,2.5,2.51V21.69l-1.23-.79a4.72,4.72,0,0,0-3.78-.6V5H5v71.7a2.5,2.5,0,0,1,2.8.32.8.8,0,0,1,.13.13H8L16.66,86l9-8.53a2.49,2.49,0,0,1,3.49,0h0l8.63,8.63,8.35-8.6a2.49,2.49,0,0,1,3.49-.1h0l1.58,1.46-2,2.94a4.74,4.74,0,0,0-.63,1.49Zm11.56-18h-41a1.85,1.85,0,0,1,0-3.7H62.59l-2.44,3.7ZM68.29,53H18.59a1.85,1.85,0,1,1,0-3.7H70.73L68.29,53Zm51.31-5.84L84.6,100,56.68,82.14l35-52.92,27.91,17.9ZM94.08,61.57a7.54,7.54,0,1,1-10.3-2.77,7.53,7.53,0,0,1,10.3,2.77Zm15.52-8.2L86.13,88.29a4.91,4.91,0,0,0-6.77,1.49l-11-7.07a4.9,4.9,0,0,0-1.49-6.77L90.31,41a4.89,4.89,0,0,0,6.76-1.48l11.05,7.07a4.9,4.9,0,0,0,1.48,6.77Z"/></svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>GST Ready Ledgers</h3>
+                        <p>Ledger of sale, purchase, IGST, CGST and SGST irrespective of any tax rate created automatically while making the voucher.</p>
+                    </span>
+                </div>
+
+                <div class="feature-card">
+                    <span>
+                        <div class="featureIcon" style="background: #3c4e66;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" viewBox="0 0 35 40">
+                                <path id="Icon_awesome-share-alt" data-name="Icon awesome-share-alt" d="M27.5,25a7.468,7.468,0,0,0-4.671,1.632l-8.007-5a7.543,7.543,0,0,0,0-3.256l8.007-5a7.486,7.486,0,1,0-2.651-4.239l-8.007,5a7.5,7.5,0,1,0,0,11.735l8.007,5A7.5,7.5,0,1,0,27.5,25Z" fill="#fff"/>
+                              </svg>
+                        </div>
+                    </span>
+                    <span>
+                        <h3>Share Reports</h3>
+                        <p>Share Invoices, Ledger reports on WhatsApp and Email directly from the app</p>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <img src="assets/images/feature-icon/swi-dotted.webp" class="swi-dotted">
+</section>
+
+<section id="work" class="how-it-work section-padding">
+    <div class="container">
+        <div class="row align-items-center justify-content-around">
+            <div class="col-12 col-sm-6 col-md-6 text-center aos-init aos-animate" data-aos="fade-up" data-aos-duration="1000">
+                <img src="assets/images/feature-icon/hero-phone.webp" class="img-fluid banner-one__moc">
+            </div>
+            <div class="col-12 col-sm-12 col-md-5 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1800">
+                <div class="section-title">How It Works</div>
+                <div class="card-eg-how-work-content">
+                    <div class="eg-how-work-icon-text">
+                        <span class="workIcon"><img src="assets/images/feature-icon/icon-user-plus.svg"></span> Sign Up here
+                    </div>
+                    <div class="eg-how-work-icon-text">
+                        <span class="workIcon" style="background-color: #50F0B0;"><img src="assets/images/feature-icon/add-company.svg"></span> Add Company
+                    </div>
+                    <div class="eg-how-work-icon-text">
+                        <span class="workIcon" style="background-color: #7D8AF3;"><img src="assets/images/feature-icon/icon-file-pdf.svg"></span> Create Ledger
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="compatible" class="compatible section-padding">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-sm-12 col-lg-5 col-md-5 aos-init aos-animate" data-aos="fade-right" data-aos-duration="1800">
+                <div class="compatible-text">
+                    <h2>Compatible With You <br><span>Everywhere</span></h2>
+                    <p>We're continually adding more devices and improving our compatibility, supporting most popular phones and tablets.</p>
+                    <div class="playStoreBtn">
+                        <a href="#"><img src="assets/images/feature-icon/google-play.png" class="img-fluid"></a>
+                        <a href="#"><img src="assets/images/feature-icon/app-store.png" class="img-fluid"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-7 col-md-7 aos-init aos-animate" data-aos="fade-left" data-aos-duration="1800">
+                <img src="assets/images/feature-icon/all-divice.webp" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="contact-wrapper">
+            <h2>We are here to <span>help you!</span></h2>
+            <form  [formGroup]="contactform" #ContactForm="ngForm" (ngSubmit)="MessageSend()">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <input type="text"  formControlName="name" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <input type="text" formControlName="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <input type="text" (keypress)="numberOnly($event)" minlength="10" maxlength="10" formControlName="number"  placeholder="Phone Number">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="loader">
+                            <circle-progress *ngIf = "loader" [percent]="99"
+                                [percent]="99"
+                                [radius]="25"
+                                [outerStrokeWidth]="3"
+                                [innerStrokeWidth]="1"
+                                [outerStrokeColor]="'#1441EB'"
+                                [innerStrokeColor]="'#1441EB'"
+                                [animation]="true"
+                                [animationDuration]="300"
+                                [space]="2"
+                                [titleFontSize]="12"
+                                [backgroundStrokeWidth]="0"
+                            >
+                            </circle-progress>
+                        </div>
+                        <button class="submit-btn" *ngIf = "!loader" (click)="MessageSend()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<app-footer></app-footer>
+
+<!-- =========================== VERIFICATION MOBILENO. & PASSWORD MODAL ============================== -->
+
+<ng-template  #verifymodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">VERIFICATION</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body mtb-30">
+
+        <form [formGroup]="emailverifyform" #Emailverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.emailverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Email">Email OTP Verification</label>
+                        <input class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text"/>
+                    </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div class="form-group mt-30">
+                        <button class="btn otp-btn" (click)="resendemailverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="emailverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div>
+            (OR)
+        </div>
+        <form [formGroup]="phoneverifyform" #Phoneverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.phoneverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Password">Phone OTP Verification</label>
+                        <input  class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text" />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group  mt-30">
+                        <button class="btn otp-btn" (click)="resendphoneverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="phoneverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+

@@ -1,0 +1,41 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <div class="packages-plans">
+                <div class="container">
+                    <div class="form_heding">
+                        <h1>PACKAGES PLANS</h1>
+                    </div>
+                    <div class="row" >
+                        <div *ngFor="let buyplan of buylist" class="col-sm-4 col-lg-4 col-12 col-md-12">
+                            <div class="card draw card-body">
+                                <h3>{{buyplan.months}} Months Plan</h3>
+                                <ul>
+                                    <li><span>Basic</span> <span> ₹{{buyplan.basic}}</span></li>
+                                    <li><span>GST </span> <span> ₹{{buyplan.gst}}</span> </li>
+                                    <li><span>Value </span> <span> ₹{{buyplan.total}}</span>  </li> 
+                                </ul>
+                                <button class="btn-buy" (click)="buyplanget(buyplan)">
+                                    <span style="width: 10%;" *ngIf="activeuser.subscription_end_date != null">Upgrade Plan</span>
+                                    <span style="width: 10%;" *ngIf="activeuser.subscription_end_date == null">Buy Plan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<app-user-footer></app-user-footer>
+

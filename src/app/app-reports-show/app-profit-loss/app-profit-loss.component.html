@@ -1,0 +1,264 @@
+
+<!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+
+<div *ngIf="dataNotFount">
+
+    <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+    <div id="print-section">
+        <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+            <table cellpadding="0" cellspacing="0" style="width:100%">
+                <tbody>
+                    <tr>
+                        <!-- <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                            <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                            <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                        </td> -->
+                        <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                            <h1 style="margin: 0;border-bottom: 1px solid #000;padding: 10px;font-size:26px;text-transform: uppercase;">PROFIT & LOSS REPORT</h1>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table cellpadding="0" cellspacing="0" style="width:100%;border-bottom:2px solid #00000078;">
+                <tbody>
+                    <tr>
+                        <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                        <td style="width:70%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">{{start_date | date:'dd MMM yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                        <td style="width:70%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">{{end_date | date:'dd MMM yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+    <!-- ---1---------------------------------------------------------------------------------------------- -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%; border: 1.5px #00000078 solid;">
+                <tbody>
+                    <tr>
+                        <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:8px 5px;text-transform: uppercase;">Particulars</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">Total</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%;vertical-align: top;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:8px 5px;text-transform: uppercase;">Particulars</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">Total</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+    <!-- ---2---------------------------------------------------------------------------------------------- -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:3px;font-weight:600;">Opening Stock</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding:3px;text-align:right;font-weight:600;">{{getType(openingvalue)}}</td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;;">Stock in Hand</td>
+                                    <td style="width:30%; padding:3px;text-align:right;">{{getType(openingvalue)}}</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Purchase Accounts</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(purchasesum)}}</td>
+                                </tr>
+                                <tr   *ngFor="let purchase of profitlossList.PurchaseAccount; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;;" >{{purchase.name}} </td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(purchase.total_amount)}} </td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Direct Expenses</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(directexpencesum)}}</td>
+                                </tr>
+                                <tr  *ngFor="let directexpence of profitlossList.directExpense; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;;">{{directexpence.name}}</td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(directexpence.total_amount)}}</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Gross Profit c/o</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;font-weight:600;">{{getType(grossprofit_co)}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%;vertical-align: top;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Sales Account</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;font-weight:600;">{{getType(salessum)}}</td>
+                                </tr>
+                                <tr  *ngFor="let sales of profitlossList.SaleAccount; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;">{{sales.name}}</td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(sales.total_amount)}}</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Direct Income</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(directincomesum)}}</td>
+                                </tr>
+                                <tr  *ngFor="let directincome of profitlossList.directIncome; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;">{{directincome.name}}</td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(directincome.total_amount)}}</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Closing Stock</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(closingvalue)}}</td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;">Stock in Hand</td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(closingvalue)}}</td>
+                                    <td style="width:30%; padding:3px;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+    <!-- ----3--------------------------------------------------------------------------------------------- -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:3px;text-align:right;font-weight:600;border-top:1.5px solid #00000078;border-bottom:1.5px solid #00000078;">
+                                        
+                                        {{getType(grossprofitsum_closing)}}
+                                        <!-- <span *ngIf="grossprofitsum_opening > grossprofitsum_closing">{{getType(grossprofitsum_opening)}}</span>
+                                        <span *ngIf="grossprofitsum_opening < grossprofitsum_closing">{{getType(grossprofitsum_closing)}}</span>
+                                        <span *ngIf="grossprofitsum_opening == grossprofitsum_closing">{{getType(grossprofitsum_opening)}}</span> -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%;vertical-align: top;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;border-bottom:1.5px solid #00000078;font-weight:600;">
+                                        
+                            {{getType(grossprofitsum_closing)}}                                                        <!-- <span *ngIf="grossprofitsum_opening > grossprofitsum_closing">{{getType(grossprofitsum_opening)}}</span>
+                                        <span *ngIf="grossprofitsum_opening < grossprofitsum_closing">{{getType(grossprofitsum_closing)}}</span>
+                                        <span *ngIf="grossprofitsum_opening == grossprofitsum_closing">{{getType(grossprofitsum_opening)}}</span> -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    <!-- -----4-------------------------------------------------------------------------------------------- -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:3px;font-weight:600;">Indirect Expenses</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:3px;text-align:right;font-weight:600;">{{getType(indirectexpencesum)}}</td>
+                                </tr>
+                                <tr  *ngFor="let indirectexpence of profitlossList.indirectExpense; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;;" >{{indirectexpence.name}} </td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(indirectexpence.total_amount)}} </td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 30px 0px 10px 3px;font-weight:600;">Nett Profit</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding: 30px 0px 10px 3px;text-align:right;font-weight:600;">{{getType(netprofit)}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%;vertical-align: top;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Gross Profit b/f</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;font-weight:600;">{{getType(grossprofit_co)}}</td>
+                                </tr>
+                                <tr >
+                                    <td style="width:40%; padding: 3px;font-weight:600;">Indirect Income</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding: 3px;text-align:right;font-weight:600;">{{getType(indirectincomesum)}}</td>
+                                </tr>
+                                <tr  *ngFor="let indirectincome of profitlossList.indirectIncome; let i = index">
+                                    <td style="width:40%; padding:3px 3px 3px 20px !important;">{{indirectincome.name}}</td>
+                                    <td style="width:30%; padding: 3px;text-align:right;">{{getType(indirectincome.total_amount)}}</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    <!-- ------5------------------------------------------------------------------------------------------- -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%; border: 1.5px #00000078 solid;">
+                <tbody>
+                    <tr>
+                        <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:8px 5px;text-transform: uppercase;">TOTAL</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">
+                                        {{getType(finalsum_closing)}}
+                                        <!-- <span *ngIf="finalsum_opening > finalsum_closing">{{getType(finalsum_opening)}}</span>
+                                        <span *ngIf="finalsum_opening < finalsum_closing">{{getType(finalsum_closing)}}</span>
+                                        <span *ngIf="finalsum_opening == finalsum_closing">{{getType(finalsum_opening)}}</span> -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%;vertical-align: top;">
+                            <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                <tr >
+                                    <td style="width:40%; padding:8px 5px;text-transform: uppercase;">TOTAL</td>
+                                    <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                    <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">
+                                        {{getType(finalsum_closing)}}
+                                        <!-- <span *ngIf="finalsum_opening > finalsum_closing">{{getType(finalsum_opening)}}</span>
+                                        <span *ngIf="finalsum_opening < finalsum_closing">{{getType(finalsum_closing)}}</span>
+                                        <span *ngIf="finalsum_opening == finalsum_closing">{{getType(finalsum_opening)}}</span> -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+

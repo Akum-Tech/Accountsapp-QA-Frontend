@@ -1,0 +1,80 @@
+<header id="header" class="header clearfix">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-6 col-sm-2">
+                <a routerLink="/home" routerLinkActive="active" class="logoBox"><img src="assets/images/newLogos/Books_TP.png" class="logo"></a>
+            </div>
+            <div class="col-6 col-sm-10 text-right">
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"><path d="M 2 5 L 2 7 L 22 7 L 22 5 L 2 5 z M 2 11 L 2 13 L 22 13 L 22 11 L 2 11 z M 2 17 L 2 19 L 22 19 L 22 17 L 2 17 z"/></svg>
+                </button>
+                <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+                    <div id="navbarNav">
+                        <ul class="navbar-nav navbar-header ml-auto desktopMenu">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#feature">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#work">How It Works</a>
+                            </li>
+                            <li class="nav-item btn-active" style="margin-right: 15px;">
+                                <a class="nav-link" class="login-btn" routerLink="/login">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 18.5 20.438">
+                                    <g id="Icon_feather-user" data-name="Icon feather-user" transform="translate(-4.5 -3)">
+                                    <path id="Path_1" data-name="Path 1" d="M21.5,28.313V26.375A3.875,3.875,0,0,0,17.625,22.5H9.875A3.875,3.875,0,0,0,6,26.375v1.937" transform="translate(0 -6.375)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+                                    <path id="Path_2" data-name="Path 2" d="M19.75,8.375A3.875,3.875,0,1,1,15.875,4.5,3.875,3.875,0,0,1,19.75,8.375Z" transform="translate(-2.125)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+                                    </g>
+                                </svg>
+                                Login</a>
+                            </li>
+                            <li class="nav-item btn-active">
+                                <a class="nav-link" class="login-btn" routerLink="/signup">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="#fff"><path d="M 12 2 C 8.144531 2 5 5.144531 5 9 C 5 11.410156 6.230469 13.550781 8.09375 14.8125 C 4.527344 16.34375 2 19.882813 2 24 L 4 24 C 4 19.570313 7.570313 16 12 16 C 13.375 16 14.65625 16.359375 15.78125 16.96875 C 14.671875 18.34375 14 20.101563 14 22 C 14 26.40625 17.59375 30 22 30 C 26.40625 30 30 26.40625 30 22 C 30 17.59375 26.40625 14 22 14 C 20.253906 14 18.628906 14.574219 17.3125 15.53125 C 16.871094 15.253906 16.390625 15.019531 15.90625 14.8125 C 17.769531 13.550781 19 11.410156 19 9 C 19 5.144531 15.855469 2 12 2 Z M 12 4 C 14.773438 4 17 6.226563 17 9 C 17 11.773438 14.773438 14 12 14 C 9.226563 14 7 11.773438 7 9 C 7 6.226563 9.226563 4 12 4 Z M 22 16 C 25.324219 16 28 18.675781 28 22 C 28 25.324219 25.324219 28 22 28 C 18.675781 28 16 25.324219 16 22 C 16 18.675781 18.675781 16 22 16 Z M 21 18 L 21 21 L 18 21 L 18 23 L 21 23 L 21 26 L 23 26 L 23 23 L 26 23 L 26 21 L 23 21 L 23 18 Z"></path></svg>
+                                Signup</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="mobileMenu" id="mobileMenu">
+        <button class="menuClose hideMenu" id="closeBtn">
+            <img src="assets/images/feature-icon/close.webp">
+        </button>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link hideMenu" routerLink="/home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link hideMenu" href="#feature">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link hideMenu" href="#work">How It Works</a>
+            </li>
+            <li class="nav-item btn-active">
+                <a class="nav-link" class="login-btn" routerLink="/login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 18.5 20.438">
+                    <g id="Icon_feather-user" data-name="Icon feather-user" transform="translate(-4.5 -3)">
+                        <path id="Path_1" data-name="Path 1" d="M21.5,28.313V26.375A3.875,3.875,0,0,0,17.625,22.5H9.875A3.875,3.875,0,0,0,6,26.375v1.937" transform="translate(0 -6.375)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+                        <path id="Path_2" data-name="Path 2" d="M19.75,8.375A3.875,3.875,0,1,1,15.875,4.5,3.875,3.875,0,0,1,19.75,8.375Z" transform="translate(-2.125)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+                    </g>
+                    </svg>
+                    Login</a>
+            </li> 
+            <li class="nav-item btn-active">
+                <a class="nav-link" class="login-btn" routerLink="/signup">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 32 32"><path d="M 12 2 C 8.144531 2 5 5.144531 5 9 C 5 11.410156 6.230469 13.550781 8.09375 14.8125 C 4.527344 16.34375 2 19.882813 2 24 L 4 24 C 4 19.570313 7.570313 16 12 16 C 13.375 16 14.65625 16.359375 15.78125 16.96875 C 14.671875 18.34375 14 20.101563 14 22 C 14 26.40625 17.59375 30 22 30 C 26.40625 30 30 26.40625 30 22 C 30 17.59375 26.40625 14 22 14 C 20.253906 14 18.628906 14.574219 17.3125 15.53125 C 16.871094 15.253906 16.390625 15.019531 15.90625 14.8125 C 17.769531 13.550781 19 11.410156 19 9 C 19 5.144531 15.855469 2 12 2 Z M 12 4 C 14.773438 4 17 6.226563 17 9 C 17 11.773438 14.773438 14 12 14 C 9.226563 14 7 11.773438 7 9 C 7 6.226563 9.226563 4 12 4 Z M 22 16 C 25.324219 16 28 18.675781 28 22 C 28 25.324219 25.324219 28 22 28 C 18.675781 28 16 25.324219 16 22 C 16 18.675781 18.675781 16 22 16 Z M 21 18 L 21 21 L 18 21 L 18 23 L 21 23 L 21 26 L 23 26 L 23 23 L 26 23 L 26 21 L 23 21 L 23 18 Z"></path></svg>
+                    Signup</a>
+            </li>   
+        </ul>
+    </div>
+</header>
+
+<!-- <div class="loginPopup">
+
+</div> -->

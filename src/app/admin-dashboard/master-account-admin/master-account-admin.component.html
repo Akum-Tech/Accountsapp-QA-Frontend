@@ -1,0 +1,51 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <!-- <app-user-menu></app-user-menu> -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Master Account</li>
+            </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && accountlist != ''">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <th>Number</th>
+                                    <th>Account Name</th>
+                                    <th>Account Type</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                 <tr *ngFor="let account of accountlist; let i = index;">
+                                    <td>{{account.id}}</td>
+                                    <td>{{account.name}}</td>
+                                    <td>{{account.type}}</td>
+                                   </tr>
+                                </tbody>
+                            </table> 
+  
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && accountlist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-admin-footer></app-admin-footer>

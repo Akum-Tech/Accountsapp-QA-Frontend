@@ -1,0 +1,66 @@
+
+<!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+
+<div *ngIf="dataNotFount">
+
+    <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+    <div id="print-section" >
+       <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+           <table cellpadding="0" cellspacing="0" style="width:100%">
+               <tbody>
+                   <tr>
+                       <!-- <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                           <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                           <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                       </td> -->
+                       <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                           <h1 style="margin: 0;border-bottom: 1px solid #000;padding: 10px;font-size:26px;text-transform: uppercase;">STOCK REPORT</h1>
+                       </td>
+                   </tr>
+               </tbody>
+           </table>
+           <table cellpadding="0" cellspacing="0" style="width:100%;border-bottom:2px solid #00000078;">
+               <tbody>
+                   <tr>
+                       <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                       <td style="width:70%;font-weight:500;padding: 12px;color: #000;">{{start_date | date:'dd MMM yyyy'}}</td>
+                   </tr>
+                   <tr>
+                       <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                       <td style="width:70%;font-weight:500;padding: 12px;color: #000;">{{end_date | date:'dd MMM yyyy'}}</td>
+                   </tr>
+               </tbody>
+           </table>
+           <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+               <thead>
+                   <tr>
+                       <th style="width: 6.2%;text-align:center;font-weight:800;padding:12px;">Si No.</th>
+                       <th style="width: 20%;text-align:center;font-weight:800;padding:12px;border-left: 0.5px solid #00000078;">Particulars</th>
+                       <th style="text-align:center;font-weight:800;padding:12px;border-left: 0.5px solid #00000078;">Opening Balance</th>
+                       <th style="text-align:center;font-weight:800;padding:12px;border-left: 0.5px solid #00000078;">Inwards (purchase/CN)</th>
+                       <th style="text-align:center;font-weight:800;padding:12px;border-left: 0.5px solid #00000078;">Outwards (sale/DN)</th>
+                       <th style="text-align:center;font-weight:800;padding:12px;border-left: 0.5px solid #00000078;">Closing Balance</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr *ngFor="let stock of stockitemgrouplist; let i = index">
+                       <td style="width:6.2%;text-align:center;border: 0.5px solid #868686;padding:8px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;">{{i+1}}</td>
+                       <td style="text-align:center;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                           <span class="font-bold-set" *ngIf="stock.groupname !== ''">{{stock.groupname}}</span>   
+                           <span class="sungroup-set">{{stock.name}}</span>    
+                       </td>
+                       <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{stock.openingbalance}}  {{stock.unit}}</td>
+                       <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{stock.tl_inwards}}  {{stock.unit}}</td>
+                       <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{stock.tl_outwards}}  {{stock.unit}}</td>
+                       <td style="text-align:right;border: 0.5px solid #868686;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"><span *ngIf="stock.closingbalnce_type == 'outward'"> - </span>{{getType(stock.closingbalnce)}}  {{stock.unit}}</td>
+                   </tr>
+               </tbody>
+               
+           </table>
+       </div>
+   </div> 
+
+</div>
+
+<!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+

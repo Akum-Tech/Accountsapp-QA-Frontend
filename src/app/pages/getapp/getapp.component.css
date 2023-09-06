@@ -1,0 +1,90 @@
+.getapp {
+    /* background-image: url(../../../assets/images/background-thedir-cover.jpg); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+}
+
+.getapp h1 {
+    color: #252b4b;
+    font-family: "Gilroy-ExtraBold";
+    text-transform: uppercase;
+    font-size: 46px;
+    line-height: 1.2em;
+    letter-spacing: 2px;
+    margin: 0px;
+    margin-bottom: 24px;
+}
+.getapp p {
+    font-family: "Gilroy-Light";
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+    margin: 0;
+    color: #606479;
+    margin-bottom: 53px;
+}
+.pd-50 {
+    padding: 110px 0px;
+}
+.getapp-ios-one {
+    margin: 0px 0px 0px 80px;
+    width: 250px;
+}
+img.img-fluid.getapp-ios-two {
+    margin: 0px 0px 0px 70px;
+    width: 250px;
+}
+
+.getapp-one {
+    width: 270px;
+    margin-right: 10%;
+}
+
+.download-btn {
+    font-family: "Gilroy-Light";
+    color: #fff;
+    border-radius: 30px;
+    padding: 15px 25px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    background-color: #4e56f3;
+    background: -webkit-linear-gradient(45deg, #4486ff, #4c42c5);
+    background: -o-linear-gradient(45deg, #4486ff, #4c42c5);
+    background: linear-gradient(45deg, #4486ff, #4c42c5);
+    transition: all 0.25s ease;
+}
+
+.download-btn:hover {
+    background: -webkit-linear-gradient(135deg, #4486ff, #4c42c5);
+    background: -o-linear-gradient(135deg, #4486ff, #4c42c5);
+    background: linear-gradient(-45deg, #4486ff, #4c42c5);
+}
+
+/* =================================================== / Media Query Phone / =================================================== */
+@media (min-width: 320px) and (max-width: 480px) {
+    .getapp h1 {
+        font-size: 26px;
+        margin-top: 0 !important;
+    }
+    .getapp p {
+        font-size: 10px;
+        margin-bottom: 20px;
+    }
+    .first-col {
+        margin-bottom: 60px !important;
+        text-align: left !important;
+    }
+}
+/* =================================================== / Media Query ipad / =================================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .getapp h1 {
+        font-size: 35px;
+        margin-top: 0 !important;
+    }
+    .getapp p {
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+}

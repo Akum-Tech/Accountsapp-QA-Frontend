@@ -1,0 +1,81 @@
+
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 2px;
+    width: 30%;
+    margin: 4px 0px 8px 0px;
+}
+.set-title{
+    text-align: center;
+}
+.mt-set{
+    margin-top: 15px;
+}
+.date-select{
+    margin-top:0px;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 2px;
+    width: 10%;
+    margin: 8px auto;
+}
+.display-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 6px 30px !important;
+    font-size: 12px; 
+    margin-top: 30px;
+}
+.header-filed h5{
+    font-family:'Gilroy-Light';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+    text-align: center;
+}
+.table-responsive {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+.ng-select {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+  
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .display-btn{
+        margin-bottom: 20px;
+        margin-top: 0;
+        width: 50%;
+    }
+    .text-set{
+        text-align: center;
+    }
+}

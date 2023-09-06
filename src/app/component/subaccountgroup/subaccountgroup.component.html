@@ -1,0 +1,56 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper"> 
+        <div class="container-fluid">
+            <div class="component-header set-title pd-10">
+                <h3>Add Sub Group</h3>
+            </div>
+            <div class="item-form pd-20">
+                <form  [formGroup]="accountgroupform" #AccountGroup="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input class="form-control" type="text" id="name" formControlName="name"/>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.name" >
+                                    <div class="error-message" *ngIf="accountgroupform.get('name').hasError(validation.type) && (accountgroupform.get('name').dirty || accountgroupform.get('name').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="account_group">Account Group</label>
+                            <ng-select  bindLabel="name"
+                            placeholder="Select Account Group"
+                            formControlName="account_group_id"
+                            (change)="accounytype($event)"
+                            [searchable]="true">
+                            <ng-option *ngFor="let account of accountlist; let i = index" [value]="account.uid">{{account.name}}</ng-option>
+                            </ng-select>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.account_group_id" >
+                                    <div class="error-message" *ngIf="accountgroupform.get('account_group_id').hasError(validation.type) && (accountgroupform.get('account_group_id').dirty || accountgroupform.get('account_group_id').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer Component-footer">
+                <button class="btn footer-btn" [disabled]="clicked" (click)="addaccountgroup()">ADD SUB GROUP</button>
+                <button class="btn footer-btn" (click)="closeledger()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-user-footer></app-user-footer>

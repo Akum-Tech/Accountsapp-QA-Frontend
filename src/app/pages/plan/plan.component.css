@@ -1,0 +1,196 @@
+header{
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+.logo{
+    height: 50px;
+}
+
+.userDetails{
+    font-family: "Sofiapro-Light";
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0px 0px 30px #eee;
+}
+.userDetails h3{
+    font-family: "sofiaPro-Bold";
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+}
+.userDetails p{
+    margin-bottom: 5px;
+}
+.userDetails p b{
+    font-family: "sofiaPro-Bold";
+}
+
+.done-modal h1 {
+    font-family: 'Gilroy-ExtraBold';
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    color: #646262;
+}
+.Plan_error{
+    color: #f60707;
+    font-size: 16px;
+}
+.upgradeBtn{
+    margin: 3% 0 0 0;
+    border: none;
+    width: 80%;
+    font-family: "Gilroy-Light";
+    color: #ffffff;
+    background: #1441EB;
+    font-size: 18px;
+    text-transform: capitalize;
+    letter-spacing: 0.8px;
+    padding: 11px 30px;
+    border-radius: 6px;
+}
+
+/* ---------------------------Plan DESIGN ------------------- */
+#wrapper #content-wrapper {
+    background: #fff;
+}
+.packages-plans {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.packages-plans h3 {
+    font-family: "Gilroy-Light";
+    color: #fff;
+    font-size: 20px;
+    border-radius: 12px 12px 0 0;
+    background:#5156be;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+.card-body li:after {
+    content: "";
+    display: block;
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 1px;
+    margin: 10px auto;
+}
+
+.card:hover {
+    box-shadow: 0 0 57px 0 rgb(0 0 0 / 25%);
+}
+.card-body ul {
+    padding: 30px 30px 18px 30px;
+    margin: 0;
+}
+.card-body li {
+  display: inline-block;
+  margin-bottom: 5px !important;
+  width: 100%;
+  font-size: 18px;
+  color: #686262;
+}
+.btn-buy {
+  font-family: "Gilroy-Light";
+  font-size: 18px;
+  color: #fff;
+  background: #5156be;
+  border-radius: 10px !important;
+  border: none;
+  padding: 8px 10px;
+  margin: 0px auto 20px;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 9;
+  text-align: center;
+  width: 60%;
+  display: inline-block;
+  text-transform: uppercase;
+}
+.btn-buy:hover {
+  color: #ffffff;
+  outline: 0;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* ------------------------------------------------------- */
+
+.card-body span {
+  width: 100%;
+  display: table-cell;
+}
+.card-body {
+  padding: 0px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.card-body::before,
+.card-body::after {
+  box-sizing: inherit;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.draw {
+    transition: color 0.25s;
+}
+.draw::before,
+.draw::after {
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  width: 0;
+  height: 0;
+}
+.draw::before {
+  top: 0;
+  left: 0;
+}
+.draw::after {
+  bottom: 0;
+  right: 0;
+}
+.otp-btn {
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px;
+  padding: 5px 25px !important;
+  font-family: "Gilroy-ExtraBold";
+  background-color: #ffa8a8;
+  color: #000 !important;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 0px 3px 0 0;
+}
+.draw:hover::before,
+.draw:hover::after {
+  width: 100%;
+  height: 100%;
+}
+.draw:hover::before {
+    border-top-color: #343434;
+    border-right-color: #343434;
+    transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+.draw:hover::after {
+    border-bottom-color: #343434;
+    border-left-color: #343434;
+    transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
+}
+/* ------------ PLan Design END -------------------------- */
+
+
+
+@media (min-width: 1200px){
+    .container{
+        max-width: 1400px;
+    }
+}

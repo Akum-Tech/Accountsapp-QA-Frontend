@@ -1,0 +1,86 @@
+
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 1.5px;
+    width: 30%;
+    margin: 4px 0px 8px 0px;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.header-filed h5{
+    font-family:'Gilroy-Light';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+    text-align: center;
+}
+.table-responsive {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.reports th, td {
+    border: 1px solid black;
+}
+.border-none td{
+    border: none;
+}
+.header-filed  h5::after {
+    content: "";
+    display: block;
+    width: 25%;
+    background-color: #999999;
+    height: 2px;
+    margin: 8px auto;
+}
+.date-select{
+    margin-top:0px;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+.text-bold{
+    font-family:'Gilroy-ExtraBold';
+  }
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+  }
+  .display-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 6px 30px !important;
+    font-size: 12px; 
+    margin-top: 30px;
+}
+.mt-set{
+    margin-top: 15px;
+}
+
+  
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .display-btn{
+        margin-bottom: 20px;
+        margin-top: 0;
+        width: 50%;
+    }
+    .text-set{
+        text-align: center;
+    }
+}

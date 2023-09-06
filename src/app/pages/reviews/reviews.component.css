@@ -1,0 +1,116 @@
+.reviews{
+  background:#252B4B;
+}
+.slider-back{
+  position: relative;
+  background: #fff;
+  margin: 20px 5px;
+  padding: 40px;
+  border-radius: 100px 0 100px 100px;
+}
+.profile{    
+  border-radius: 100%;
+  border: 5px solid rgb(255 255 255);
+  width: 80px !important;
+  float: left;
+}
+.discription h4 {
+  font-family: 'Gilroy-Light';
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 23px;
+}
+.review-comment h3 {
+  font-family: 'Gilroy-ExtraBold';
+  margin: 0px;
+  font-weight: 400;
+  margin: 0px;
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 1px;
+  position: relative;
+  transform: translate(15px, 20px);
+}
+.star-icon {
+    font-size: 18px;
+    color: #d03f3f;
+    margin-right: 3px;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+  background: #336699 !important;
+}
+.owl-theme .owl-dots .owl-dot span {
+  background: #83e2ff !important;
+}
+.row-bg{
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: repeat;
+  padding:80px 0;
+  -webkit-animation: slide 20s linear infinite;
+  animation: slide 20s linear infinite;
+}
+@-webkit-keyframes slide {
+  from { background-position: 0 0; }
+  to { background-position: -400px 0; }
+}
+@keyframes slide {
+  from { background-position: 0 0; }
+  to { background-position: -400px 0; }
+}
+.row-bg .first-icon{
+  font-size: 80px;
+  color: #fff;
+}
+.row-bg h2 {
+  font-family: 'Gilroy-ExtraBold';
+  font-size: 34px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 45px;
+}
+.first-col {
+  padding: 30px 0;
+}
+.review-comment small {
+  font-family: 'Gilroy-Light';
+}
+
+/* ============================================= / Media Query Phone / ====================================================== */
+
+ @media (min-width:320px) and (max-width: 480px) {
+  .first-col{
+    padding: 0px 0 0 30px;
+  }
+  .row-bg .first-icon{
+    font-size: 40px;
+  }
+  .row-bg h2{
+    font-size: 15px;
+    line-height: 20px;
+  }
+}
+  
+  
+/* ================================================ / Media Query ipad / =================================================== */
+  
+@media (min-width:768px) and (max-width: 1024px) {
+  .first-col {
+    padding: 50px 0 0 30px;
+  }
+  .row-bg .first-icon {
+    font-size: 60px;
+  }
+  .row-bg h2 {
+    font-size: 34px;
+    line-height: 35px;
+  }
+}
+
+
+/* 
+
+
+
+*/

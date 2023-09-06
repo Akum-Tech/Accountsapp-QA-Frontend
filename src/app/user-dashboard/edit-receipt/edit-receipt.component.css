@@ -1,0 +1,217 @@
+
+.header-filed span{
+    display: table-cell;
+    vertical-align: middle;
+}
+.header-filed li{
+    display: inherit;    
+    border-bottom: 1px dotted  #ccc;
+    line-height: 30px;
+}
+.first-child-width span:first-child {
+    width: 130px;
+}
+.header-filed h5{
+    font-family:'Gilroy-ExtraBold';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+}
+.card-body{
+    padding: 20px;
+    min-height: 185px;
+    /* border-radius: 0px; */
+}
+
+.card-add .text-font{
+    font-family:'Gilroy-Light';
+}
+.header-filed ul{
+    padding: 0;
+    margin: 0;
+}
+.brder-top{
+    border-top: 1px solid #7f7f7f;
+    padding: 6px 0 0 0;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #7f7f7f;
+}
+.brder-top span:first-child {
+    width: 130px;
+}
+.salesinvoiceview{
+    position: absolute;
+    z-index: 9;
+    right: 0px;
+}
+.sale-btn{
+    margin: 0;
+}
+.header-filed h3{
+    text-transform: uppercase;
+    /* font-family: 'Gilroy-ExtraBold'; */
+    text-align: center;
+    background: #263238 !important;
+    padding: 8px 0;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 10px -20px;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    color: #fff;
+}
+.set-border {
+    border: 1px solid #ccc;
+}
+.view-detail {
+    background-color: #217f28;
+    padding: 6px 10px !important;
+}.view-detail i{
+    font-size: 20px;
+}
+.mr-0{
+    margin: 0;
+}
+.mt-20{
+    margin-top: 6px;
+}
+.mt-50{
+    margin-top: 30px;
+}
+.sale-bill{
+    border:1px solid #ccc;
+}
+.table-responsive{
+    margin-top: 0px;;
+}
+
+.card-add .form-control{
+    background: transparent;
+    border:none;
+    padding: 6px 2px;
+    border-radius: 0px;
+}
+.card-add span:first-child {
+    width: 160px;
+}
+.padding-left-set{
+    padding-left: 3px;
+}
+.padding-right-set{
+    padding-right: 3px;
+}
+.shipping-add{
+    width: 100% !important;
+}
+.selece-add{
+    text-align: right !important;
+}
+.select-add i{    
+    padding: 0px 10px !important;
+}
+.teams_conditions label{
+    font-family:'Gilroy-ExtraBold';
+}
+/* ------------------------------------------ */
+
+.select-add a {
+    font-family: FontAwesome;
+    color:#eee;
+    text-decoration: none;
+    display: block;
+    padding: 0px;
+}
+.select-add a:hover i {
+    display: none;
+}
+.select-add a:hover b {
+    display: block;
+}
+.select-add b {
+    display: none;
+    color: #fff;
+    font-size: 16px;
+    text-transform: initial;
+}
+.select-add a:hover {
+    color: #fff;
+}
+/* ----------------------------------- */
+
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 40px;
+    margin-right: 15px;
+    width: 100px;
+}
+.pd-10{
+    padding: 10px 0px;
+}
+.set-title{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed .width-set{
+    margin-top: 15px;
+}
+.total-set{
+    font-family:'Gilroy-ExtraBold';
+    text-align: right;
+    font-size: 14px;
+    text-transform: uppercase;
+    /* font-weight: 900; */
+    width: 12%;
+}
+.tax-set{
+    font-family:'Gilroy-Light';
+    text-align: right;
+    font-size: 12px !important;
+    font-weight: 600;
+    width: 16%;
+}
+
+.pd-set{
+    padding: 2px 0;
+    width: 12%;
+}
+.mat-radio-button{
+    margin-right: 10px;
+  }
+  .text-bold{
+    font-family:'Gilroy-ExtraBold';
+  }
+  .invoice-btn{
+    display: block;
+    float: right !important;
+  }
+  ::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+  }
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .logo {
+        padding: 20px 0 20px 0;
+        height: 70px;
+    }    
+    .padding-left-set{
+        padding-left: 15px;
+    }
+    .padding-right-set{
+        padding-right: 15px;
+    }
+}
+  
+/* ================================================ / Media Query ipad / =================================================== */
+  
+@media (min-width:768px) and (max-width: 1024px) {
+
+}

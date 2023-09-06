@@ -1,0 +1,27 @@
+<app-header></app-header>
+<div class="title-backgournd">
+    <app-title heading1="Packages Plans" heading2="PACKAGES PLANS"></app-title>
+</div>
+<div class="packages-plans pdtb-100">
+    <div class="container">
+        <div class="form_heding">
+            <h1>PACKAGES PLANS</h1>
+        </div>
+        <div class="row" >
+            <div *ngFor="let buyplan of buylist" class="col-sm-4 col-lg-4 col-12 col-md-12">
+                <div class="card draw card-body">
+                    <h3>{{buyplan.months}} Months Plan</h3>
+                    <ul>
+                        <li><span>Basic</span> <span> ₹{{buyplan.basic}}</span></li>
+                        <li><span>GST </span> <span> ₹{{buyplan.gst}}</span> </li>
+                        <li><span>Value </span> <span> ₹{{buyplan.total}}</span>  </li> 
+                    </ul>
+                    <button class="btn-buy" (click)="buyplanget(buyplan)">BUY PLAN</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

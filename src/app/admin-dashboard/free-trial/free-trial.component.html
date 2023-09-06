@@ -1,0 +1,95 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper" >
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Free Trial</li>
+                 <!-- <button  (click)="openAddTrail(addtemplate)"  class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD STATE</button> -->
+              </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && traillist != ''">
+                            <table class="table" [mfData]="traillist" #mf="mfDataTable" [mfRowsOnPage]="20">
+                            <thead class="table-header">
+                                <tr>
+                                    <th>Number</th>
+                                    <th>ID</th>
+                                    <th>Days Value</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body">
+                                <tr *ngFor="let trail of mf.data;let i= index" >
+                                    <td>{{i+1}}</td>
+                                    <td>{{trail.id}}</td>
+                                    <td>{{trail.value_days}}</td>
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openTrailEditModal(Edittemplate, trail)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <!-- <button class="btn action-btn action-btn-two" (click)="openTrailDeleteModal(deletetemplate, state)">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && traillist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ======================  ADD FREE TRAIL ================================== -->
+
+<!-- ======================  EDIT FREE TRAIL ================================== -->
+<ng-template #Edittemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Free Trail Days</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="edittrailform" #TrailForm="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="value_days">Enter Free Trial Days Value</label>
+                            <input class="form-control" type="text"  (keypress)="numberOnly($event)" id="value_days" formControlName="value_days"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked" (click)="editfreetailvalue()">SAVE DETAIL</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+<!-- =========================== DELETE FREE TRAIL ============================== -->
+
+
+<app-admin-footer></app-admin-footer>

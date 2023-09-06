@@ -1,0 +1,99 @@
+
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #5156be;
+    height: 1.5px;
+    width: 30%;
+    margin: 4px 0px 8px 0px;
+}
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+  }
+.header-filed h5{
+    font-family:'Gilroy-Light';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+    text-align: center;
+}
+
+.display-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 6px 30px !important;
+    font-size: 12px; 
+    margin-top: 30px;
+}
+.mt-set{
+    margin-top: 15px;
+}
+.table-responsive {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.border-right th{
+    border-right: 1px solid #ccc;
+}
+.border-set{
+    border-right: 1.5px solid #000;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+.total-border{
+    border: 1.5px solid #000;
+}
+.font-right-set{
+    text-align: right;
+}
+
+.main-group{
+    text-align: left !important;
+}
+.sub-group{
+    text-align: center !important;
+}
+.ledger-group{
+    text-align: right !important;
+    font-weight: 100 !important;
+    font-family:'Gilroy-Light' !important;
+}
+.none-font-family{
+    font-family: 'Gilroy-Light' !important;
+}
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .display-btn{
+        margin-bottom: 20px;
+        margin-top: 0;
+        width: 50%;
+    }
+    .text-set{
+        text-align: center;
+    }
+}

@@ -1,0 +1,200 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <!-- <div id="content-wrapper"> -->
+        <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <!-- <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Groups</a>
+                </li>
+                <li class="breadcrumb-item active">Account Group</li> -->
+                <button (click)="openAccountAddModal(addtemplate)"  class="pullright add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i>Add Sub Group
+                </button>
+            </ol>
+            <div class="ledger-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && accountgrouplist != ''">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+                            <thead class="table-header">
+                                <tr>
+                                    <th style="width: 30%">
+                                        <mfDefaultSorter by="name"> Name</mfDefaultSorter>
+                                    </th>
+                                    <th style="width: 40%">
+                                        <mfDefaultSorter by="account_group_id">Account Group</mfDefaultSorter>
+                                    </th>
+                                    <th style="width: 15%">
+                                        <mfDefaultSorter by="action">Action</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body">
+                                <tr *ngFor="let subAccountGroup of accountgrouplist">
+                                    <td>{{subAccountGroup.name}}</td>
+                                    <td>{{subAccountGroup.account_group.name}}</td>
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openAccountEditModal(Edittemplate, subAccountGroup)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <button class="btn action-btn action-btn-two"  (click)="openAccountdeleteModal(deletetemplate, subAccountGroup)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && accountgrouplist == ''">
+                        <h4>No Data Found .</h4>
+                    </div> 
+                </div>
+            </div>
+            <!-- ================== ADD ACCOUNT GROUP MODAL =================== -->
+            <ng-template #addtemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Sub Group</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="account-form">
+                        <form  [formGroup]="accountgroupform" #AccountGroup="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input class="form-control" type="text" id="name" formControlName="name"/>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.name" >
+                                            <div class="error-message" *ngIf="accountgroupform.get('name').hasError(validation.type) && (accountgroupform.get('name').dirty || accountgroupform.get('name').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="account_group">Account Group</label>
+                                    <ng-select  bindLabel="name"
+                                    placeholder="Select Account Group"
+                                    formControlName="account_group_id"
+                                    appendTo="body"
+                                    (change)="accounytype($event)"
+                                    [searchable]="true">
+                                    <ng-option *ngFor="let account of accountlist; let i = index" [value]="account.uid">{{account.name}}</ng-option>
+                                    </ng-select>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.account_group_id" >
+                                            <div class="error-message" *ngIf="accountgroupform.get('account_group_id').hasError(validation.type) && (accountgroupform.get('account_group_id').dirty || accountgroupform.get('account_group_id').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" [disabled]="clicked" (click)="addaccountgroup()">ADD SUB GROUP</button>
+                    <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+            <!-- ================== EDIT ACCOUNT GROUP MODAL =================== -->
+            <ng-template #Edittemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Sub Group</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="account-form">
+                        <form  [formGroup]="accountgroupform" #AccountGroup="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input class="form-control" type="text" id="name" formControlName="name"/>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.name" >
+                                            <div class="error-message" *ngIf="accountgroupform.get('name').hasError(validation.type) && (accountgroupform.get('name').dirty || accountgroupform.get('name').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="account_group">Account Group</label>
+                                    <ng-select  bindLabel="name"
+                                    placeholder="Select Account Group"
+                                    formControlName="account_group_id"
+                                    (change)="accounytype($event)"
+                                    appendTo="body"
+                                    [searchable]="true">
+                                    <ng-option *ngFor="let account of accountlist; let i = index"  [value]="account.uid">{{account.name}}</ng-option>
+                                    </ng-select>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.account_group_id" >
+                                            <div class="error-message" *ngIf="accountgroupform.get('account_group_id').hasError(validation.type) && (accountgroupform.get('account_group_id').dirty || accountgroupform.get('account_group_id').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" [disabled]="!accountgroupform.valid"  (click)="editaccount()">SAVE</button>
+                    <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+            <!-- ================== DELETE ITEMS MODAL =================== -->
+            <ng-template #deletetemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">CONFIRMATION</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body delete-modal">
+                    <h1>Are You Sure to Delete This Sub Group ?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn"  (click)="deletesubaccountgroup(deleteData)">YES</button>
+                    <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+                </div>
+            </ng-template>
+            <!-- ============================================================= -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

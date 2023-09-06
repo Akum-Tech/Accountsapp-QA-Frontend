@@ -1,0 +1,318 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <button [routerLink]="['/admin/stock_report']" routerLinkActive="active" class="add-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</button>
+                </li>
+                
+                <li class="float-set">    
+                    <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button> -->
+                    <button  [routerLink]="['/admin/editstockvoucher', VoucherID]"  class="btn action-btn "><i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                    <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                    <!-- <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button> -->
+                    <button class="btn action-btn dwnload-btn" (click)="downloadAsPDF()"> <i class="fa fa-download" aria-hidden="true"></i> </button>
+    
+                    <button (click)="printPage()" class="add-btn">PRINT</button>
+                    <button (click)="Nextvoucherprint()" class="add-btn">Next <i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                    <button (click)="Previousvoucherprint()" class="add-btn"><i class="fa fa-step-backward" aria-hidden="true"></i>Previous</button>
+                </li>
+            </ol>
+
+             <!-- ----------------------------------- STOCK IN HAND INVOICE VIEW DESIGN ------------------------------- -->
+
+             <!-- <div class="view-design">
+                <div class="printWrapper" style="width: 1000px; margin: 10px auto 0; border: 1px solid #ccc;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: left;padding: 5px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                    <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                    <h3 style=" font-size:20px;text-transform: capitalize;">{{activecompany['company_name']}}</h3>
+                                </td>
+                                <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                    <h1 style="margin: 0;font-size:20px;text-transform: uppercase;">STOCK IN HAND INVOICE</h1>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                        <tbody>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding:5px 12px;color: #000;border-right:1px solid #00000078;font-size: 12px;">INVOICE ID</td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding:5px 12px;color: #000;">{{stockinhand.invoice_id}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding:5px 12px;color: #000;border-right:1px solid #00000078;font-size: 12px;">VOUCHER DATE</td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding:5px 12px;color: #000;">{{stockinhand.invoice_date  | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:6.2%;text-align:center;background:#74716d66;padding:3px;color: #000;">Si No.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">Item Name</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">Type</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">Unit</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">QTY</th>
+                                <th style="text-align:right;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">Price</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left: 0.5px solid #00000078;">Discount</th>
+                                <th style="text-align:center;background:#ebebeb;padding:3px;border-left:0.5px solid #00000078;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item of items; let i = index">
+                                <td style="width:6.2%;text-align:center;background:#74716d66;padding:3px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;">{{i+1}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.name}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.type}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.unit}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.quantity}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(item.price)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.discount}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078">{{getType(item.total_amount)}}</td> </tr>
+                        </tbody>
+                    </table>
+                    <table  cellpadding="0" cellspacing="0" style="width:100%;border-top:2px solid #00000078;">
+                        <thead>
+                            <tr>
+                                <td colspan="2" style="background:#ebebeb;"></td>
+                                <td style="width: 20%;text-align:right;background:#ebebeb;padding:12px;font-size:13px;text-transform:uppercase;vertical-align: top;font-weight: 500;border-right: 0.5px solid #00000078;">TOTAL AMOUNT :</td>
+                                <td style="width: 23%;text-align:right;background:#ebebeb;padding:12px; font-size:13px;text-transform:uppercase;vertical-align: top;font-weight: 500;">{{getType(stockinhand.total_amount?stockinhand.total_amount:'')}}</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;">
+                        <tr>
+                            <td style="text-align:left;background:#74716d66;padding:10px;color:rgb(247, 244, 244);border-top:1px solid #00000078;">
+                                <h3 style="text-transform:uppercase; font-weight:500; margin:0; font-size:12px;color:#000;">AMOUNT IN WORDS :{{inWords(amountconvert)}}</h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <tr>
+                            <td style="text-align:right;background:#74716d66;padding:12px 30px 10px 30px;color:#000;border-top:1px solid #00000078;">
+                                <p style="text-transform:uppercase;margin:0; padding-bottom:30px; font-size:12px;">For 
+                                    <span  *ngIf="activecompany.company_name == '' ">GSTAPPS</span><span *ngIf="activecompany.company_name != '' ">{{activecompany['company_name']}}</span> </p>
+                                <p style="text-transform:uppercase;margin:0; font-size:12px;">Authorised Signatory</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;background:#74716d66;padding:10px;color:#000;">
+                                <p style="text-transform:uppercase;margin:0; font-size:12px;">all disputes subject to jurisdiction of courts in new delhi.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;background:#74716d66;padding:10px;color:#000;border-top:1px solid #00000078;">
+                                <p *ngIf="stockinhand.company && stockinhand.company.city && stockinhand.company.city.name && stockinhand.company.city.state.name " style="text-transform:uppercase;margin:0;font-size:12px;">Address : {{stockinhand.company.city.name}}, {{stockinhand.company.city.state.name}} </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> -->
+
+
+
+            <div id="print-section" #downloadpdf>
+                <div class="printWrapper" style="margin: 10px auto 0;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width:12%; text-align: left;border: 0.5px solid #868686; border-right: none; border-bottom: none;" class="company_name_set">
+                                <img *ngIf="invoicelogo && invoicelogo" src={{invoicelogo}} style="width: 80px;">
+                            </td>
+                            <td colspan="2" style="width: 18%; border: none; border-top: 0.5px solid #868686;">
+                                {{activecompany['company_name']}}
+                            </td>
+                            <td colspan="5" style="width:70%;text-align: right;padding: 10px;padding-right: 20px;border: 0.5px solid #868686; border-bottom: none; font-size: 15px;font-weight: 500;">
+                                STOCK IN HAND INVOICE
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="width:50%;font-weight:500;background-color: #b6b6b6;padding:5px  12px;color: #000;font-size: 12px;border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">INVOICE ID</td>
+                            <td colspan="5" style="font-size: 12px;width:50%;font-weight:500;background-color: #d7d7d7;padding: 5px 12px;color: #000; border: none;border-right: 0.5px solid #868686;">{{stockinhand.invoice_id}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="width:40%;font-weight:500;background-color: #b6b6b6;padding:5px  12px;color: #000; font-size: 12px; border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">VOUCHER DATE</td>
+                            <td colspan="5" style="font-size: 12px;width:60%;font-weight:500;background-color: #d7d7d7;padding: 5px 12px;color: #000; border: none;border-right: 0.5px solid #868686;">{{stockinhand.invoice_date  | date:'dd MMM yyyy'}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px; ">S.No.</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:20%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Item Name</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Type</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Unit</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">QTY</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Price</td>
+                            <td style="border: none; border-right:0.5px solid #676767; width:10%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Discount</td>
+                            <td style="border: none; border-right: 0.5px solid #868686; width:20%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Total Amount
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let item of items; let i = index">
+                            <td style="width:6.2%;text-align:center;background-color:#dedede;padding:3px;color:#000;;font-size: 12px;letter-spacing:0.5px;vertical-align:top; border-left: 0.5px solid #868686;">{{i+1}}</td>
+                            <td style="text-align:center;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{item.name}}</td>
+                            <td style="text-align:center;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{item.type}}</td>
+                            <td style="text-align:center;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{item.unit}}</td>
+                            <td style="text-align:right;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{item.quantity}}</td>
+                            <td style="text-align:right;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{getType(item.price)}}</td>
+                            <td style="text-align:right;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #868686;">{{item.discount}}</td>
+                            <td style="text-align:right;background-color:#d7d7d7;padding:3px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top; border-left: 0.5px solid #868686; border-right: 0.5px solid #868686;">{{getType(item.total_amount)}}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="7" style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:left; padding:12px; color: #000; border:0.5px solid #676767; border-left: 0.5px solid #868686; padding: 5px !important;">
+                                TOTAL AMOUNT :
+                            </td>
+                            <td style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:right; padding:12px; color: #000; border:0.5px solid #676767; border-left: none; border-right: 0.5px solid #868686; padding: 5px !important;">
+                                {{getType(stockinhand.total_amount?stockinhand.total_amount:'')}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8" style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:left; padding:12px; color: #000; border:0.5px solid #676767; border-left: 0.5px solid #868686; padding: 5px !important;">
+                                AMOUNT IN WORDS :{{inWords(amountconvert)}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8" style="border: 0.5px solid #676767; font-weight:500; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: right; padding: 10px 20px 10px 30px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+
+                                <p style="text-transform:uppercase;margin:0; padding-bottom:50px; font-size:12px;">For 
+                                    <span  *ngIf="activecompany.company_name == '' ">GSTAPPS</span><span *ngIf="activecompany.company_name != '' ">{{activecompany['company_name']}}</span> </p>
+                                <p style="text-transform:uppercase;margin:0; font-size:12px;">Authorised Signatory</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8" style="border: 0.5px solid #676767; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: left; padding: 10px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+                                <p style="text-transform:uppercase; margin:0;">all disputes subject to jurisdiction of courts in new delhi.</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8" style="border: 0.5px solid #676767; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: center; padding: 10px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+                                <p *ngIf="stockinhand.company && stockinhand.company.city && stockinhand.company.city.name && stockinhand.company.city.state.name " style="text-transform:uppercase;margin:0;">Address : {{stockinhand.company.city.name}}, {{stockinhand.company.city.state.name}}</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+              <!-- ----------------------------------- STOCK IN HAND INVOICE PRINT DESIGN ------------------------------- -->
+              <!-- <div  id="print-section" style="display: none;">
+                <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                    <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                    <h3 style="text-transform: capitalize;">{{activecompany['company_name']}}</h3>
+                                </td>
+                                <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                    <h1 style="margin: 0;text-transform: uppercase;">STOCK IN HAND INVOICE</h1>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                        <tbody>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">INVOICE ID</td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{stockinhand.invoice_id}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">VOUCHER DATE</td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{stockinhand.invoice_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:6.2%;text-align:center;background:#74716d66;padding:12px;color: #000;">Si No.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Item Name</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Type</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Unit</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">QTY</th>
+                                <th style="text-align:right;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Price</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Discount</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left:0.5px solid #00000078;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item of items; let i = index">
+                                <td style="width:6.2%;text-align:center;background:#74716d66;padding:8px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;">{{i+1}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.name}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.type}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.unit}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.quantity}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(item.price)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{item.discount}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078">{{getType(item.total_amount)}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:6.2%;text-align:center;background:#74716d66;padding:40px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"></td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table  cellpadding="0" cellspacing="0" style="width:100%;border-top:2px solid #00000078;">
+                        <thead>
+                            <tr>
+                                <td colspan="2" style="background:#ebebeb;"></td>
+                                <td style="width: 20%;text-align:right;background:#ebebeb;padding:12px;font-size:14px;text-transform:uppercase;vertical-align: top;font-weight: 900;border-right: 0.5px solid #00000078;">TOTAL AMOUNT :</td>
+                                <td style="width: 23%;text-align:right;background:#ebebeb;padding:12px; font-size:14px;text-transform:uppercase;vertical-align: top;font-weight: 900;">{{getType(stockinhand.total_amount?stockinhand.total_amount:'')}}</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;">
+                        <tr>
+                            <td style="text-align:left;background:#74716d66;padding:10px;color:#000;border-top:1px solid #00000078;">
+                                <h3 style="text-transform:uppercase; font-weight:900; margin:0; font-size:16px;color:#000;">AMOUNT IN WORDS : {{inWords(amountconvert)}} </h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <tr>
+                            <td style="text-align:right;background:#74716d66;padding:15px 30px 10px 30px;color:#000;border-top:1px solid #00000078;">
+                                <p style="text-transform:uppercase;margin:0; padding-bottom:80px; font-size:15px;">For 
+                                    <span  *ngIf="activecompany.company_name == '' ">GSTAPPS</span><span *ngIf="activecompany.company_name != '' ">{{activecompany['company_name']}}</span> </p>
+                                <p style="text-transform:uppercase;margin:0; font-size:15px;">Authorised Signatory</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;background:#74716d66;padding:10px;color:#000;">
+                                <p style="text-transform:uppercase;margin:0; font-size:15px;">all disputes subject to jurisdiction of courts in new delhi.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;background:#74716d66;padding:10px;color:#000;border-top:1px solid #00000078;">
+                                <p *ngIf="stockinhand.company && stockinhand.company.city && stockinhand.company.city.name && stockinhand.company.city.state.name " style="text-transform:uppercase;margin:0;font-size:15px;">Address : {{stockinhand.company.city.name}}, {{stockinhand.company.city.state.name}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

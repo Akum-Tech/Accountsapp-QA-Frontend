@@ -1,0 +1,46 @@
+.packages-plans h3 {
+  font-family: "Gilroy-ExtraBold";
+  text-align: center;
+  padding: 15px;
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 25px;
+  margin-bottom: 40px;
+}
+.packages-plans h3::after {
+  content: "";
+  display: block;
+  width: 50px;
+  background-color: #ed3237ba;
+  height: 2px;
+  margin: 8px auto;
+}
+/* ------------------------------------------------------- */
+
+.card-body span {
+  width: 100%;
+  display: table-cell;
+}
+.card-body {
+  padding: 0px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.card-body::before,
+.card-body::after {
+  box-sizing: inherit;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.invoice-link h4{
+  font-family: "Gilroy-Light";
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 20px;
+  margin: 40px;
+  color: #ec0b0b;
+}

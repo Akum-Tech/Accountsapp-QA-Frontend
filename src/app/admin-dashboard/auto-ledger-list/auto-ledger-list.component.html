@@ -1,0 +1,51 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper" >
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a routerLink="/admin-userdetail">Users</a>
+                </li>
+                <li class="breadcrumb-item active">Auto Ledger List</li>
+                <!-- <button  (click)="openAddState(addtemplate)"  class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD STATE</button> -->
+            </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader">
+
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <th>Number</th>
+                                    <th>GST CODE</th>
+                                    <th>LEDGER NAME</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                    <!-- <tr *ngFor="let state of ledgerlist; let i = index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{state.gst_code}}</td>
+                                        <td>{{state.name}}</td>
+                                    </tr> -->
+                                </tbody>
+                              </table> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-admin-footer></app-admin-footer>

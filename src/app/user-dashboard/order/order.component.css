@@ -1,0 +1,56 @@
+@import '../../pages/company/company.component.css';
+
+
+.company{
+    height: 100vh;
+    /* background-image: url(../../../assets/images/price_plans.png); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.order-card{
+    min-height: auto;
+    padding: 30px;
+    border-radius: 10px;
+    border: 4px solid #464646;
+}
+.address-show{
+    min-height: auto;
+    border-radius: 10px;
+    border: 4px solid #464646;
+}
+
+.footer-btn{
+    border-radius: 5px;
+    padding: 4px 25px !important;
+}
+
+.ord-handing{
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.ord-handing::after{
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 1.5px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    background-color: tomato;
+}
+
+.checkout-btn{
+    background:#007bf7;
+}
+
+.add-company{
+    padding: 6px 20px !important;
+}
+
+.display-body ul li{
+    padding: 6px 0;
+}

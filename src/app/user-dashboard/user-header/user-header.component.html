@@ -1,0 +1,240 @@
+<!-- Custom styles for this template-->
+<nav  class="navbar navbar-expand navbar-dark bg-dark static-top adminNavbar">
+  <a routerLink="/company" routerLinkActive="active"><img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;"></a>
+  <a class="navbar-brand mr-1"  routerLink="/company" routerLinkActive="active" style="text-transform: capitalize;">{{activecompany['company_name']}}</a>
+  <!--Dasktop Toggale Button-->
+  <button class="btn desktop-menu" id="mainSidebar" type="button" (click)="menuHide()"><i aria-hidden="true" class="fa fa-align-left"></i></button>
+  <!--Dasktop Toggale Button-->
+  <div id="content">
+      <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="btn text-sidebar bg-turbo-yellow">
+          <i class="fa fa-align-left" aria-hidden="true"></i>
+          </button>
+      </div>
+  </div>
+  <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"></form>
+  <div class="heading ml-auto display-set-one">
+      <div class="dropdown dropleft" ngbDropdown>
+          <button class="btn toggle-btn" type="button" ngbDropdownToggle>
+          <i class="fa fa-ellipsis-h btn-dots" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+              <ul>
+                  <li  class="mr-1"> <a (click)="openChangeperiod(changetemplate, activecompany)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Change Period</a></li>
+                  <li class="mr-1"><a routerLink="/company" routerLinkActive="active"><i class="fa fa-university" aria-hidden="true"></i> Change Company</a></li>
+                  <li class="mr-1"><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+  <!-- Navbar -->
+  <ul class="navbar-nav ml-auto ml-md-0 display-set-two">
+      <li class="change-company mr-1">Current Period : {{activecompany['current_period_start'] |  date : 'yyyy'}} - {{activecompany['current_period_end'] |  date : 'yyyy'}}</li>
+      <li  class="mr-1"> <a class="change-company" (click)="openChangeperiod(changetemplate, activecompany)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Change Period</a></li>
+      <li class="mr-1"><a class="change-company" routerLink="/company" routerLinkActive="active"><i class="fa fa-university" aria-hidden="true"></i> Change Company</a></li>
+      <li><a class="change-company" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+  </ul>
+</nav>
+<div class="side_navbar" [hidden]="IsHidden">
+  <nav id="sidebar">
+      <ul class="list-unstyled components">
+          <li>
+              <a  class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+          </li>
+         
+          <li>
+              <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Groups<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="homeSubmenu">
+                <li>
+                    <a  class="nav-link" routerLink="/admin/account-group" routerLinkActive="active">Add/Edit Sub Group</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/stock-group" routerLinkActive="active">Add/Edit Stock Group</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/substockgroup" routerLinkActive="active">Add/Edit Sub Stock Group</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a class="nav-link" routerLink="/admin/ledger" routerLinkActive="active">Add/Edit Ledger</a>
+          </li>
+          <li>
+              <a class="nav-link" routerLink="/admin/items" routerLinkActive="active">Add/Edit Items</a>
+          </li>
+          <li>
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Voucher<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                  <li>
+                      <a class="nav-link" routerLink="/admin/viewsalesinvoice" routerLinkActive="active">Add/Edit Sales</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/viewpurchasevoucher" routerLinkActive="active">Add/Edit Purchase</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/receipt" routerLinkActive="active">Add/Edit Receipt</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/payment" routerLinkActive="active">Add/Edit Payment</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/debitnote" routerLinkActive="active">Add/Edit Debit Note</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/creditnote" routerLinkActive="active">Add/Edit Credit Note</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/journalvoucher" routerLinkActive="active">Add/Edit Journal Voucher</a>
+                  </li>
+                  <li>
+                    <a  class="nav-link" routerLink="/admin/stock_report" routerLinkActive="active">Add/Edit Stock In Hand Voucher</a>
+                  </li>
+              </ul>
+          </li>
+          
+          <li>
+              <a href="#Pagemaster" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Masters<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="Pagemaster">
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/unit" routerLinkActive="active">Units</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/master-account" routerLinkActive="active">Master Account</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/taxes" routerLinkActive="active">Taxable</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a href="#Accountbook" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Account Books<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="Accountbook">
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/bankbook" routerLinkActive="active">Display Bank Books</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/cashbabkbook" routerLinkActive="active">Display Cash Books</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/ledgeraccount" routerLinkActive="active">Display Ledger</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/accountgroupreport" routerLinkActive="active">Display Group</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/salesregister" routerLinkActive="active">Display Sales Register</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/purchaseregister" routerLinkActive="active">Display Purchase Register</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/journalregister" routerLinkActive="active">Display Journal Register</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/stockgroupreport" routerLinkActive="active">Display Day Book</a>
+                  </li>
+                  <!-- <li>
+                      <a  class="nav-link" routerLink="/voucherreport" routerLinkActive="active">Display Voucher Report</a>
+                    </li> -->
+              </ul>
+          </li>
+          <li>
+              <a href="#Reportmaster" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stock Reports<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="Reportmaster">
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/stocksummary" routerLinkActive="active">Display Stock Summary</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/stockitem" routerLinkActive="active">Display Stock Items</a>
+                  </li>
+                  <!-- <li>
+                    <a  class="nav-link" routerLink="/closignvalue" routerLinkActive="active">Define Stock closing</a>
+                  </li> -->
+                  <!-- <li>
+                      <a  class="nav-link" routerLink="/groupsummary" routerLinkActive="active">Display Stock Group Summary</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/multiplestock" routerLinkActive="active">Display Multiple Stock Details</a>
+                  </li> -->
+              </ul>
+          </li>
+          <li>
+              <a href="#finalrepots" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Final Reports<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+              <ul class="collapse list-unstyled" id="finalrepots">
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/trialbalance" routerLinkActive="active">Display Trial Balance</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/profitloss" routerLinkActive="active">Display Trading, Profit & Loss</a>
+                  </li>
+                  <li>
+                      <a  class="nav-link" routerLink="/admin/balancesheet" routerLinkActive="active">Display Balance Sheet</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#gstreports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">GST Reports<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+            <ul class="collapse list-unstyled" id="gstreports">
+                <li>
+                    <a  class="nav-link" routerLink="/admin/getreportsone" routerLinkActive="active">GSTR - 1</a>
+                </li>
+                <li>
+                    <a  class="nav-link" routerLink="/admin/gstreportstwo" routerLinkActive="active">GSTR - 2</a>
+                </li>
+                <li>
+                    <a  class="nav-link" routerLink="/admin/gstreports" routerLinkActive="active">GSTR - 3B</a>
+                </li>
+            </ul>
+        </li>
+        <!-- <li>
+            <a  class="nav-link" routerLink="/admin/priceplan" routerLinkActive="active">
+                <span *ngIf="activeuser.subscription_end_date  >= activeuser.serverdate">Upgrade Plan  ({{activeuser.subscription_end_date | date : 'dd-MMM-yyyy'}})</span>
+                <span *ngIf="activeuser.subscription_end_date  <= activeuser.serverdate">Buy Plan</span>
+            </a>
+        </li> -->
+        <!-- <li>
+            <a  class="nav-link" routerLink="/admin/priceplaneview" routerLinkActive="active">View Buy Plan</a>
+        </li> -->
+        <li>
+            <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings<i class="fa fa-chevron-down rotate-icon float-right" aria-hidden="true"></i></a>
+            <ul class="collapse list-unstyled" id="settings">
+                <li>
+                    <a  class="nav-link" routerLink="/admin/viewuser" routerLinkActive="active">Invite User</a>
+                </li>
+                
+            </ul>
+        </li>
+      </ul>
+  </nav>
+</div>
+<!-- =========================== CHANGE PERIOD MODAl ============================== -->
+<ng-template #changetemplate>
+  <div class="modal-header">
+      <h4 class="modal-title">Change Period</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div class="changeperiod-form">
+          <form [formGroup]="changeperiodform" #CompanyForm="ngForm">
+          <div class="row">
+              <div class="col-sm-6">
+                  <label for="period_start">Change Current Period</label> 
+                  <div class="input-group">
+                      <mat-form-field class="width-set">
+                          <input matInput [matDatepicker]="picker"  [min]="current_periad_startdate"  [max]="currentDate" formControlName="current_period_start">
+                          <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                  </div>
+              </div>
+          </div>
+          </form>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn footer-btn" (click)="changeperiod()">SAVE PERIOD</button>
+      <button class="btn footer-btn" (click)="modalRef.hide()">CANCEL</button>
+  </div>
+</ng-template>

@@ -1,0 +1,30 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper"> 
+        <div class="container-fluid">
+            <div class="component-header set-title pd-10">
+                <h3>Add Stock Group</h3>
+            </div>
+            <div class="item-form pd-20">
+                <form  [formGroup]="stockgroupform" #StockGroup="ngForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock_name">Stock Group Name</label>
+                                <input class="form-control" type="text" id="stock_name" formControlName="stock_name"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer Component-footer">
+                <button class="btn footer-btn" [disabled]="clicked" (click)="addstockgroup()">ADD STOCK</button>
+                <button class="btn footer-btn" (click)="closeledger()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-user-footer></app-user-footer>

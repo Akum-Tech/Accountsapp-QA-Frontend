@@ -1,0 +1,390 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <!-- <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Items</li> -->
+                <button  (click)="openItemAddModal(addtemplate)" class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD ITEM</button>
+            </ol>
+            <div class="ledger-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && itemslist != ''">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+                            <thead class="table-header">
+                                <tr>
+                                    <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                    <th><mfDefaultSorter by="unit">Unit</mfDefaultSorter></th>
+                                    <th><mfDefaultSorter by="stock_group">Stock Group</mfDefaultSorter></th>
+                                    <th><mfDefaultSorter by="hsn_code">HSN Code</mfDefaultSorter></th>
+                                    <th class="text-set"><mfDefaultSorter by="tax">Tax</mfDefaultSorter></th>
+                                    <th class="text-set"><mfDefaultSorter by="quantity">Quantity</mfDefaultSorter></th>
+                                    <th class="text-set"><mfDefaultSorter by="rate">Rate</mfDefaultSorter></th>
+                                    <th class="text-set"> <mfDefaultSorter by="total_value">Total Value</mfDefaultSorter></th>
+                                    <th class="text-set"><mfDefaultSorter by="action">Action</mfDefaultSorter></th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body">
+                                <tr *ngFor="let Item of itemslist">
+                                    <td>{{Item.name}}</td>
+                                    <td>{{Item.unit['uqc']}} ({{Item.unit['quantity_description']}})</td>
+                                    <td>{{Item.stock_sub_group === null ? Item.stock_group.stock_name : Item.stock_sub_group.stock_name}}</td>
+                                    <td>{{Item.hsn_code}}</td>
+                                    <td class="text-set">{{Item.tax.tax}}%</td>
+                                    <td class="text-set">{{Item.quantity}}</td>
+                                    <td class="text-set">{{Item.rate}}</td>
+                                    <td class="text-set">{{getType(Item.total_value)}}</td>
+                                    <td class="text-set">
+                                        <button class="btn action-btn"  (click)="openItemEditModal(Edittemplate, Item)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <button class="btn action-btn action-btn-two" (click)="openItemDeleteModal(deletetemplate, Item)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                    </form>
+                    
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && itemslist == ''">
+                    <h4>No Data Found .</h4>
+                </div>
+                </div>
+            </div>
+        <!-- ================== ADD ITEMS MODAL =================== -->
+            <ng-template #addtemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Item</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="item-form">
+                        <form  [formGroup]="itemsform" #ItemsForm="ngForm" (ngSubmit)="additems()">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="Name">Name</label>
+                                    <input class="form-control" type="text" id="name" formControlName="name" />
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.name" >
+                                            <div class="error-message" *ngIf="itemsform.get('name').hasError(validation.type) && (itemsform.get('name').dirty || itemsform.get('name').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="stock_group">Stock Group</label>
+                                    <ng-select  bindLabel="name" bindValue="uid"
+                                    placeholder="Select Stock Group"
+                                    formControlName="stock_group_id"
+                                    appendTo="body"
+                                    (change)="getStockGroupid($event)"
+                                    [searchable]="true">
+                                    <ng-option *ngFor="let StockGroup of stocklist; let i = index" [value]="StockGroup.uid">{{StockGroup?.stock_name}}</ng-option>
+                                    <ng-template ng-header-tmp>
+                                        <div class="error-msg" (click)="openStockAddModal()"  >
+                                            <h4>Create a New Stock Group.</h4>
+                                        </div>
+                                    </ng-template>
+                                    </ng-select>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.stock_group_id" >
+                                            <div class="error-message" *ngIf="itemsform.get('stock_group_id').hasError(validation.type) && (itemsform.get('stock_group_id').dirty || itemsform.get('stock_group_id').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="error-msg" (click)="openStockAddModal()" *ngIf="stocklist == ''">
+                                    <h4>Please Create a Stock Group</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Unit">Unit</label>
+                                <ng-select  bindLabel="name"
+                                    placeholder="Select Unit"
+                                    formControlName="unit"
+                                    appendTo="body"
+                                    [searchable]="true">
+                                    <ng-option *ngFor="let Units of unitlist; let i = index" [value]="Units.id">{{Units.uqc}}({{Units.quantity_description}})</ng-option>
+                                </ng-select>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of validation_messages.unit" >
+                                        <div class="error-message" *ngIf="itemsform.get('unit').hasError(validation.type) && (itemsform.get('unit').dirty || itemsform.get('unit').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="quantity">Opening Quantity as on ({{activecompany['bookstart_date'] | date : 'dd-MMM-yyyy'}})</label>
+                                <input class="form-control" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  (change)="calculate($event)" id="quantity" formControlName="quantity"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="rate">Rate</label>
+                                <input class="form-control" (change)="calculate($event)" maxlength="15" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"   id="rate" formControlName="rate"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="hsn_code">HSN Code</label>
+                                <input class="form-control" type="text" maxlength="8" id="hsn_code" formControlName="hsn_code"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group mt-30">
+                                <div class="row">
+                                    <div class="col-sm-6 col-6">
+                                        <div class="form-group">
+                                            <label for="cess">Cess</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-6">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" class="custom-control-input" id="yes" (click)=" show(true)" value="yes" name="cess" formControlName="cess" mdbInput>
+                                                <label class="custom-control-label" for="yes">Yes</label>
+                                            </div>
+                                            <!-- idx > 0 && removeSelected(item.spId) -->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" class="custom-control-input" id="no" (click)="show(false)"  name="cess" value="no" formControlName="cess" [checked]="true" mdbInput>
+                                                <label class="custom-control-label" for="no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- *ngIf = "cessblock == false" -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="branch_name" >IGST rate</label>
+                                <select class="form-control" formControlName="taxes_slab_id">
+                                <option  *ngFor="let taxes of taxelist; let i = index" value="{{taxes.id}}" [selected] ="taxes === 0">{{taxes.title}}</option>
+                                </select>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of validation_messages.taxes_slab_id" >
+                                        <div class="error-message" *ngIf="itemsform.get('taxes_slab_id').hasError(validation.type) && (itemsform.get('taxes_slab_id').dirty || itemsform.get('taxes_slab_id').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf = "cessblock == true" class="col-sm-6">
+                            <div class="form-group">
+                                <label for="tax">Tax</label>
+                                <input class="form-control" type="text" id="cess_tax" formControlName="cess_tax"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="total_value">Total Value</label>
+                                <input class="form-control" type="text" value={{getType(totalVal)}} id="total_value" formControlName="total_value" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <!-- [disabled]="!itemsform.valid"  -->
+        <button class="btn footer-btn" [disabled]="clicked" (click)="additems()">ADD ITEMS</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+        </div>
+             </ng-template>
+        <!-- ================== EDIT ITEMS MODAL =================== -->
+        <ng-template #Edittemplate>
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Item</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="item-form">
+                    <form  [formGroup]="itemsform" #ItemsForm="ngForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input class="form-control" type="text" id="name" formControlName="name" />
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of validation_messages.name" >
+                                        <div class="error-message" *ngIf="itemsform.get('name').hasError(validation.type) && (itemsform.get('name').dirty || itemsform.get('name').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock_group">Stock Group</label>
+                                <ng-select  bindLabel="name"
+                                placeholder="Select Stock Group"
+                                formControlName="stock_group_id"
+                                (change)="getStockGroupid($event)"
+                                appendTo="body"
+                                [searchable]="true">
+                                <ng-option *ngFor="let StockGroup of stocklist; let i = index" [value]="StockGroup.uid">{{StockGroup?.stock_name}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.stock_group_id" >
+                                    <div class="error-message" *ngIf="itemsform.get('stock_group_id').hasError(validation.type) && (itemsform.get('stock_group_id').dirty || itemsform.get('stock_group_id').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="error-msg" (click)="openStockAddModal()" *ngIf="stocklist == ''">
+                            <h4>Please Create a Stock Group</h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Unit">Unit</label>
+                            <ng-select  bindLabel="name"
+                                placeholder="Select Unit"
+                                formControlName="unit"
+                                appendTo="body"
+                                [searchable]="true">
+                                <ng-option *ngFor="let Units of unitlist; let i = index" [value]="Units.id">{{Units.uqc}}({{Units.quantity_description}})</ng-option>
+                            </ng-select>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.unit" >
+                                    <div class="error-message" *ngIf="itemsform.get('unit').hasError(validation.type) && (itemsform.get('unit').dirty || itemsform.get('unit').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="quantity">Opening Quantity as on ({{activecompany['bookstart_date'] | date : 'dd-MMM-yyyy'}})</label>
+                            <input class="form-control" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  (change)="calculate($event)" id="quantity" formControlName="quantity"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="rate">Rate</label>
+                            <input class="form-control" (change)="calculate($event)" maxlength="15" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="rate" formControlName="rate"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="hsn_code">HSN Code</label>
+                            <input class="form-control" type="text" id="hsn_code" maxlength="8" formControlName="hsn_code"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group mt-30">
+                            <div class="row">
+                                <div class="col-sm-6 col-6">
+                                    <div class="form-group">
+                                        <label for="cess">Cess</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="yes" (click)="show(true)" value="yes" name="cess" formControlName="cess" [checked]="cessblock==true" mdbInput>
+                                            <label class="custom-control-label" for="yes">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="no" (click)="show(false)"  name="cess" value="no" formControlName="cess"  [checked]="cessblock==false" mdbInput>
+                                            <label class="custom-control-label" for="no">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- *ngIf = "cessblock == false" -->
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="branch_name" >IGST Rate</label>
+                            <select class="form-control" formControlName="taxes_slab_id" >
+                                <option *ngFor="let taxes of taxelist; let i = index" (change)="taxvalue($event)" value="{{taxes.id}}">{{taxes.title}}</option>
+                            </select>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.taxes_slab_id" >
+                                    <div class="error-message" *ngIf="itemsform.get('taxes_slab_id').hasError(validation.type) && (itemsform.get('taxes_slab_id').dirty || itemsform.get('taxes_slab_id').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf = "cessblock == true" class="col-sm-6">
+                        <div class="form-group">
+                            <label for="tax">Tax</label>
+                            <input class="form-control" type="text" id="cess_tax"  formControlName="cess_tax"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="total_value">Total Value</label>
+                            <input class="form-control" type="text" value={{getType(totalVal)}} id="total_value" formControlName="total_value" disabled/>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+    </div>
+    <div class="modal-footer">
+    <button class="btn footer-btn"(click)="edititems()">SAVE</button>
+    <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+    </ng-template>
+    <!-- ================== DELETE ITEMS MODAL =================== -->
+    <ng-template #deletetemplate>
+        <div class="modal-header">
+            <h4 class="modal-title">CONFIRMATION</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body delete-modal">
+            <h1>Are You Sure Want to Delete This Item ?</h1>
+        </div>
+        <div class="modal-footer">
+            <button class="btn footer-btn"  (click)="deleteadditems(deleteData)">YES</button>
+            <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+        </div>
+    </ng-template>
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

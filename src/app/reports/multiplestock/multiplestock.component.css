@@ -1,0 +1,47 @@
+
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.header-filed h4 {
+    font-family: 'Gilroy-ExtraBold';
+    font-size: 18px;
+    margin-bottom: 0px;
+    margin-top: 50px;
+}
+.header-filed h5{
+    font-family:'Gilroy-Light';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+    text-align: center;
+}
+.table-responsive {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.reports th, td {
+    border: 1px solid black;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+.width-set td{
+    width: 7%;
+}

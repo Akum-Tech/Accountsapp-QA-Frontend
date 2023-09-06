@@ -1,0 +1,161 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <!-- <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Groups</a>
+                </li>
+                <li class="breadcrumb-item active">Stock Group</li> -->
+                <button  (click)="openStockAddModal(addstocktemplate)" class="add-btn" title="Add Stock"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add stock</button>
+            </ol>
+            <div class="stock-group-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && stockgrouplist != ''">
+                            <table class="table" [mfData]="stockgrouplist" #mf="mfDataTable" [mfRowsOnPage]="5">
+                            <thead class="table-header">
+                                <tr>
+                                    <th style="width: 40%">
+                                        <mfDefaultSorter by="stock_name">Stock Group Name</mfDefaultSorter>
+                                    </th>
+                                    <th style="width: 10%">
+                                        <mfDefaultSorter by="action">Action</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body">
+                                <tr *ngFor="let stockGroup of mf.data">
+                                    <td>{{stockGroup.stock_name}}</td>
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openStockEditModal(Edittemplate,stockGroup)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <button class="btn action-btn action-btn-two" (click)="openStockDeleteModal(deletetemplate,stockGroup)" rounded="true" >
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && stockgrouplist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- ================== ADD STOCK MODAL =================== -->
+            <ng-template #addstocktemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Stock Group</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="stock-form">
+                        <form  [formGroup]="stockgroupform" #StockGroup="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="stock_name">Stock Group Name</label>
+                                    <input class="form-control" type="text" id="stock_name" formControlName="stock_name"/>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.stock_name" >
+                                            <div class="error-message" *ngIf="stockgroupform.get('stock_name').hasError(validation.type) && (stockgroupform.get('stock_name').dirty || stockgroupform.get('stock_name').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" [disabled]="clicked" (click)="addstockgroup()">ADD STOCK</button>
+                    <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+            <!-- ================== EDIT STOCK MODAL =================== -->
+            <ng-template #Edittemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Stock Group</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="stock-form">
+                        <form  [formGroup]="stockgroupform" #StockGroup="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="stock_name">Stock Group Name</label>
+                                    <input class="form-control" type="text" id="stock_name" formControlName="stock_name"/>
+                                    <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.stock_name" >
+                                            <div class="error-message" *ngIf="stockgroupform.get('stock_name').hasError(validation.type) && (stockgroupform.get('stock_name').dirty || stockgroupform.get('stock_name').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" [disabled]="!stockgroupform.valid" (click)="editstockgroup()">SAVE</button>
+                    <button class="btn footer-btn" (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+            <!-- =========================== DELETE STOCK MODAL ============================== -->
+            <ng-template #deletetemplate>
+                <div class="modal-header">
+                    <h4 class="modal-title">CONFIRMATION</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body delete-modal">
+                    <h1>Are You Sure Want to Delete This Stock ?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn"  (click)="deletestock(deleteData)">YES</button>
+                    <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+                </div>
+            </ng-template>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>s

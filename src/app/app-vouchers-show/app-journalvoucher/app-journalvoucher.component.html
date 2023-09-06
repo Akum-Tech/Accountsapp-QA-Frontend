@@ -1,0 +1,95 @@
+
+<!-- ----------------------------------- INVOICE PRINT DESIGN ------------------------------- -->
+
+<div *ngIf="voucherAppshow " id="print-section" >
+
+    <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1.5px solid #212529;">
+        <table cellpadding="0" cellspacing="0" style="width:100%">
+            <tbody>
+                <tr>
+                    <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                        <img *ngIf="journalvoucher.company && journalvoucher.company.company_logo != ''" src='{{imgbaseurl}}{{journalvoucher.company.company_logo}}' class="logo" style="vertical-align: middle;">
+                        <h3 *ngIf="journalvoucher.company && journalvoucher.company.company_name != ''" style="text-transform: capitalize;">{{journalvoucher.company.company_name}}</h3>
+                    </td>
+                    <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                        <input type="hidden" name="value"  value="{{journalvoucher.uid}}">
+                        <h1 style="margin: 0;text-transform: uppercase;">JOURNAL INVOICE</h1>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:1px solid #00000078;">
+            <tbody>
+                <tr>
+                    <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">INVOICE ID</td>
+                    <td style="width:70%;font-weight:500;padding: 12px;color: #000;">{{journalvoucher.invoice_id}}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">VOUCHER DATE</td>
+                    <td *ngIf="journalvoucher.invoice_date != '' " style="width:70%;font-weight:500;padding: 12px;color: #000;">{{journalvoucher.invoice_date | date:'dd MMM yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;font-weight:500;padding: 12px;color: #000;border-right:1px solid #00000078;">PURPOSE</td>
+                    <td style="width:70%;font-weight:500;padding: 12px;color: #000;">{{journalvoucher.purpose_voucher?journalvoucher.purpose_voucher.name:'' || ''}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+            <thead>
+                <tr>
+                    <th style="width:6.2%;text-align:center;padding:12px;color: #000;border: 0.5px solid #868686;">Si No.</th>
+                    <th style="text-align:center;padding:12px;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">Ledger Name</th>
+                    <th style="text-align:center;padding:12px;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">Type</th>
+                    <th style="text-align:center;padding:12px;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let itemledger of ledgers; let i = index">
+                    <td style="width:6.2%;text-align:center;padding:8px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;border: 0.5px solid #868686;">{{i+1}}</td>
+                    <td style="text-align:center;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">{{itemledger.VoucherLedger?itemledger.VoucherLedger.name:'' || ''}}</td>
+                    <td style="text-align:center;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">{{itemledger.type}}</td>
+                    <td style="text-align:right;padding:8px 12px 8px 8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border: 0.5px solid #868686;">{{getType(itemledger.amount)}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table  cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;">
+            <thead>
+                <tr>
+                    <td colspan="2"></td>
+                    <td style="width: 20%;text-align:right;padding:12px;font-size:14px;text-transform:uppercase;vertical-align: top;font-weight: 900;border-right: 0.5px solid #00000078;">TOTAL AMOUNT :</td>
+                    <td style="width: 28%;text-align:right;padding:12px; font-size:14px;text-transform:uppercase;vertical-align: top;font-weight: 900;">{{getType(journalvoucher.total_amount)}}</td>
+                </tr>
+            </thead>
+        </table>
+        <table cellpadding="0" cellspacing="0" style="width:100%;">
+            <tr>
+                <td style="text-align:left;padding:10px;color:#000;border-top:1px solid #00000078;">
+                    <h3 *ngIf="journalvoucher.total_amount" style="text-transform:uppercase; font-weight:900; margin:0; font-size:16px;">AMOUNT IN WORDS : {{inWords(amountconvert)}}</h3>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+            <tr>
+                <td style="text-align:right;padding:15px 30px 10px 30px;color:#000;border-top:1px solid #00000078;">
+                    <p style="text-transform:uppercase;margin:0; padding-bottom:50px; font-size:15px;">For 
+                        <span  *ngIf="journalvoucher.company && journalvoucher.company.company_name == '' ">GSTAPPS</span><span *ngIf="journalvoucher.company && journalvoucher.company.company_name != '' ">{{journalvoucher.company.company_name}}</span> </p>
+                    <p style="text-transform:uppercase;margin:0; font-size:15px;">Authorised Signatory</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;padding:10px;color:#000;">
+                    <p style="text-transform:uppercase;margin:0; font-size:15px;">all disputes subject to jurisdiction of courts in new delhi.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center;padding:10px;color:#000;border-top:1px solid #00000078;">
+                    <p *ngIf="journalvoucher.company && journalvoucher.company.city && journalvoucher.company.city.name && journalvoucher.company.city.state.name " style="text-transform:uppercase;margin:0;font-size:15px;">Address : {{journalvoucher.company.city.name}}, {{journalvoucher.company.city.state.name}} </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<!-- ----------------------------------- INVOICE PRINT DESIGN END ------------------------------- -->
+

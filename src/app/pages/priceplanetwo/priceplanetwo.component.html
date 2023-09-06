@@ -1,0 +1,68 @@
+
+
+<div class="company" >
+    <div class="container-fluid company-header">
+        <div class="row header-pd">
+            <div class="col-sm-6 col-4">
+                <a routerLink="/company" routerLinkActive="active" ><img src="assets/images/logo.png" class="img-fluid logo"></a>
+            </div>
+            <div class="col-sm-6 col-8 add-logout-btn">
+                <button (click)="logout()" class="btn add-company">LOGOUT</button>
+                <div class="dropdown" ngbDropdown>
+                    <button class="btn toggle-btn btn-pd" type="button" ngbDropdownToggle>
+                    <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu user-dtls" ngbDropdownMenu>
+                        <div class="details-row">
+                            <p><b>User Name :</b><br> {{activeuser['name']}}</p>
+                        </div>
+                        <div class="details-row">
+                            <p><b>Mobile No :</b><br> {{activeuser['phone']}}</p>
+                        </div>
+                        <div class="details-row">
+                            <p><b>Email Id :</b><br> {{activeuser['email']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" class="pl-0">
+        <div class="container-fluid">
+
+            <div class="packages-plans">
+                <div class="container">
+                    <div class="form_heding">
+                        <h1>PACKAGES PLANS</h1>
+                    </div>
+                    <div class="row" >
+                        <div *ngFor="let buyplan of buylist" class="col-sm-4 col-lg-4 col-12 col-md-12">
+                            <div class="card draw card-body">
+                                <h3>{{buyplan.months}} Months Plan</h3>
+                                <ul>
+                                    <li><span>Basic</span> <span> ₹{{buyplan.basic}}</span></li>
+                                    <li><span>GST </span> <span> ₹{{buyplan.gst}}</span> </li>
+                                    <li><span>Value </span> <span> ₹{{buyplan.total}}</span>  </li> 
+                                </ul>
+                                <button class="btn-buy" (click)="buyplanget(buyplan)">
+                                    <span style="width: 10%;" *ngIf="activeuser.subscription_end_date != null">Upgrade Plan</span>
+                                    <span style="width: 10%;" *ngIf="activeuser.subscription_end_date == null">Buy Plan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+

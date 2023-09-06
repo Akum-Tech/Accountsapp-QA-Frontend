@@ -1,0 +1,31 @@
+small{
+    font-family:"Sofiapro-Light";
+}
+.page-head{
+    text-align: center;
+    padding: 30px 15px;
+}
+.page-head h2{
+    font-size: 26px;
+    font-family:"sofiaPro-Bold";
+}
+
+.legal-text {
+    overflow-y: auto;
+}
+
+.legal-text h4{
+    margin-bottom: 0px;
+    margin-top: 15px;
+    font-family:"sofiaPro-Bold";
+    color: #3b3b3b;
+    font-size: 20px;
+}
+
+.legal-text p{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family:"Sofiapro-Light";
+    color: #6c757d;
+    text-align: justify;
+}

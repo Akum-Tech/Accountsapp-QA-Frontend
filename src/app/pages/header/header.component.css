@@ -1,0 +1,174 @@
+header{
+  background: #F7F8FB;
+  transition: all 250ms ease-in 0s;
+  padding: 10px 0;
+}
+.navbar{
+  box-shadow: none;
+  display: inline-block;
+}
+.logoBox:focus-visible{
+  outline: none;
+}
+.logo{
+  width: 100%;
+}
+.navbar-header .nav-item a {
+  padding: 0px 20px;
+  color: #000;
+  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  font-family:'Sofiapro-Light';
+}
+.navbar-expand-lg.navbar-dark {
+  box-shadow: none;
+  padding: 10px 0px;
+}
+.navbar-dark .navbar-nav .nav-link.active {
+  color: #1441EB;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #1441EB;
+}
+
+.login-btn{
+  padding: 8px 20px!important;
+  color: #fff !important;
+  border-radius: 5px;
+  background: #1441eb;
+  border: 1px solid #1441eb;
+}
+.login-btn:hover{
+  background-color: #fff;
+  color: #1441EB !important;
+}
+.login-btn svg{
+  stroke: #fff;
+  fill: #fff;
+}
+.login-btn:hover svg{
+  stroke: #1441EB;
+}
+
+.sticky {
+  background: #F7F8FB;
+  box-shadow: rgb(140 152 164 / 25%) 0px 0px 25px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.sticky .logo{
+  width: 100%;
+}
+.sticky .navbar-expand-lg.navbar-dark {
+  padding: 5px 0;
+}
+
+.navbar-nav{
+  flex-direction: row;
+}
+
+.mobileMenu{
+  background-color: #fff;
+  box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+  transition: transform 500ms ease;
+  padding: 50px 15px;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  z-index: 9;
+  right: -250px;
+  top: 0;
+  transition-delay: 0.3s;
+  transition: 0.4s;
+  transition-duration: 0.4s;
+}
+.menuClose{
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+}
+.menuClose img{
+  width: 18px;
+}
+.viewMenu{
+  right: 0;
+  position: absolute;
+}
+.mobileMenu ul{
+  display: block;
+}
+.mobileMenu ul li{
+  display: block;
+  line-height: 40px;
+}
+.mobileMenu ul li a{
+  color: #000;
+}
+
+.navbar-toggler{
+  display: none;
+}
+
+
+.loginPopup{
+  background-color: #fff;
+  padding: 20px;
+  width: 400px;
+  box-shadow: 0px 0px 30px #ccc;
+  position: absolute;
+  right: 90px;
+  border-radius: 6px;
+}
+
+
+/* ================================================ / Media Query ipad / =================================================== */
+
+@media (min-width: 1200px){
+    .container {
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .login-btn{
+    padding: 8px 15px!important;
+  }
+  .navbar-header .nav-item a{
+    padding: 0px 10px;
+  }
+}
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+  @media only screen and (max-device-width: 480px) {
+    .desktopMenu{
+      display: none;
+    }
+    .navbar-toggler{
+      display: block;
+      width: 100%;
+      text-align: right;
+      position: relative;
+      top: 15px;
+    }
+    .navbar-nav li {
+      display: inline-block;
+    }
+    .navbar-nav li a{
+      padding: 6px 10px !important;
+      font-size: 15px;
+    }
+    .logo{
+      width: 70px;
+    }
+    .sticky .logo{
+      width: 50px;
+    }
+}

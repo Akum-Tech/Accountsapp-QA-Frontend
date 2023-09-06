@@ -1,0 +1,723 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+/* @import '../../GSTwebsite/node_modules/font-awesome/css/font-awesome.min.css'; */
+@import '../node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css';
+@import '../node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css';
+@import '../node_modules/owl.carousel/dist/assets/owl.carousel.min.css';
+@import '../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css';
+@import '../node_modules/mdbootstrap/css/mdb.min.css';
+@import '../node_modules/owl.carousel/dist/assets/owl.carousel.min.css';
+@import '../node_modules/primeicons/primeicons.css';
+@import '../node_modules/primeng/resources/themes/nova-light/theme.css';
+@import '../node_modules/primeng/resources/primeng.min.css';
+@import '../node_modules/aos/dist/aos.css';
+@import 'assets/css/animate.css';
+@import 'assets/admin/css/sb-admin.css';
+@import '../node_modules/angular-archwizard/archwizard.css';
+@import '../node_modules/select2/dist/css/select2.min.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/datatables.net-dt/css/jquery.dataTables.css";
+
+
+
+@font-face {
+    font-family:'Comfortaa-Bold_2';
+    src: url('../src/assets/Font/Comfortaa-Bold_2.ttf') format('truetype'),
+         url('../src/assets/Font/Comfortaa-Bold_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'Comfortaa-Light_2';
+    src: url('../src/assets/Font/Comfortaa-Light_2.ttf') format('truetype'),
+         url('../src/assets/Font/Comfortaa-Light_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'Comfortaa-Regular_2';
+    src: url('../src/assets/Font/Comfortaa-Regular_2.ttf') format('truetype'),
+         url('../src/assets/Font/Comfortaa-Regular_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'RobotoCondensed-Regular';
+    src: url('../src/assets/Font/RobotoCondensed-Regular.ttf') format('truetype'),
+         url('../src/assets/Font/RobotoCondensed-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'RobotoCondensed-Bold';
+    src: url('../src/assets/Font/RobotoCondensed-Bold.ttf') format('truetype'),
+         url('../src/assets/Font/RobotoCondensed-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'Gilroy-ExtraBold';
+    src: url('../src/assets/Font/Gilroy-ExtraBold.otf') format('truetype'),
+         url('../src/assets/Font/Gilroy-ExtraBold.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'Gilroy-Light';
+    src: url('../src/assets/Font/Gilroy-Light.otf') format('truetype'),
+         url('../src/assets/Font/Gilroy-Light.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family:'Sofiapro-Light';
+    src: url('../src/assets/Font/sofiaproLight.otf') format('truetype'),
+         url('../src/assets/Font/sofiaproLight.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family:'sofiaPro-Bold';
+    src: url('../src/assets/Font/sofiaProBold.ttf') format('truetype'),
+         url('../src/assets/Font/sofiaProBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+html{
+    flex: 1;
+    scroll-behavior: smooth;
+}
+
+.validation-errors{
+    color:#f60707;
+    font-size: 12px;
+}
+
+body{
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+.pdtb-100 {
+    padding: 100px 0;
+  }
+.mtb-70{
+    margin-top: 90px;
+}
+.pt-50{
+    padding-top:50px;
+}
+.mt-10{
+    margin-top: 12px;
+}
+.mtb-30{
+    margin: 30px 0px;
+}
+.mt-30{
+    margin: 0;
+    margin-top: 30px;
+}
+
+button:focus {
+    outline: none;
+}
+
+.form-control:focus {
+    box-shadow:none;
+}
+
+.custom-select:focus {
+    box-shadow: none;
+}
+table.table td, table.table th{
+    padding:2px;
+    vertical-align: middle;
+    text-transform: capitalize;
+}
+
+.ng-select .ng-select-container {
+    color: #333;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    /* min-height: 36px; */
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 14px;
+}
+.Paginationset{
+    padding: 10px 10px;
+    background-color: #ffffffbf;
+}
+.pagination .page-item.active .page-link:hover {
+    background-color: #263238 !important;
+}
+.pagination .page-item.active .page-link {
+    background-color: #263238 !important;
+}
+.Reports-error-msg h4 {
+    font-family: 'Gilroy-ExtraBold';
+    font-size: 20px;
+    text-transform: capitalize;
+    color: #f80202;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 30px;
+    text-align: center;
+}
+label{
+    font-family:'Gilroy-Light';
+    margin: 0px;
+    color: #495057;
+    font-size: 14px;
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+input{
+    font-family:'Gilroy-Light';
+    margin: 0px;
+    font-size: 12px !important;    
+    border: none;
+    background-color: #edeaea5c;
+}
+textarea{
+    font-family:'Gilroy-Light';
+    margin: 0px;
+    color: #495057;
+    font-size: 12px;    
+}
+.btn{
+    box-shadow: none;
+}
+a{
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+/* ----- PRODUCT DETAILS / HOW IT WORKS / PACKAGES N PLAN HEADING  ----- */
+.form_heding h1{
+    font-family:'Gilroy-ExtraBold';
+    color: #212529d9;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+.form_heding h1::after{
+    content: "";
+    display: block;
+    width: 50px;
+    background-color: #5156be;
+    height: 2px;
+    margin: 8px auto;
+}
+/* ----- PRODUCT DETAILS / HOW IT WORKS / PACKAGES N PLAN HEADING  END ----- */
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.btn-canle{
+    background-color: #655e5eed !important;
+}
+/* ----- DASHBORD HEADER DESIGN ----- */
+.table-responsive{
+    margin-top: 12px;
+    border: 1px solid #ccc;
+}
+.remove-btn {
+    border-radius: 8px !important;
+    background-color: #d9534f !important;
+}
+
+table td ,th{
+    font-size: 14px;
+}
+
+.table-body{
+    font-family: 'Gilroy-Light';
+    text-transform: capitalize;
+    font-size: 12px;
+}
+.table-header {
+    font-family: 'Gilroy-Light';
+    letter-spacing: 0.3px;
+    background-color: #263238 !important;
+    color: #fff !important;
+    text-transform: capitalize;
+}
+.action-btn:hover{
+    color: #ffffff;
+}
+.action-btn{
+    margin: 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: #4a60d7;
+    color: #fff;
+    border-radius: 2px;
+    text-align: center;
+    width: 30px;
+    height: 24px;
+    padding: 0px;
+    line-height: 24px;
+}
+.mb-20{
+    margin-bottom: 20px;
+}
+.action-btn-two{
+    background-color: #fb2a03;
+}
+.action-btn-three{
+    background-color: #4cd137;
+}
+.img-fix{
+    width: 100px;
+    height:80px;
+}
+::ng-deep ul.pagination.ng-star-inserted {
+    float: right;
+}
+.modal-title{
+    text-align: center;
+    font-family:'Gilroy-ExtraBold';
+    width: 100%;
+    font-size: 18px;
+}
+.modal-header{
+    background-color: rgba(98, 89, 202, 0.1);
+}
+
+/* -------- SCROLL -------- */
+.modal{
+    display: block !important; 
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+/* ------------------------ */
+
+.modal-body{
+    padding: 15px;
+}
+.footer-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 4px 30px !important;
+    font-size: 12px; 
+    float: right;
+    margin: 0px;
+}
+.delete-modal h1{
+    text-align: center;
+    font-size: 16px;
+    font-family:'Gilroy-ExtraBold';
+    letter-spacing: 0.3px;
+    color: #646262;
+}
+
+.done-modal h1{
+    font-family:'Gilroy-ExtraBold';
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    color: #646262;
+}
+.modal-footer{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    justify-content: center;
+    background-color: #e9f1e6;
+}
+
+.action-icon:hover {
+    color: #fff;
+}
+.action-icon:active {
+    color: #fff;
+}
+.add-card-btn{
+    float: left !important;
+    margin: auto;
+    margin-left: 0;
+    border-radius: 8px !important;
+    padding: 8px 30px !important;
+}
+.print-btn {
+    font-family:'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    display: block;
+    background: #357ebd !important;
+    padding: 8px 40px !important;
+    box-shadow: none;
+    color: #ffffff !important;
+    float: right;
+    border: none;
+    border-radius: 8px !important;
+}
+
+.table-discount span{
+    display: table-cell;
+}
+.table-discount span:first-child{
+    width: 45px;
+}
+/* ------------COMPONENT HEADER DESIGN ---------------------- */
+.pd-20{
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+.Component-footer{
+    border: 1px solid #ccc;
+}
+.component-header h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.component-header h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 1.5px;
+    width: 10%;
+    margin: 8px auto;
+}
+/* ------------COMPONENT HEADER DESIGN END---------------------- */
+.add-btn{
+    font-family:'Gilroy-Light';
+    display: block;
+    background-color: #5156be;
+    color: #ffffff !important;
+    padding: 3px 10px !important;
+    font-size: 12px;
+    box-shadow: none;
+    float: right;
+    text-transform: capitalize;
+    transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    border: none;
+    letter-spacing: 0.8px;
+    margin: 0;
+    margin-right: 5px;
+    border-radius: 2px;
+}
+.add-btn i{
+    padding-right:5px;
+}
+
+.Insert-btn .add-btn{
+    display: inline-block;
+    float: none;
+}
+ /* --------------- Diolog Modal--------------- */
+.mat-dialog-container {
+    padding: 0 !important;
+    overflow: unset !important;
+}
+.error-msg h4{
+    font-size: 12px;
+    color: #f80202; 
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 0px 20px;
+}
+ /* --------------- Diolog Modal End--------------- */
+ /* --------------- Voucher Heading Table--------------- */
+.header-filed h2{
+    font-family:'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.table-row{
+    font-family:'Comfortaa-Bold_2';
+}
+.width-set{
+    width: 100%;
+}
+.float-set{
+    float: right;
+}
+.cdk-overlay-container{
+    position:fixed;
+    z-index:1051;
+}
+/* --------------REPORTS BUTTON COLORES ----------------------------- */
+.wa-btn{
+    background-color: #28a745;
+}
+.dwnload-btn{
+    background-color: #dc3545;
+}
+/* .share-btn{
+    background-color: #28a745;
+}
+.sms-btn{
+    background-color: #28a745;
+} */
+/* --------------REPORTS BUTTON COLORES END ----------------------------- */
+
+.text-set{
+    text-align: right;
+}
+/* ----- DASHBORD HEADER DESIGN END----- */
+.loader_setAll{
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-calendar {
+    display: contents !important;
+}
+  
+
+/* --------------------SERACHABLE DATATABLE ---------------------------------- */
+.dataTables_wrapper .dataTables_info {
+    clear: both;
+    /* display: none; */
+    float: left;
+    padding-top: 0.755em;
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Gilroy-Light';
+}
+.paging_full_numbers .paginate_button  {
+    cursor: pointer;
+    padding: 5px 10px;
+    /* color: #595656d1; */
+    color: #000;
+    font-size: 14px;
+    border: 1px solid #dee2e6ed;
+    background-color: #e1dddd40;
+    font-weight: 500;
+    margin: 5px;
+}
+.paging_full_numbers .paginate_button {
+    position: relative;
+    display: block;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.25;
+    /* color: #595656d1; */
+    color: #000 !important;
+    font-weight: 500;
+    margin: 5px;
+    background-color: #e1dddd40;
+    border: 1px solid #dee2e6ed !important;
+}
+/* .paging_full_numbers .active{
+    background-color: #30304b;
+    color: #fff;
+} */
+tbody td {
+    padding:1px !important;
+}
+
+.mat-calendar-body td {
+    padding: 12px 1px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    background: linear-gradient(to bottom, #171717 0%, #171717 100%);
+    color: #fff!important;
+    border: 1px solid #979797;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: #fff!important;
+    border: 1px solid #979797;
+    background: linear-gradient(to bottom, #171717 0%, #171717 100%);
+}
+.dataTables_wrapper .dataTables_length {
+    float: left;
+    padding: 10px;
+}
+.dataTables_filter {
+    float: right;
+    text-align: right;
+    padding: 10px;
+    width: 50%;
+}
+table.dataTable td.dataTables_empty {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f20505;
+    font-family: 'Gilroy-Light';
+    padding: 20px !important;
+    background-color: #f4f3ef;
+}
+.dataTables_filter label {
+    font-family: 'Gilroy-ExtraBold';
+    margin: 0px;
+    color: #212529;
+    font-size: 14px;
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+    padding: 0px 0;
+    text-transform: uppercase;
+}
+.dataTables_length label {
+    font-family: 'Gilroy-ExtraBold';
+    margin: 0px;
+    color: #212529;
+    font-size: 14px;
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+    padding: 0px 0;
+    text-transform: uppercase;
+}
+
+/* --------------------SERACHABLE DATATABLE END ---------------------------------- */
+
+  /* ----------- VOUCHER PAGINATION DESIGN ----------------------- */
+  .pagination .page-item{
+    cursor: pointer;
+    padding: 5px 10px;
+    /* color: #595656d1; */
+    color: #30304b;
+    font-size: 14px;
+    border: 1px solid #dee2e6ed;
+    background-color: #e1dddd40;
+    font-weight: 500;
+    margin: 5px;
+}
+.pagination .page-item .fa{
+    /* color: #5956568c; */
+    color: #30304bd1;
+    padding: 0 5px;
+}
+.pagination .page-number{
+    position: relative;
+    display: block;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.25;
+    /* color: #595656d1; */
+    color: #30304b;
+    font-weight: 500;
+    margin: 5px;
+    background-color: #e1dddd40;
+    border: 1px solid #dee2e6ed;
+}
+.pagination .active{
+    background-color: #30304b;
+    color: #fff;
+}
+/* ----------- VOUCHER PAGINATION DESIGN END----------------------- */
+
+
+/* =================================================== / Media Query Phone / =================================================== */
+@media (min-width:320px) and (max-width: 480px) {
+    .mtb-70{
+        margin-top: 50px;
+    }
+    .form_heding h1{
+        font-size: 30px;
+    }
+    .pd-30{
+        padding: 30px;
+    }
+    table td ,th{
+        font-size: 8px !important;
+    }
+    .add-btn {
+        float: none;
+        margin: 10px auto 0 auto;
+    }
+    .breadcrumb {
+        text-align: center;
+    }
+    .mt-30{
+        margin: 0;
+        margin-top: 10px;
+    }
+    input {
+        font-size: 10px !important;
+    }
+    label {
+        font-size: 10px;
+    }
+    .ng-select .ng-select-container {
+        font-size: 12px;
+        min-height: 20px;
+    }
+    ng-select.ng-select-single .ng-select-container {
+        height: 20px !important;
+    }
+    .print-btn {
+        padding: 2px 25px !important;
+    }
+    .done-modal h1 {
+        font-size: 12px;
+    }
+/* ----- DASHBORD HEADER DESIGN ----- */
+    .action-btn{
+        margin-right: 2px;
+        width: 20px;
+        height: 20px;
+        line-height: 14px;
+    }
+    .action-icon {
+        font-size: 12px;
+    }
+    .add-btn{
+        padding: 4px 12px !important;
+        font-size: 10px;
+    }
+    .modal-title{
+        font-size: 18px;
+    }
+    /* ----- DASHBORD HEADER DESIGN END----- */
+   
+}
+  /* ================================================ / Media Query ipad / =================================================== */
+  
+  @media (min-width:768px) and (max-width: 1024px) {
+   
+    /* ----- DASHBORD HEADER DESIGN ----- */
+
+    .action-btn{
+        margin-right: 2px;
+        width: 20px;
+        height: 20px;
+        line-height: 14px;
+    }
+    .action-icon {
+        font-size: 12px;
+    }
+    /* ----- DASHBORD HEADER DESIGN END----- */
+    .mt-30{
+        margin: 0;
+        margin-top: 10px;
+    }
+    label{
+        font-size: 14px;
+    }
+
+}

@@ -1,0 +1,75 @@
+<div id="demo" class="carousel slide" data-ride="carousel">
+  <ul class="carousel-indicators">
+      <!-- <li data-target="#demo" data-slide-to="0" class="active"></li>
+      <li data-target="#demo" data-slide-to="1"></li>
+      <li data-target="#demo" data-slide-to="2"></li>
+      <li data-target="#demo" data-slide-to="3"></li>
+      <li data-target="#demo" data-slide-to="4"></li> -->
+  </ul>
+  
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+        <a (click)="openSliderModal(Slidertemplate)" rounded="true" data-toggle="modal"><img src="assets/images/slider-001.jpg" alt="Slider Image"></a>
+    </div>
+      <!-- <div class="carousel-item">
+          <img src="assets/images/slider-01.jpg" alt="Slider Image">
+      </div>
+      <div class="carousel-item">
+          <img src="assets/images/slider-02.jpg" alt="Slider Image">
+      </div>
+      <div class="carousel-item">
+          <img src="assets/images/slider-03.jpg" alt="Slider Image">
+      </div>
+      <div class="carousel-item">
+          <img src="assets/images/slider-04.jpg" alt="Slider Image">
+      </div>
+      <div class="carousel-item">
+          <img src="assets/images/slider-05.jpg" alt="Slider Image">
+      </div> -->
+  </div>
+  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
+  <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+  <span class="carousel-control-next-icon"></span>
+  </a> -->
+</div>
+
+
+
+<ng-template #Slidertemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">TERMS AND CONDITIONS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h5 class="text-red">(For the use of GST ACCOUNTS APP & GSTACCOUNTSAPP.COM (under developing mode)</h5>
+        <p>Following are the terms and conditions for using the “GST ACCOUNTS APP” & <br> “GSTACCOUNTSAPP.COM provided by CYBERNETIC TECHNOLOGIES PRIVATE LIMITED:</p>
+        <p>These Terms of Service are constructed in accordance with Indian Law.</p>
+        <ol>
+            <li>Type of service: The “GST ACCOUNTS APP” & “GSTACCOUNTSAPP.COM” is under developing mode and under designing for making ACCOUNTS under the GST regime provided by Cybernetic Technologies Private Limited.</li>
+            <li class="text-red">As this service is in under developing mode the company CYBERNETIC TECHNOLOGIES PRIVATE LIMITED has a liberty to delete, reset and format the data of the customer and to delete, reset and format the GST ACCOUNTS APP and GSTACCOUNTSAPP.COM.</li>
+            <li class="text-red">The company CYBERNETIC TECHNOLOGIES PRIVATE LIMITED is not liable to any data loss and can delete the data without any prior information to the customer.</li>
+            <li>Accountability: By Registering with Cybernetic Technologies Private Limited, you validate Cybernetic Technologies Private Limited that you are authorized to enter into agreement between you and Cybernetics Systems and all the terms and conditions of services will be binding on you. It would be at disposition of Cybernetic Technologies Private Limited to accept or not to accept your application to create Company Login into the system with whatsoever the reason.</li>
+            <li>Liability: Cybernetic Technologies Private Limited will not be liable under the following circumstances:</li>
+            <ul>
+                <li>Any losses and charges borne by you due to the actions of a third person or any misguidance of a third party to you.</li> 
+                <li>For any kind of failure in its duties if it has occurred due to situations out of their control and will not be liable in case of discovery of frauds. It will not be liable for any damages or loss incurred due to concealment of information or any misinterpretation.</li>
+                <li>We are not liable for any information or material given by you to any third party and not liable for any losses or damages occur to you for that action.</li>
+                <li>Our liability ceases for any losses or damages occur to you, if you share your login credentials and data information with anybody other than you.</li>
+                <li>The company does not hold any liability of delayed or non delivery of receipts, bills or any other communications due to internet connectivity or misdirection by the account holder. The account holder has to check regularly his or email and attachments for virus and install updated virus protection on to the system. The company is not liable for any virus found.</li>
+            </ul>
+            <li>License: The licence to use GST ACCOUNTS APP & web version GSTACCOUNTSAPP.COM is non-transferable and only access from the registered Login ID as provided by you on registration, which is also not changeable in any circumstances other than the provision in law.</li>
+            <li>Security: The staff of Cybernetic Technologies Private Limited do not have right to access to any of the Account Holder's details other than Name, Login ID, Address, Mobile No. and Email. The data you create is encrypted and only be open and access through your Login ID.</li>
+            <li>Fees and Payment Terms: Subscription fees along with GST is charged from the user at applicable rates as on date, The subscription price and tax rate will be updated timely on app and website.</li>
+            <li>Termination:  We reserve the right to suspend or terminate access of the user to the service if the subscription fee not paid before the expiry of subscription. Fail to abide by the terms and services mentioned or payment of subscription fees not made on time, Company reserve the right to suspend the access of the user and reserve the right to close any account and delete all his data after the specified time. The company is not liable for any damages, fines, cost, penalty and any other liabilities because of the termination of your account.</li>  
+            <li>Refund and Cancellation: Company is not liable to refund the fees after buying any package.</li> 
+            <li>Availability: Company holds the right to hold the services due to maintenance or any other factor, which is inevitable. The company is not liable for the reliability of internet, system malfunction, virus attack, power supply and disruption due to natural calamity or the situation beyond our control.</li>
+            <li>Ownership: Cybernetic Technologies Private Limited is the only owner of all the legal and beneficial interest under copyrights, proprietary information and Intellectual property rights. The account holder only retains the ownership rights of his or her data and logo. The company only use the account holder’s data to provide service to the account holder but the company reserves the right abiding as duty towards the law to provide the account holder’s data to law enforcement officers under the legal & regulatory compliance.</li>
+            <li>Liability to account holder(s): The account holder will be liable for any expenses, penalties or damages Bourne by us as a result of breach of terms of services by the account holder. The account holder holds the liability to check regularly his or her emails and attachments with virus protection system. Further provisions: The Company is entitled to assign or transfer its rights, ownerships and/or obligations to any other company or person or party being national or international with or without monetary benefit at any time under the terms and conditions of business ownership transfer abiding this terms and conditions.</li>
+
+        </ol>
+    </div>
+</ng-template>

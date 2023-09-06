@@ -1,0 +1,135 @@
+.logo{
+    max-width: 200px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.signup-fild{
+    position: relative;
+}
+
+.signup-fild .fa{
+    position: absolute;
+    bottom: 12px;
+    left: 15px;
+    font-size: 16px;
+}
+ .md-form input:focus:not([readonly]) {
+    box-shadow: 0 1px 0 0 #b3b3b3;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.md-form input:focus:not([readonly])+label{
+    color: #000;
+}
+
+select.browser-default.custom-select:focus{
+    color: #464545;
+}
+.custom-select:focus {
+    border-color: #b3b3b3;
+    outline: 0;
+    box-shadow: none;
+}
+.form-control:focus {
+     border-color: #b3b3b3; 
+     box-shadow: 0 1px 0 0 #b3b3b3; 
+}
+ .form-control {
+    height: 40px;
+    padding-left: 10px;    
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+}
+.signup-btn{
+    font-family: 'Comfortaa-Bold_2';
+    color: #ffffff;
+    background:#1441EB;
+    text-transform: none;
+    font-size: 18px;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px;
+    padding: 5px 30px;
+    border-radius: 30px;
+    margin: 15px 0 0 0;
+    float: right;
+}
+
+.otp-btn{
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px ;
+    padding: 5px 25px !important;
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    font-size: 12px; 
+    margin: 0px 3px 0 0 ;
+}
+.otp-input-set{
+    padding: 0px 16px;
+    font-size: 16px !important;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.row-box-shadow{
+    box-shadow: 0 0 8px #ccc;
+    background-color: #ffffff !important;
+}
+
+.password-validation{
+    color: red;
+    line-height: 16px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.loginWrapper{
+    box-shadow: 0 0px 20px #dcdcdc;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-family: 'Sofiapro-Light';
+    padding: 30px;
+    overflow: hidden;
+    clear: both;
+}
+
+.loginWrapper h2{
+    font-size: 1.4rem;
+    text-align: center;
+    font-family: "sofiaPro-Bold";
+}
+
+.back-home{
+    font-family: "Gilroy-Light";
+    margin-bottom: 15px;
+}
+
+.back-home a{
+    color: #1441EB;
+}
+
+.back-home svg{
+    position: relative;
+    top:-2px;
+    fill: #1441EB;
+}
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+ @media (min-width:320px) and (max-width: 480px) {
+   
+    .display-none {
+        display: none !important;
+    }
+    .signup{
+        height: 100%;
+    }
+  }
+  
+  
+  /* ================================================ / Media Query ipad / =================================================== */
+  
+  @media (min-width:768px) and (max-width: 1024px) {
+  }

@@ -1,0 +1,68 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <!-- <app-user-menu></app-user-menu> -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Plan Detail</li>
+            </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && viewbuylist != '' ">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                    <tr>
+                                        <th>Si No.</th>
+                                        <th>Subscription ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Creation Date</th>
+                                        <th>Amount</th>
+                                        <th>GST</th>
+                                        <th>Total Amount</th>
+                                        <th style="text-align: center;">Download Invoice</th>
+                                    </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                    <tr *ngFor="let buyplan of viewbuylist; let i = index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{buyplan.subscription_id}}</td>
+                                        <td><span *ngIf="buyplan.user != null">{{buyplan.user['name']}}</span> </td>
+                                        <td><span *ngIf="buyplan.user != null">{{buyplan.user['email']}}</span></td>
+                                        <td><span *ngIf="buyplan.user != null">{{buyplan.user['phone']}}</span></td>
+                                        <!-- <td></td><td></td><td></td> -->
+                                        <td>{{buyplan.creation_date | date:'dd MMM yyyy'}}</td>
+                                        <td class="text-set">{{buyplan.amount}}</td>
+                                        <td class="text-set">{{buyplan.gst}}</td>
+                                        <td class="text-set">{{buyplan.total}}</td>
+                                        <td style="text-align: center;">
+                                            <button class="btn action-btn" (click)="Downloadinvoice(buyplan.id)" rounded="true" data-toggle="modal">
+                                                <i class="fa fa-download action-icon" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                          </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && viewbuylist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-admin-footer></app-admin-footer>

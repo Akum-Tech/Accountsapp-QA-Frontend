@@ -1,0 +1,19 @@
+::ng-deep .ui-dialog-titlebar{
+    display: none;
+}
+
+::ng-deep .ui-dialog-content{
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px #454545;
+}
+
+@media only screen and (max-width: 600px) and (min-width: 320px)  {
+
+    ::ng-deep .ui-dialog-draggable{
+        width: 80% !important;
+        right: 0;
+        margin: auto !important;
+    }
+
+}

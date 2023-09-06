@@ -1,0 +1,510 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+
+    <div id="content-wrapper">
+        <div class="container-fluid header-filed">
+            <ol class="breadcrumb">
+
+                <li>
+                    <div class="header-filed set-title pd-10">
+                        <h3>Balance Sheet</h3>
+                    </div>
+                </li>
+    
+                <li class="float-set">
+                    <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn dwnload-btn"> <i class="fa fa-download" aria-hidden="true"></i> </button> -->
+                    <button (click)="printPage()" *ngIf="balancesheetlist != ''" class="add-btn">PRINT</button>
+                </li>
+
+            </ol>
+    
+            <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+       
+           
+            <div class="row date-select">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate" placeholder="Select Start Date" [(ngModel)]="balancesheetreport.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate" [max]="current_periad_enddate" [min]="current_periad_startdate" placeholder="Select End Date"  [(ngModel)]="balancesheetreport.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!balancesheetreport.start_date || !balancesheetreport.end_date" (click)="balancesheetshow()" >DISPLAY</button>
+                </div>
+            </div>
+            
+            <div class="loader_setAll">
+                <circle-progress *ngIf = "loader" [percent]="99" >
+                </circle-progress>
+            </div>
+
+            <!------------------------------------- BALANCE SHEET SHOW ---------------------------------------------->
+
+            <div class="balance-sheet"  *ngIf = "!loader && balancesheetlist != ''">
+              <div class="container-fluid">
+                    <div class="sale-bill">
+                        <div class="row total-border">
+                            <div class="col-sm-6 table-header">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set">
+                                            <td>Liabilities </td>
+                                            <td></td>
+                                            <td class="font-right-set">Total</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 table-header">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set">
+                                            <td>Assets </td>
+                                            <td></td>
+                                            <td class="font-right-set">Total</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 border-set">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set" >
+                                            <td>Capital Account</td>
+                                            <td></td>
+                                            <td class="text-right">{{getType(Capital_Account_sum)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set" *ngFor="let capital of balancesheetlist.Capital_Account">
+                                            <td>{{capital.name}}  </td>
+                                            <td class="text-set">{{getType(capital.amount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="font-bold-set">
+                                            <td>Loans (Liability)</td>
+                                            <td></td>
+                                            <td class="font-right-set">{{getType(Bank_L_sum)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set" *ngFor="let bankloan of balancesheetlist.Bank_L">
+                                            <td>{{bankloan.name}}</td>
+                                            <td class="text-set">{{getType(bankloan.amount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="font-bold-set">
+                                            <td>Current Liabilities</td>
+                                            <td></td>
+                                            <td class="font-right-set">{{getType(Current_Liabilities_totalsum)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set" *ngFor="let Loans of balancesheetlist.Current_Liabilities">
+                                            <td>{{Loans.name}}</td>
+                                            <td class="text-set">{{getType(Loans.amount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr  class="sub-title-set">
+                                            <td>Taxes </td>
+                                            <td class="text-set">{{getType(Taxes_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr  class="sub-title-set">
+                                            <td>Sundry Creditors  </td>
+                                            <td class="text-set">{{getType(Sundry_Creditors_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="font-bold-set">
+                                            <td>Profit & Loss A/c</td>
+                                            <td></td>
+                                            <td class="font-right-set">{{getType(Current_ProfitLoss)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set">
+                                            <td>Opening Balance  </td>
+                                            <td class="text-set">{{getType(oldProfitlossvalue)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="sub-title-set">
+                                            <td>Current Period  </td>
+                                            <td class="text-set"> {{getType(currentProfitlossvalue)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="sub-title-set">
+                                            <td>Less Transfer  </td>
+                                            <td class="text-set">{{getType(lessamount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set">
+                                            <td>Fixed Assets</td>
+                                            <td></td>
+                                            <td class="text-right">{{getType(Fixed_Assets_sum)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set" *ngFor="let fixedassets of balancesheetlist.Fixed_Assets">
+                                            <td>{{fixedassets.name}}</td>
+                                            <td class="text-set">{{getType(fixedassets.amount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="font-bold-set">
+                                            <td>Current Assets</td>
+                                            <td></td>
+                                            <td class="font-right-set">{{getType(Current_Assets_totalsum)}}</td>
+                                        </tr>
+                                        <tr class="sub-title-set" *ngFor="let currentassets of balancesheetlist.Current_Assets">
+                                            <td>{{currentassets.name}}</td>
+                                            <td class="text-set">{{getType(currentassets.amount)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr  class="sub-title-set">
+                                            <td>Closing Stock</td>
+                                            <td class="text-set">{{getType(Stock_in_Hand_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr  class="sub-title-set">
+                                            <td>Sundry Debtors</td>
+                                            <td class="text-set">{{getType(Sundry_Debtors_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr  class="sub-title-set">
+                                            <td>Cash-in-hand</td>
+                                            <td class="text-set">{{getType(Cash_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="sub-title-set">
+                                            <td>Bank Accounts</td>
+                                            <td class="text-set">{{getType(Bank_A_sum)}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                                
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                    <div class="row">
+                        <div class="col-sm-6 border-set">
+                            <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                <tbody>
+                                    <tr *ngIf="total_opening < total_closing" class="font-bold-set">
+                                        <td>Opening Balance Difference</td>
+                                        <td></td>
+                                        <td class="font-right-set">{{getType(current_period)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                <tbody>
+                                    <tr *ngIf="total_opening > total_closing" class="font-bold-set">
+                                        <td>Opening Balance Difference</td>
+                                        <td></td>
+                                        <td class="font-right-set">{{getType(current_period*(-1))}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <!-- =================================================================================================================== -->
+                        <div class="row total-border">
+                            <div class="col-sm-6 border-set">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set">
+                                            <td>TOTAL</td>
+                                            <td></td>
+                                            <td class="text-right" >
+                                                <span *ngIf="total_opening > total_closing">{{getType(total_opening)}}</span>
+                                                <span *ngIf="total_opening < total_closing">{{getType(total_closing)}}</span>
+                                                <span *ngIf="total_opening == total_closing">{{getType(total_opening)}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <table  cellpadding="0" cellspacing="0" style="margin-bottom:3px;width:100%;">
+                                    <tbody>
+                                        <tr class="font-bold-set">
+                                            <td>TOTAL</td>
+                                            <td></td>
+                                            <td class="text-right" >
+                                                <span *ngIf="total_opening > total_closing">{{getType(total_opening)}}</span>
+                                                <span *ngIf="total_opening < total_closing">{{getType(total_closing)}}</span>
+                                                <span *ngIf="total_opening == total_closing">{{getType(total_opening)}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- ----- -->
+                        
+                        <!-- ----- -->
+                    </div>
+                </div>
+            </div>
+            <div class="Reports-error-msg"  *ngIf="!dataNotFount && balancesheetlist == ''">
+                <h4>No Data Found .</h4>
+            </div> 
+            <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+                <div id="print-section" style="display: none;">
+                    <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+                        <table cellpadding="0" cellspacing="0" style="width:100%">
+                            <tbody>
+                                <tr>
+                                    <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                        <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                        <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                                    </td>
+                                    <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                        <h1 style="margin: 0;font-size:26px;text-transform: uppercase;">BALANCE SHEET REPORT</h1>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                                    <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;border-right:1px solid #00000078;">{{balancesheetreport.start_date | date:'dd MMM yyyy'}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                                    <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;border-right:1px solid #00000078;">{{balancesheetreport.end_date | date:'dd MMM yyyy'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                <!-- ----title--------------------------------------------------------------------------------------------- -->
+                        <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%; border: 1.5px #00000078 solid;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:8px 5px;text-transform: uppercase;">Liabilities</td>
+                                                <td style="width:30%; padding:8px 5px;text-transform: uppercase;"></td>
+                                                <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">Total</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:50%;vertical-align: top;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:8px 5px;text-transform: uppercase;">Assets</td>
+                                                <td style="width:30%; padding:8px 5px;text-transform: uppercase;"></td>
+                                                <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">Total</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                <!-- ------------------------------------------------------------------------------------------------- -->
+                        <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px;font-weight:600;">Capital Account</td>
+                                                <td style="width:30%; padding:3px;font-weight:600;"></td>
+                                                <td style="width:30%; padding:3px;text-align:right;font-weight:600;">{{getType(Capital_Account_sum)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;"  *ngFor="let capital of balancesheetlist.Capital_Account">
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >{{capital.name}} </td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(capital.amount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding: 3px;font-weight:600;">Loans (Liability)</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(Bank_L_sum)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;"  *ngFor="let bankloan of balancesheetlist.Bank_L">
+                                                <td style="width:40%; padding:3px 3px 3px 20px;">{{bankloan.name}}</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(bankloan.amount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px;font-weight:600;">Current Liabilities</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding:3px;text-align:right;font-weight:600;border-top:1.5px solid #00000078;">{{getType(Current_Liabilities_totalsum)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;"  *ngFor="let Loans of balancesheetlist.Current_Liabilities">
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >{{Loans.name}} </td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Loans.amount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" >
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >Taxes</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Taxes_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" >
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >Sundry Creditors  </td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Sundry_Creditors_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding: 3px;font-weight:600;">Profit & Loss A/c</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(Current_ProfitLoss)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" >
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >Opening Balance</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(oldProfitlossvalue)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" >
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >Current Period </td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(currentProfitlossvalue)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" >
+                                                <td style="width:40%; padding:3px 3px 3px 20px;" >Less Transfer </td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(lessamount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:50%;vertical-align: top;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding: 3px;font-weight:600;">Fixed Assets</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding: 3px;text-align:right;font-weight:600;">{{getType(Fixed_Assets_sum)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" *ngFor="let fixedassets of balancesheetlist.Fixed_Assets">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">{{fixedassets.name}}</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(fixedassets.amount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding: 3px;font-weight:600;">Current Assets</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(Current_Assets_totalsum)}}</td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;" *ngFor="let currentassets of balancesheetlist.Current_Assets">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">{{currentassets.name}}</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(currentassets.amount)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">Closing Stock</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Stock_in_Hand_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">Sundry Debtors</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Sundry_Debtors_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">Cash-in-hand</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Cash_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:3px 3px 3px 20px">Bank Accounts</td>
+                                                <td style="width:30%; padding: 3px;text-align:right;">{{getType(Bank_A_sum)}}</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    <!-- ----3--------------------------------------------------------------------------------------------- -->
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                                    <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                       
+                                        <tr *ngIf="total_opening < total_closing"  style="background:#d7d7d7;">
+                                            <td style="width:40%; padding: 3px;font-weight:600;">Opening Balance Difference</td>
+                                            <td style="width:30%; padding:3px;"></td>
+                                            <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(current_period)}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:50%;vertical-align: top;">
+                                    <table cellpadding="0"  cellspacing="0" style="font-size:14px;width:100%;">
+                                        <tr *ngIf="total_opening > total_closing"  style="background:#d7d7d7;">
+                                            <td style="width:40%; padding: 3px;font-weight:600;">Opening Balance Difference</td>
+                                            <td style="width:30%; padding:3px;"></td>
+                                            <td style="width:30%; padding: 3px;text-align:right;border-top:1.5px solid #00000078;font-weight:600;">{{getType(current_period*(-1))}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!-- ----total--------------------------------------------------------------------------------------------- -->
+                        <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%; border: 1.5px #00000078 solid;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:50%;vertical-align: top;border-right:1.5px solid #00000078;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:8px 5px;text-transform: uppercase;">TOTAL</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">
+                                                    <span *ngIf="total_opening > total_closing">{{getType(total_opening)}}</span>
+                                                    <span *ngIf="total_opening < total_closing">{{getType(total_closing)}}</span>
+                                                    <span *ngIf="total_opening == total_closing">{{getType(total_opening)}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:50%;vertical-align: top;">
+                                        <table cellpadding="0"  cellspacing="0" style="font-size:14px;font-weight:600;width:100%;">
+                                            <tr style="background:#d7d7d7;">
+                                                <td style="width:40%; padding:8px 5px;text-transform: uppercase;">TOTAL</td>
+                                                <td style="width:30%; padding:3px;"></td>
+                                                <td style="width:30%; padding:8px 5px;text-align:right;text-transform: uppercase;">
+                                                    <span *ngIf="total_opening > total_closing">{{getType(total_opening)}}</span>
+                                                    <span *ngIf="total_opening < total_closing">{{getType(total_closing)}}</span>
+                                                    <span *ngIf="total_opening == total_closing">{{getType(total_opening)}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+        <!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+  
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<app-user-footer></app-user-footer>

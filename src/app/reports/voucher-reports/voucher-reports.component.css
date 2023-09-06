@@ -1,0 +1,40 @@
+.reports th, td {
+    border: 1px solid black;
+}
+.border-right th{
+    border-right: 1px solid #ccc;
+}
+.reports th, td {
+    border: 1px solid black;
+}
+
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    font-size: 18px;
+    margin-bottom: 0px;
+    margin-top: 50px;
+    text-align: center;
+}
+.set-title{
+    text-align: center;
+}
+.header-filed h5{
+    font-family:'Gilroy-Light';
+    font-size: 15px;
+    line-height: 26px;
+    margin: 0;
+    text-align: center;
+}

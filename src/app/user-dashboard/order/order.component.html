@@ -1,0 +1,111 @@
+<div class="company">
+    <div class="container-fluid company-header">
+        <div class="row header-pd">
+            <div class="col-sm-6 col-4">
+                <a routerLink="/home" routerLinkActive="active"><img src="assets/images/logo.png" class="img-fluid logo"></a>
+            </div>
+            <div class="col-sm-6 col-8 add-logout-btn">
+                <button (click)="logout()" class="btn add-company">LOGOUT</button>
+                <div class="dropdown" ngbDropdown>
+                    <button class="btn toggle-btn btn-pd" type="button" ngbDropdownToggle>
+                    <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu user-dtls" ngbDropdownMenu>
+                        <div class="details-row">
+                            <p><b>User Name :</b><br> {{activeUser['name']}}</p>
+                        </div>
+                        <div class="details-row">
+                            <p><b>Mobile No :</b><br> {{activeUser['phone']}}</p>
+                        </div>
+                        <div class="details-row">
+                            <p><b>Email Id :</b><br> {{activeUser['email']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="orderForm my-5">
+        <div class="container-fluid">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="col-md-6 col-lg-4 col-sm-6">
+                    <div class="d-flex justify-content-center" *ngIf="!isShow_one && !order">
+                        <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>  
+
+                    
+                    <div class="address-show" *ngIf ="isShow_one">
+                        <div class="modal-header">
+                        </div>
+                        <div class="modal-body">
+                        <!-- <form  [formGroup]="orderform" #OrderForm="ngForm"> -->
+                            <div class="row">
+                               <div class="col-sm-6">
+                                  <div class="form-group">
+                                     <label for="Name">Name</label>
+                                     <input class="form-control" type="text" id="name" value="{{orderform.name}}" [(ngModel)]="orderform.name"/>
+                                  </div>
+                               </div>
+                               <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <label for="Name">Email</label>
+                                    <input class="form-control" type="text" id="name" value="{{orderform.email}}"  [(ngModel)]="orderform.email"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                    <label for="area">GST Number</label>
+                                    <input class="form-control" type="text" maxlength="15" value="{{orderform.gst_number}}"  [(ngModel)]="orderform.gst_number" />
+                                    <!-- <div class="validation-errors">
+                                        <ng-container *ngFor="let validation of validation_messages.gst_number" >
+                                            <div class="error-message" *ngIf="orderform.get('gst_number').hasError(validation.type) && (orderform.get('gst_number').dirty || orderform.get('gst_number').touched)">
+                                                {{ validation.message }}
+                                            </div>
+                                        </ng-container>
+                                    </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Name">Address</label>
+                                        <textarea class="form-control text-font rounded-0" value="{{orderform.address}}"  [(ngModel)]="orderform.address" id="address" rows="3"></textarea>
+                                    </div>
+                                </div>
+                             <!-- -->
+                            </div>
+                        <!-- </form> -->
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <!-- [disabled]="!itemsform.valid"  -->
+                            <button class="btn footer-btn" routerLink="/company" routerLinkActive="active">CANCEL</button>
+                            <button class="btn footer-btn" [disabled]="clicked" (click)="addressshow()">NEXT</button>
+                        </div>
+                    </div>         
+
+                    <!--  *ngIf='order' -->
+                    <div class="card card-body order-card" *ngIf ="isShow_two">
+                        <div class="row mb-10">
+                            <div class="col-sm-12 text-center p-0">
+                                <h4 class="ord-handing">Place Order</h4>
+                            </div>
+                        </div>
+
+                        <div class="display-body">
+                            <ul>
+                                <li><span><h5>Order Ref.</h5></span> <span><h4>{{ order.id ? order.id : '' }}</h4></span></li>
+                                <li><span><h5>Amount</h5></span><span><h4>{{ order.amount_due/100 ? order.amount_due/100 + ' ' + order.currency : 0 }}</h4></span></li>
+                            </ul>
+                            <div class="text-center">
+                                <button (click)="backstep()" class="btn add-company"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Back</button>
+                                <button (click)="checkOut()" class="btn add-company checkout-btn"><i class="fa fa-credit-card-alt" aria-hidden="true"></i> Check Out</button>                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

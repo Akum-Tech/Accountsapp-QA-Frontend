@@ -1,0 +1,16 @@
+.mt-30 {
+    margin-top: 30px;
+}
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+}
+@media (min-width:320px) and (max-width: 480px) {
+    .mt-30{
+        margin-top: 10px;
+    }
+}
+@media (min-width:768px) and (max-width: 1024px) {
+    .mt-30 {
+        margin-top: 10px;
+    }
+}

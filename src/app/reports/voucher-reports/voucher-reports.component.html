@@ -1,0 +1,89 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Voucher Reports</a>
+                </li>
+                <li class="breadcrumb-item active">Voucher Report</li>
+                
+            <a routerLink="/createreciept" routerLinkActive="active" class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i>Create Receipt</a>
+            </ol> -->
+
+            <div class="header-filed set-title pd-10">
+                <h2>BOSS AGRO CHEMICALS PVT. LTD</h2>
+                <h5>FACTORY : Plot-55, 55A Sector-II</h5>
+                <h5>PITHAMPUR (Dhar) M.P. 454775</h5>
+        </div>
+
+        <div class="header-filed set-title pd-10">
+            <h3>GST Computation</h3>
+            <h5>1-Apr-2018 to 8-Jun-2018</h5>
+        </div>  
+
+            <div class="sale-bill mt-50">
+                <div class=" table-responsive">
+                    <table class="reports table">
+                        <thead>
+                            <tr  class="table-header" style="text-align: center;">
+                                <th colspan="2">Returns Summary</th>
+                            </tr>
+                            <tr>
+                                <th>Total number of vouchers for the period Included in return</th>
+                                <th>23</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="reports table mt-20">
+                        <thead class="table-header">
+                            <tr class="border-right">
+                                <th>Table No.</th>
+                                <th>Particulars</th>
+                                <th>Taxable Value</th>
+                                <th>Tax Amount</th>
+                            </tr>
+                        </thead>
+    
+                        <tbody class="mb-20 table-body">
+                            <tr>
+                                <th>1</th>
+                                <th>Outward taxable supplies (Sales and Sales Return)	</th>
+                                <th>878977</th>
+                                <th>465465465</th>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <th> Inward taxable supplies (Purchase and Purchase Return)</th>
+                                <th>878977</th>
+                                <th>465465465</th>
+                            </tr>
+                        </tbody>
+                        <tfoot  class="table-header">
+                            <tr class="border-right">
+                               <th></th>
+                               <th>Total Tax Payable</th>
+                               <th></th>
+                                <th>8955454</th>
+                            </tr>
+                        </tfoot>
+                    </table>   
+                </div>  
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<app-user-footer></app-user-footer>

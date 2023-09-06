@@ -1,0 +1,7 @@
+
+.mat-dialog-content {
+    display: contents;
+}
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+}

@@ -1,0 +1,70 @@
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 1.5px;
+    width: 30%;
+    margin: 4px 0px 8px 0px;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.table-responsive {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.display-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 6px 30px !important;
+    font-size: 12px; 
+    margin-top: 30px;
+}
+.mt-set{
+    margin-top: 15px;
+}
+.border-set{
+    border-right: 1.5px solid #000;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+.total-border{
+    border: 1.5px solid #000;
+}
+.font-right-set{
+    text-align: right;
+    border-top: 1.5px solid #646060c7;
+    width: 30%;
+}
+.profit-loss{
+    padding: 30px 0 10px 0;
+}
+.balancesum{
+    text-align: right;
+    border-top: 1.5px solid #646060c7;
+    border-bottom: 1.5px solid #646060c7 ;
+    width: 30%;
+}
+.sub-title-set td{
+    padding-left: 20px;
+}

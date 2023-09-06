@@ -1,0 +1,176 @@
+<div class="login-wrapper">
+    <app-header></app-header>
+    <div class="login-form">
+        <div class="container pd-30">
+            <div class="row">
+                <div class="col-12 pl-0 pr-0">
+                    <div class="box-shadow rounded o-hidden">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="loginWrapper mt-3 mb-3">
+                                    <div class="text-center">
+                                        <h2>Welcome Back!</h2>
+                                    </div>
+                                    <form [formGroup]="loginform" #userloginform="ngForm" (ngSubmit)="login()" autocomplete="off">
+                                    <div class="login-input">
+                                        <label for="Email">Email</label> 
+                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <input class="form-control" type="text" id="loginemail" formControlName="inputemail"
+                                            optionLabel="text" autocomplete="off"/>
+                                    </div>
+                                    <div class="login-input">
+                                        <label for="Password">Password</label> 
+                                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                        <input  class="form-control" type="password" id="loginpassword" formControlName="inputpass"
+                                            optionLabel="text" autocomplete="new-password"/>
+                                    </div>
+                                    <a class="forgot-password"  (click)="openEditModal(forgotpass)">Forgot password?</a>
+                                    <div clasc="login-footer">
+                                        <button class="btn login-btn">Login</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------- The Modal ----------------------------------------------->
+<ng-template #forgotpass>
+    <div class="modal-header">
+        <h4 class="modal-title">Reset password</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="forgetpassform" #UserForgetPass="ngForm" autocomplete="off">
+        <div class="stap_one" *ngIf ="isShow_one">
+            <ul class="active_box">
+                <li class="first"><a><span class="dote-1 active-dote"></span></a></li>
+                <li class="two"><a><span class="dote-2"></span></a></li>
+                <li class="two"><a><span class="dote-3"></span></a></li>
+            </ul>
+            <div class="resetPassword">
+                <div class="form-group signup-fild">                    
+                    <label  for="phoneno">Enter Mobile Number / Email Id</label>
+                    <input optionLabel="text" class="form-control pl-4" formControlName="inputemail"  autocomplete="off">
+                </div>
+            </div>
+            <button type="button" (click)="forget()" class="btn login-btn mt-0" >Send OTP</button>
+        </div>
+        </form>
+        <form [formGroup]="enterotpform" #EnterOTP="ngForm">
+        <div class="stap_two" *ngIf ="isShow_two">
+            <ul class="active_box">
+                <li class="first"><a><span class="dote-1"></span></a></li>
+                <li class="two"><a><span class="dote-2 active-dote"></span></a></li>
+                <li class="two"><a><span class="dote-3"></span></a></li>
+            </ul>
+            <div class="resetPassword">
+                <div class="form-group signup-fild">
+                    <label  for="phoneno">Enter OTP</label>
+                    <input  autocomplete="nope" class="form-control pl-4" formControlName="otp">
+                </div>
+            </div>
+            <button type="button" class="back-btn" (click)="showsteps(1)">Back</button>
+            <button type="button" class="btn login-btn mt-0" (click)="sendotp()">Submit</button>
+        </div>
+        </form>
+        <form [formGroup]="changepassform" #EnterOTP="ngForm">
+        <div class="stap_three" *ngIf ="isShow_three">
+            <ul class="active_box">
+                <li class="first"><a><span class="dote-1"></span></a></li>
+                <li class="two"><a><span class="dote-2"></span></a></li>
+                <li class="two"><a><span class="dote-3 active-dote"></span></a></li>
+            </ul>
+            <div class="resetPassword">
+                <div class="form-group signup-fild">
+                    <label  for="phoneno">Enter New Password</label>
+                    <input  autocomplete="new-password" class="form-control pl-4" type="password" id="loginpassword" formControlName="inputpass" optionLabel="text" >
+                </div>
+                <div class="form-group signup-fild">
+                    <label  for="phoneno">Conform Password</label>
+                    <input  autocomplete="nope" class="form-control pl-4" type="password" id="loginpassword" formControlName="conformpass" optionLabel="text">
+                </div>
+            </div>
+            <button type="button" class="back-btn" (click)="showsteps(2)">Back</button>
+            <button type="button" class="btn login-btn mt-0" (click)="changepassword()">Submit</button>
+        </div>
+        </form>
+        <div class="stap_four" *ngIf ="isShow_four">
+            <div class="resetPassword">
+                <h2 class="conformpass">Password Update Successfully</h2>
+            </div>
+            <button type="button" class="btn login-btn mt-0 conform-btn" (click)="ConformPassword()">YES</button>
+        </div>
+    </div>
+</ng-template>
+<!-- =========================== CONFORM PASSWORD MODAL ============================== -->
+<ng-template #conformpassword>
+    <div class="modal-header">
+        <h4 class="modal-title">CONFIRMATION</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body delete-modal">
+        <h1>Password Update Successfully</h1>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn" (click)="ConformPassword()">YES</button>
+    </div>  
+</ng-template>
+
+<!-- =========================== VERIFICATION MOBILENO. & PASSWORD MODAL ============================== -->
+
+<ng-template  #verifymodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">VERIFICATION</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/login" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body mtb-30">
+        <div *ngIf="check==true">
+        <form [formGroup]="emailverifyform" #Emailverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.emailverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Email">Email OTP Verification</label> 
+                        <input class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text"/>
+                    </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div class="form-group mt-30">
+                        <button class="btn otp-btn" (click)="resendemailverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="emailverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div> 
+        </form>
+    </div>
+    <div *ngIf="check==true">
+        <form [formGroup]="phoneverifyform" #Phoneverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.phoneverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Password">Phone OTP Verification</label> 
+                        <input  class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text" />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group  mt-30">
+                        <button class="btn otp-btn" (click)="resendphoneverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="phoneverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> 
+    </div>
+</ng-template>
+

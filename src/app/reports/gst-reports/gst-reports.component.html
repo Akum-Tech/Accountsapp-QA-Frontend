@@ -1,0 +1,137 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <!-- <button (click)="DownLoadExcel()" *ngIf="gstreportList != ''" class="add-btn">DOWNLOAD</button> -->
+            </ol>
+            
+             <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+           
+            <div class="header-filed set-title pd-10">
+                <h3>GSTR - 3B</h3>
+            </div>
+
+            <div class="row date-select">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate"   placeholder="Select Start Date" [(ngModel)]="gstreport.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate"[max]="current_periad_enddate" [min]="current_periad_startdate"  placeholder="Select End Date"  [(ngModel)]="gstreport.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!gstreport.start_date || !gstreport.end_date" (click)="gstreportshowsummary()" >DISPLAY</button>
+                </div>
+            </div>
+<!-- ---------------------------------------------------- GSTR REPORT TABLE ----------------------------------------------- -->
+            <div class="sale-bill">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+                <div  *ngIf="gstrlist != '' && !loader ">
+                    <div class="reports-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Returns Summary</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8 col-8">
+                                <h6>Total Number Of Vouchers for the Period .</h6>
+                            </div>
+                            <div class="col-sm-4 col-4" style="float: right;">
+                                <h6>{{gstrlist.totalvoucher}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table  class="table ">
+                            <thead class="reports table-header">
+                                <tr>
+                                    <th>SI. No.</th>
+                                    <th >Particulars</th>
+                                    <th class="text-set">Taxable Value</th>
+                                    <th class="text-set">Integrated Tax Amount</th>
+                                    <th class="text-set">Central Tax Amount</th>
+                                    <th class="text-set">State Tax Amount</th>
+                                    <th class="text-set">Cess Amount</th>
+                                    <th class="text-set" >Tax Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Total Sale (Before Tax)</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['taxable_value']?gstrtable.salesOwnword['taxable_value']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['igst_amount']?gstrtable.salesOwnword['igst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['cgst_amount']?gstrtable.salesOwnword['cgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['sgst_amount']?gstrtable.salesOwnword['sgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['cess_amount']?gstrtable.salesOwnword['cess_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesOwnword['tax_amount']?gstrtable.salesOwnword['tax_amount']:0)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Sale to Non-GST Number</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['taxable_value']?gstrtable.salesnotgst['taxable_value']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['igst_amount']?gstrtable.salesnotgst['igst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['cgst_amount']?gstrtable.salesnotgst['cgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['sgst_amount']?gstrtable.salesnotgst['sgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['cess_amount']?gstrtable.salesnotgst['cess_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.salesnotgst['tax_amount']?gstrtable.salesnotgst['tax_amount']:0)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Purchase ITC</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['taxable_value']?gstrtable.purchaseItc['taxable_value']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['igst_amount']?gstrtable.purchaseItc['igst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['cgst_amount']?gstrtable.purchaseItc['cgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['sgst_amount']?gstrtable.purchaseItc['sgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['cess_amount']?gstrtable.purchaseItc['cess_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItc['tax_amount']?gstrtable.purchaseItc['tax_amount']:0)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Purchase ITC Nill</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['taxable_value']?gstrtable.purchaseItcnill['taxable_value']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['igst_amount']?gstrtable.purchaseItcnill['igst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['cgst_amount']?gstrtable.purchaseItcnill['cgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['sgst_amount']?gstrtable.purchaseItcnill['sgst_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['cess_amount']?gstrtable.purchaseItcnill['cess_amount']:0)}}</td>
+                                    <td class="text-set">{{getType(gstrtable.purchaseItcnill['tax_amount']?gstrtable.purchaseItcnill['tax_amount']:0)}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && gstrlist == ''">
+                    <h4>No Data Found .</h4>
+                </div> 
+            </div>
+<!-- ---------------------------------------------------- GSTR REPORT TABLE END --------------------------------------------- -->
+   
+         </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

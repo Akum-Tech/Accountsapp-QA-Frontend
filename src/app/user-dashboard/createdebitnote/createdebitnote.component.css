@@ -1,0 +1,287 @@
+.header-filed span{
+    display: table-cell;
+    vertical-align: middle;
+    width: 70%;
+}
+.header-filed li{
+    display: inherit;    
+    border-bottom: 1px dotted  #ccc;
+    line-height: 30px;
+}
+.first-child-width span:first-child {
+    width: 130px;
+}
+.header-filed h5{
+    font-family:'Gilroy-ExtraBold';
+    font-size: 15px;
+    line-height: 26px;
+    text-transform: capitalize;
+    margin: 0;
+}
+.card-body{
+    padding: 20px;
+    min-height: 190px;
+}
+
+.card-add .text-font{
+    font-family:'Gilroy-Light';
+}
+.header-filed ul{
+    padding: 0;
+    margin: 0;
+}
+.brder-top{
+    border-top: 1px solid #7f7f7f;
+    padding: 4px 0;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #7f7f7f;
+}
+.brder-top span:first-child {
+    width: 130px;
+}
+.salesinvoiceview {
+    position: absolute;
+    z-index: 9;
+    right: 0px;
+    top: 3px;
+}
+
+.sale-btn{
+    margin: 0px 16px 0 0px;
+}
+.header-filed h3{
+    text-transform: uppercase;
+    text-align: center;
+    background: #263238 !important;
+    padding: 8px 0;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 10px -20px;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    color: #fff;
+}
+.set-border {
+    border: 1px solid #ccc;
+}
+.view-detail {
+    background-color: #217f28;
+    padding: 6px 10px !important;
+}.view-detail i{
+    font-size: 20px;
+}
+.mr-0{
+    margin: 0;
+}
+.mt-20{
+    margin-top: 6px;
+}
+.mt-50{
+    margin-top: 30px;
+}
+.sale-bill{
+    border:1px solid #ccc;
+}
+.table-responsive{
+    margin-top: 0px;
+    overflow-x: unset;
+}
+
+.card-add .form-control{
+    background: transparent;
+    border:none;
+    padding: 6px 2px;
+    border-radius: 0px;
+}
+.card-add span:first-child {
+    width: 160px;
+}
+.padding-left-set{
+    padding-left: 3px;
+}
+.padding-right-set{
+    padding-right: 3px;
+}
+.shipping-add{
+    width: 100% !important;
+}
+.selece-add{
+    text-align: right !important;
+}
+.select-add i{    
+    padding: 0px 10px !important;
+}
+.teams_conditions label{
+    font-family:'Gilroy-ExtraBold';
+}
+/* ------------------------------------------ */
+
+.select-add a {
+    font-family: FontAwesome;
+    color:#eee;
+    text-decoration: none;
+    display: block;
+    padding: 0px;
+}
+.select-add a:hover i {
+    display: none;
+}
+.select-add a:hover b {
+    display: block;
+}
+.select-add b {
+    display: none;
+    color: #fff;
+    font-size: 16px;
+    text-transform: initial;
+}
+.select-add a:hover {
+    color: #fff;
+}
+/* ----------------------------------- */
+
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 40px;
+    margin-right: 15px;
+    width: 100px;
+}
+.pd-10{
+    padding: 10px 0px;
+}
+.set-title{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.header-filed h2 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+.header-filed .width-set{
+    margin-top: 15px;
+}
+.total-set{
+    font-family:'Gilroy-ExtraBold';
+    text-align: right;
+    font-size: 12px !important;
+    text-transform: uppercase;
+    /* width: 16%; */
+}
+::ng-deep .ng-select.ng-select-single .ng-select-container {
+    height: 25px !important;
+}
+::ng-deep .ng-select .ng-select-container {
+    min-height: 25px !important;
+    font-size: 12px;
+}
+.add-less-type{
+    padding: 0;
+    font-size: 12px;
+}
+.shipping-add-area .form-control{
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + -5px);
+}
+.tax-set{
+    font-family:'Gilroy-Light';
+    text-align: right;
+    font-size: 12px !important;
+    font-weight: 600;
+    width: 12%;
+}
+.pd-set{
+    padding: 2px 5px;
+    width: 12%;
+}
+.mat-radio-button{
+    margin-right: 10px;
+  }
+  .text-bold{
+    font-family:'Gilroy-ExtraBold';
+  }
+  .invoice-btn{
+    display: block;
+    float: right !important;
+  }
+  .total-set span{
+    display: block;
+  }
+  ::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+  }
+  /* ::ng-deep .ng-select .ng-has-value .ng-placeholder {
+    display: block;
+   } */
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .logo {
+        padding: 20px 0 20px 0;
+        height: 70px;
+    }    
+    .padding-left-set{
+        padding-left: 15px;
+    }
+    .padding-right-set{
+        padding-right: 15px;
+    }
+    /* ----------------------------- */
+    .text-bold{
+        font-size: 12px;
+    }
+    .brder-top{
+        text-align: left;
+    }
+    .header-filed h3 {
+        padding: 5px 0;
+        margin: -20px -20px 0px -20px;
+        font-size: 10px;
+    }
+    .header-filed  h5 {
+        font-size: 12px;
+    }
+    .header-filed  span {
+        font-size: 12px;
+    }
+    .card-body{
+        min-height: 130px;
+        margin-bottom: 8px;
+    }
+    .mat-radio-label-content {
+        font-size: 12px;
+    }
+    .header-filed h2{
+        font-size: 15px;
+    }
+    .mat-radio-outer-circle {
+        height: 15px;
+        left: 2px;
+        top: 2px;
+        width: 15px;
+        border-width: 1px;
+    }
+    .error-msg h4 {
+        font-size: 6px;
+    }
+    .sale-btn{
+        margin: 18px 16px 0 0px;
+    }
+}
+  
+/* ================================================ / Media Query ipad / =================================================== */
+  
+@media (min-width:768px) and (max-width: 1024px) {
+    .sale-btn{
+        margin: 25px 16px 0 0px;
+    }
+}

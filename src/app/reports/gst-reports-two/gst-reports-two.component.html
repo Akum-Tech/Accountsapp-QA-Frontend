@@ -1,0 +1,151 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <!-- <button (click)="DownLoadExcel()" *ngIf="gstreportList != ''" class="add-btn">DOWNLOAD</button> -->
+            </ol>
+            
+             <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+           
+            <div class="header-filed set-title pd-10">
+                <h3>GSTR - 2</h3>
+            </div>
+
+            <div class="row date-select">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate"   placeholder="Select Start Date" [(ngModel)]="gstreport.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate"[max]="current_periad_enddate" [min]="current_periad_startdate"  placeholder="Select End Date"  [(ngModel)]="gstreport.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!gstreport.start_date || !gstreport.end_date" (click)="gstreportshowsummary()" >DISPLAY</button>
+                </div>
+            </div>
+<!-- ---------------------------------------------------- GSTR REPORT TABLE ----------------------------------------------- -->
+            <div class="sale-bill">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+                <div  *ngIf="gstrlist != '' && !loader " class="table-responsive">
+                    <table  class="table">
+                        <thead class="reports table-header">
+                            <tr>
+                                <th>SI. No.</th>
+                                <th>Particulars</th>
+                                <th class="text-set">Voucher Count</th>
+                                <th class="text-set">Taxable Value</th>
+                                <th class="text-set">Integrated Tax Amount</th>
+                                <th class="text-set">Central Tax Amount</th>
+                                <th class="text-set">State Tax Amount</th>
+                                <th class="text-set">Cess Amount</th>
+                                <th class="text-set">Tax Amount</th>
+                                <th class="text-set">Invoice Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="reports mb-20 table-body">
+                            <tr >
+                                <td>1</td>
+                                <td>B2B</td>
+                                <td class="text-set">{{gstrlist.b2b['voucher_count']?gstrlist.b2b['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['taxable_value']?gstrlist.b2b['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['igst_amount']?gstrlist.b2b['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['cgst_amount']?gstrlist.b2b['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['sgst_amount']?gstrlist.b2b['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['cess_amount']?gstrlist.b2b['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['tax_amount']?gstrlist.b2b['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2b['invoice_amount']?gstrlist.b2b['invoice_amount']:0)}}</td>
+                            </tr>
+                            <tr >
+                                <td>2</td>
+                                <td>B2C</td>
+                                <td class="text-set">{{gstrlist.b2c['voucher_count']?gstrlist.b2c['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['taxable_value']?gstrlist.b2c['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['igst_amount']?gstrlist.b2c['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['cgst_amount']?gstrlist.b2c['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['sgst_amount']?gstrlist.b2c['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['cess_amount']?gstrlist.b2c['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['tax_amount']?gstrlist.b2c['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.b2c['invoice_amount']?gstrlist.b2c['invoice_amount']:0)}}</td>
+                            </tr>
+                            <tr >
+                                <td>3</td>
+                                <td>CDNR</td>
+                                <td class="text-set">{{gstrlist.cdnr['voucher_count']?gstrlist.cdnr['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['taxable_value']?gstrlist.cdnr['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['igst_amount']?gstrlist.cdnr['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['cgst_amount']?gstrlist.cdnr['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['sgst_amount']?gstrlist.cdnr['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['cess_amount']?gstrlist.cdnr['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['tax_amount']?gstrlist.cdnr['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnr['invoice_amount']?gstrlist.cdnr['invoice_amount']:0)}}</td>
+                            </tr>
+                            <tr >
+                                <td>4</td>
+                                <td>CDNUR</td>
+                                <td class="text-set">{{gstrlist.cdnur['voucher_count']?gstrlist.cdnur['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['taxable_value']?gstrlist.cdnur['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['igst_amount']?gstrlist.cdnur['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['cgst_amount']?gstrlist.cdnur['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['sgst_amount']?gstrlist.cdnur['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['cess_amount']?gstrlist.cdnur['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['tax_amount']?gstrlist.cdnur['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.cdnur['invoice_amount']?gstrlist.cdnur['invoice_amount']:0)}}</td>
+                            </tr>
+                            <tr >
+                                <td>5</td>
+                                <td>Nill Rated Invoices</td>
+                                <td class="text-set">{{gstrlist.nilObject['voucher_count']?gstrlist.nilObject['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['taxable_value']?gstrlist.nilObject['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['igst_amount']?gstrlist.nilObject['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['cgst_amount']?gstrlist.nilObject['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['sgst_amount']?gstrlist.nilObject['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['cess_amount']?gstrlist.nilObject['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['tax_amount']?gstrlist.nilObject['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.nilObject['invoice_amount']?gstrlist.nilObject['invoice_amount']:0)}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-bold-set" >
+                                <td></td>
+                                <td>TOTAL</td>
+                                <td class="text-set">{{gstrlist.total['voucher_count']?gstrlist.total['voucher_count']:0}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['taxable_value']?gstrlist.total['taxable_value']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['igst_amount']?gstrlist.total['igst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['cgst_amount']?gstrlist.total['cgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['sgst_amount']?gstrlist.total['sgst_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['cess_amount']?gstrlist.total['cess_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['tax_amount']?gstrlist.total['tax_amount']:0)}}</td>
+                                <td class="text-set">{{getType(gstrlist.total['invoice_amount']?gstrlist.total['invoice_amount']:0)}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && gstrlist == ''">
+                    <h4>No Data Found .</h4>
+                </div> 
+            </div>
+<!-- ---------------------------------------------------- GSTR REPORT TABLE END --------------------------------------------- -->
+   
+         </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

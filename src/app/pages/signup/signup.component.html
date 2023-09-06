@@ -1,0 +1,107 @@
+<div class="signup-wrapper">
+    <app-header></app-header>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-5 col-md-6">
+                    <div class="loginWrapper mt-4">
+                        <div class="text-center">
+                            <h2>Sign Up</h2>
+                        </div>
+
+                        <form [formGroup]="signupform" #userSignForm="ngForm" autocomplete="off">
+                            <div class="form-group signup-fild">
+                                <label for="Name">Name</label>
+                                <!-- <i class="fa fa-user-o" aria-hidden="true"></i> -->
+                                <input class="form-control" type="text" formControlName="name" autocomplete="nope"/>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col">
+                                    <div class="form-group signup-fild">
+                                        <label for="phoneno">Phone</label>
+                                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                                        <input class="form-control" formControlName="phoneno" (keypress)="numberOnly($event)" maxlength="10" type="text" autocomplete="nope"/>
+                                    </div>
+                                </div> -->
+                                <div class="col">
+                                    <div class="form-group signup-fild">
+                                        <label for="Email">Mobile No./Email ID</label>
+                                        <!-- <i class="fa fa-envelope-o" aria-hidden="true"></i> -->
+                                        <input class="form-control" type="text" formControlName="email" optionLabel="text" />
+                                    </div>
+                                </div>
+
+                                
+                              </div>
+                            <div class="form-group signup-fild mb-0">
+                                <label for="Password">Password</label>
+                                <!-- <i class="fa fa-unlock-alt" aria-hidden="true"></i> -->
+                                <input autocomplete="new-password"  class="form-control" minlength=6 type="password" id="loginpassword" formControlName="inputpass" optionLabel="text"  />
+                            </div>
+                            <small class="password-validation">Password must have a minimum length of 6 characters.</small>
+
+                            <div class="form-group signup-fild">
+                                <label for="Password">Confirm Password</label>
+                                <!-- <i class="fa fa-unlock-alt" aria-hidden="true"></i> -->
+                                <input  class="form-control" type="password" id="loginpassword" minlength="6" formControlName="conformpass" optionLabel="text"  />
+                            </div>
+                            <small class="password-validation mt-2">- You first sign up, then you must essentially verify your email and phone number, After that you can access the login.</small>
+                            <div class="signup-footer">
+                                <button class="btn signup-btn" (click)="signup()">Sign Up</button>
+                                <!-- (ngSubmit)="signup()"  -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<!-- =========================== VERIFICATION MOBILENO. & PASSWORD MODAL ============================== -->
+
+<ng-template  #verifymodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">VERIFICATION</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/login" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body mtb-30">
+<div *ngIf="check==false">
+        <form [formGroup]="emailverifyform" #Emailverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.emailverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Email">Email OTP Verification</label>
+                        <input class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text"/>
+                    </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div class="form-group mt-30">
+                        <button class="btn otp-btn" (click)="resendemailverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="emailverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="check==true">
+        <form [formGroup]="phoneverifyform" #Phoneverify="ngForm" autocomplete="off">
+            <div class="row" *ngIf="this.phoneverify == 0">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Password">Phone OTP Verification</label>
+                        <input  class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text" />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group  mt-30">
+                        <button class="btn otp-btn" (click)="resendphoneverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="phoneverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</ng-template>

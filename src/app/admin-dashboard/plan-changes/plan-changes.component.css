@@ -1,0 +1,6 @@
+.mt-30 {
+    margin-top: 30px;
+}
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+}

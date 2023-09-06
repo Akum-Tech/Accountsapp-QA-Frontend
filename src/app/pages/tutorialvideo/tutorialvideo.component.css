@@ -1,0 +1,136 @@
+.tutorial-video{
+  background: #fff;
+  box-shadow: 0px 0px 45px 0px rgba(219, 228, 255, 0.35);
+  padding: 80px 0;
+  position: relative;
+  z-index: 9;
+}
+
+.section-heading {
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.section-heading h6{
+  font-family:'Gilroy-Light';
+  font-size: 16px;
+  line-height: 1.2em;
+  color: #fd5c4c;
+  letter-spacing: 2px;
+}
+
+.section-heading h2 {
+  font-size: 46px;
+  letter-spacing: 0.5px;
+  font-family:'Gilroy-ExtraBold';
+  text-transform: uppercase;
+}
+
+.video-title{
+  font-family: 'Gilroy-Light';
+  text-align: center;
+  margin: 8px auto;
+  font-size: 18px;
+  color: #383838;
+}
+
+.round_img:after {
+  content: "";
+  position: absolute;
+  right:0;
+  left: 0;
+  top: 50px;
+  margin: auto;
+  /* background: url(../../../assets/images/circle.png) no-repeat; */
+  height: 299px;
+  width: 299px;
+  display: block;
+  z-index: -1;
+  animation: heartbeat 1s cubic-bezier(0.245, 0.325, 0.51, 1.305) infinite alternate;
+}
+
+.video-box {
+  background: #fff;
+  padding: 5px;
+  box-shadow: 0 3px 15px rgba(76, 76, 77, 0.15);
+  border-radius: 5px;
+  border: 1px solid #e2e7ff;
+}
+
+::ng-deep.owl-item{
+  padding:5px;
+}
+
+::ng-deep.owl-theme .owl-dots .owl-dot span {
+  width: 25px;
+  height: 8px;
+}
+
+::ng-deep.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+  background-image: -webkit-gradient(linear, left top, right top, from(#263238), to(#263238cc));
+  background-image:linear-gradient(90deg, #263238 0%, #263238cc 100%);
+  width: 40px !important;
+}
+::ng-deep .tutorial-video .owl-next {
+  position: absolute;
+  z-index: 9;
+  top: -50px;
+  height: 35px;
+  width: 35px;
+  font-size: 25px !important;
+  line-height: 16px;
+  border-radius: 20px !important;
+  background-color: transparent !important;
+  color: #263238 !important;
+  border: 1.5px solid #263238;
+  text-align: center;
+  margin: 0 25px !important;
+}
+::ng-deep .tutorial-video .owl-prev {
+  position: absolute;
+  z-index: 9;
+  top: -50px;
+  height: 35px;
+  width: 35px;
+  font-size: 25px !important;
+  line-height: 16px;
+  border-radius: 20px !important;
+  background-color: transparent !important;
+  color: #263238 !important;
+  border: 1.5px solid #263238;
+  text-align: center;
+  margin: 0 -25px !important;
+}
+
+@keyframes heartbeat {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+
+  .section-heading h1 {
+    font-size: 40px;
+  }
+  .section-heading h2 {
+    font-size: 25px;
+  }
+  .section-heading p{
+    font-size: 18px;
+  }
+  .divider:after {
+    height: 3.5px;
+    width: 10%;
+    margin: 10px auto;
+  }
+}
+
+
+/* ================================================ / Media Query ipad / =================================================== */
+
+@media (min-width:768px) and (max-width: 1024px) {
+}

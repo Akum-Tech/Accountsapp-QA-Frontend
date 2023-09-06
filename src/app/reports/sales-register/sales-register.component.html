@@ -1,0 +1,219 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid header-filed">
+            <ol class="breadcrumb">               
+
+                <li>
+                    <div class="header-filed set-title pd-10">
+                        <h3>Sales Register </h3>
+                    </div>
+                </li>
+    
+                <li class="float-set">
+                    <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button>
+                    <button class="btn action-btn dwnload-btn"> <i class="fa fa-download" aria-hidden="true"></i> </button> -->
+                    <button (click)="printPage()" *ngIf="ledgerReportList != ''" class="add-btn">PRINT</button>
+                </li>
+                
+            </ol>
+            
+             <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+           
+           
+            <div class="row date-select">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate"   placeholder="Select Start Date" [(ngModel)]="ledgerreport.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate"[max]="current_periad_enddate" [min]="current_periad_startdate"  placeholder="Select End Date"  [(ngModel)]="ledgerreport.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!ledgerreport.start_date || !ledgerreport.end_date" (click)="ledgerreportshow()" >DISPLAY</button>
+                </div>
+            </div>
+            <div class="container-fluid sale-bill">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+                <div class=" table-responsive" *ngIf = "!loader && ledgerReportList != ''">
+                    <table class="reports table">
+                        <thead class="table-header">
+                            <tr class="border-right" >
+                                <th >Date</th>
+                                <th colspan="2">Buyer </th>
+                                <th>Voucher No</th>
+                                <th>Quantity </th>
+                                <th>Rate </th>
+                                <th>Value </th>
+                                <th>Gross Total</th>
+                                <!-- <th *ngFor="let head of header; let i = index">{{head.name}}</th> -->
+                            </tr>
+                        </thead>
+                        <tbody class="mb-20 table-body" *ngFor="let Voucher of ledgerReportList; let i = index" >
+                            <tr class="header-fonr-set">
+                                <td>{{Voucher.invoice_date  | date:'dd MMM yyyy'}}</td>
+                                <td colspan="2"  *ngIf="Voucher.Buyer && Voucher.Buyer.name!==''">{{Voucher.Buyer.name}}</td>
+                                <td>{{Voucher.invoice_id}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-set">{{getType(Voucher.showamount)}}</td>
+                                <!-- <td  class="text-set" *ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}</td> -->
+                            </tr>
+                            <tr *ngFor="let item of Voucher.item_entries; let i = index" >
+                                <td></td>
+                                <td>{{item.invoice_date  | date:'dd MMM yyyy'}}</td>
+                                <td>{{item.name}}</td>
+                                <td></td>
+                                <td class="text-set">{{item.quantity}}</td>
+                                <td class="text-set">{{getType(item.showprice)}}</td>
+                                <td class="text-set">{{getType(item.total_amount)}}</td>
+                                <td class="text-set"></td>
+                                <!-- <td  class="text-set" *ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}</td> -->
+                            </tr>
+                            <tr *ngFor="let taxes of Voucher.tax_entries; let i = index" >
+                                <td></td>
+                                <td></td>
+                                <td>Tax Amount</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-set">{{getType(taxes.showamount)}}</td>
+                                <td></td>
+                                <!-- <td  class="text-set" *ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}</td> -->
+                            </tr>
+                        </tbody>
+                        <tfoot class="Total_Footer">
+                            <tr>
+                                <td colspan="4">Total</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-set">{{getType(Total_Amount_sum)}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && ledgerReportList == ''">
+                    <h4>No Data Found .</h4>
+                </div> 
+            </div>
+
+             <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+             <div id="print-section" style="display: none;">
+                <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                    <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                    <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                                </td>
+                                <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                    <h1 style="margin: 0;font-size:26px;text-transform: uppercase;">SALES REGISTER REPORT</h1>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                        <tbody>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{ledgerreport.start_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{ledgerreport.end_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;">Date</th>
+                                <th colspan="2" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Buyer</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Voucher No</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Quantity</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Rate</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Value</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Gross Total</th>
+                                <!-- <th *ngFor="let head of header; let i = index" style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">{{head.name}}</th> -->
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let Voucher of ledgerReportList; let i = index" >
+                            <tr>
+                                <td style="text-align:center;background:#74716d66;padding:8px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;border-top:1px solid #00000078;">{{Voucher.invoice_date  | date:'dd MMM yyyy'}}</td>
+                                <td  colspan="2" style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"  *ngIf="Voucher.Buyer && Voucher.Buyer.name!==''">{{Voucher.Buyer.name}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    {{Voucher.invoice_id}}
+                                </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(Voucher.total_amount)}}</td>
+                                <!-- <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"*ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}
+                                </td> -->
+                                
+                            </tr>
+
+                            <tr  *ngFor="let item of Voucher.item_entries; let i = index">
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-top:1px solid #00000078;"> </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{item.invoice_date  | date:'dd MMM yyyy'}} </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{item.name}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{item.quantity}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(item.price)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(item.total_amount)}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <!-- <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;" *ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}</td> -->
+                            </tr>
+                            
+                            <tr *ngFor="let taxes of Voucher.tax_entries; let i = index">
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-top:1px solid #00000078;"> </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">Tax Amount</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(taxes.amount)}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <!-- <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;" *ngFor="let sales of header; let j = index">{{getValue(sales, Voucher.voucherInteries)}}</td> -->
+                            </tr>
+                        </tbody>
+                        <tfoot class="Total_Footer">
+                            <tr>
+                                <td  style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;" colspan="4">Total</td>
+                                <td  style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td  style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td  style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                                <td  style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;" class="text-set">{{getType(Total_Amount_sum)}}</td>
+                            </tr>
+                        </tfoot>
+                        
+                    </table>
+                </div>
+            </div> 
+        <!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+      
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

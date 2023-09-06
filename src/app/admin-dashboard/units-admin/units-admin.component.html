@@ -1,0 +1,55 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <div class="unit-form">
+                <div class="container-fluid">
+                    
+                    <!-- Breadcrumbs-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a routerLink="/admindashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Units</li>
+                    </ol>
+
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && unitlist != ''">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <!-- <th>SI. No.</th> -->
+                                    <th>Number</th>
+                                    <th>Unique Quantity Code</th>
+                                    <th>Quantity Description</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                 <tr *ngFor="let Units of unitlist; let i = index;">
+                                        <!-- <td>{{i+1}}</td> -->
+                                        <td>{{Units.id}}</td>
+                                    <td>{{Units.uqc}}</td>
+                                    <td>{{Units.quantity_description}}</td>
+                                   </tr>
+                                </tbody>
+                              </table>
+  
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && unitlist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-admin-footer></app-admin-footer>

@@ -1,0 +1,362 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a routerLink="/creditnote">Voucher</a>
+                </li>
+                <li class="breadcrumb-item active">Credit Note</li>
+            </ol> -->
+            <!-- =========================================================================================== -->
+            <ng-template #creditnotemodal let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">CREDIT NOTE</h4>
+                    <button type="button" class="close" aria-label="Close" routerLink="/admin/creditnote" routerLinkActive="active" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body header-filed">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="col-sm-4 col-4">
+                                <div class="form-group">
+                                    <label for="type" class="text-bold">Type</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-12">
+                                <mat-radio-group aria-label="Select an option" [(ngModel)]="creditVoucher.is_local">
+                                <mat-radio-button value="yes" (change)="show(true)">Local</mat-radio-button>
+                                <mat-radio-button value="no" (change)="show(false)">Outer State</mat-radio-button>
+                                </mat-radio-group>
+                                <div class="error-msg" *ngIf="creditVoucher.is_local == ''">
+                                    <h4>Please select the first Type.</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col-sm-5 col-5">
+                                <div class="form-group">
+                                    <label for="type" class="text-bold">Tax Type</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-12">
+                                <mat-radio-group aria-label="Select an option" [(ngModel)]="creditVoucher.isinclusive">
+                                    <mat-radio-button value="true" (change)="typeshow(true)">Inclusive</mat-radio-button>
+                                    <mat-radio-button value="false" (change)="typeshow(false)">Exclusive</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <mat-form-field class="width-set">
+                                    <input matInput [matDatepicker]="voucherdate" [min]="current_periad_startdate" [max]="current_periad_enddate" placeholder="Voucher Date" [(ngModel)]="creditVoucher.invoice_date">
+                                    <mat-datepicker-toggle matSuffix [for]="voucherdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #voucherdate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12"> 
+                            <div class="error-msg" *ngIf="items[0].item_id" >
+                                <h4>If you want to change the Type & Tax Type, your item entry will be automatically deleted.</h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6  col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="stock_group" class="text-bold">Name Of The Party</label>
+                                <div class="loader_setAll">
+                                    <circle-progress *ngIf = "loader" [percent]="99"
+                                            [percent]="99" 
+                                            [radius]="20"
+                                            [space]="2"
+                                            [backgroundPadding]="0"
+                                            [outerStrokeWidth]="3"
+                                            [innerStrokeWidth]="1"
+                                            [outerStrokeColor]="'#30304b'"
+                                            [innerStrokeColor]="'#30304b80'"
+                                            [animation]="true"
+                                            [showSubtitle]="false"
+                                            [titleFontSize]="8"
+                                            [unitsFontSize]="8"
+                                            [animationDuration]="500" >
+                                    </circle-progress>
+                                </div>
+                                <ng-select  *ngIf = "!loader" id="selectLedger" bindLabel="name"
+                                placeholder="Select Ledger"
+                                [(ngModel)]="ledger"
+                                value="-1"
+                                appendTo="body"
+                                [disabled]="ledgerList == ''"
+                                (change)="getLedgerData(ledger)"
+                                [searchable]="true">
+                                <ng-option [value]="ledger" *ngFor="let ledger of ledgerfilter" >{{ledger.name}}</ng-option>
+                                <ng-template ng-header-tmp>
+                                    <div class="error-msg" (click)="openLedgerAddModal()"  >
+                                        <h4>Create a New Ledger.</h4>
+                                    </div>
+                                </ng-template>
+                                </ng-select>
+                                <div class="error-msg" (click)="openLedgerAddModal()"  *ngIf="ledgerList == ''">
+                                <h4>Create a Sundry Creditors Or Sundry Debtors Ledger.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6  col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="stock_group" class="text-bold">Purpose</label>
+                            <ng-select id="selectLedger" bindLabel="name"
+                            placeholder="Select Purpose"
+                            [(ngModel)]="purpose"
+                            value="-1"
+                            appendTo="body"
+                            (change)="getpurposeData(purpose)"
+                            [searchable]="true">
+                            <ng-option [value]="purpose" *ngFor="let purpose of purposelist" >{{purpose.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        
+        <button type="button" class="btn footer-btn" [disabled]="!creditVoucher.purpose_id || !creditVoucher.buyer_ledger_id || !creditVoucher.invoice_date " (click)="d('creditnotesave')">NEXT</button>
+       
+        <!-- <button type="button" class="btn footer-btn"  routerLink="/creditnote" routerLinkActive="active" (click)="d('Cross click')">CANCEL</button> -->
+        </div>
+        </ng-template>
+        <!-- =========================================================================================== -->
+        <div class="sales-form">
+            <!-- <div class="container-fluid"> -->
+                <div class="form header-filed">
+                    <div class="row pd-10">
+                        <div class="col-sm-8 col-7">
+                            <!-- <div class="company_detail set-logo">
+                                <span><a routerLink="/home" routerLinkActive="active"><img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;"></a></span>
+                                <span>
+                                    <h5>{{activecompany['company_name']}}</h5>
+                                </span>
+                            </div> -->
+                        </div>
+                        <div class="col-sm-4 col-5 set-title">
+                            <h2>CREDIT NOTE</h2>
+                        </div>
+                    </div>
+                    <div class="row brder-top">
+                        <div class="salesinvoiceview">
+                            <button type="button" class="btn sale-btn add-btn" (click)="open(creditnotemodal)">EDIT</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <span *ngIf="ledger.account_group && ledger.account_group.name!==''" class="text-bold">Buyer Name :</span><span  *ngIf="ledger.account_group && ledger.account_group.name!==''">{{ledger.name}}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="text-bold">
+                                Type :
+                            </span>
+                            <span>
+                                <mat-radio-group aria-label="Select an option" disabled [(ngModel)]="creditVoucher.is_local" *ngIf="creditVoucher.is_local !==''">
+                                <mat-radio-button *ngIf="creditVoucher.is_local !==''" value="yes">Local</mat-radio-button>
+                                <mat-radio-button *ngIf="creditVoucher.is_local !==''" value="no">Outer State</mat-radio-button>
+                                </mat-radio-group>
+                             </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="text-bold">Invoice Date :</span><span> {{creditVoucher.invoice_date | date:'dd MMM yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sale-bill">
+                        <div class="table-responsive">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                            <thead class="table-header">
+                                <tr>
+                                    <th style="width: 2%;">Si No.</th>
+                                    <th style="width: 15%;">Item name</th>
+                                    <th style="width: 15%;">Description Of Goods/Service</th>
+                                    <th style="width: 7%;">HSN/SAC</th>
+                                    <th style="width: 7%;">Quantity</th>
+                                    <th style="width: 7%;">Unit</th>
+                                    <th style="width: 7%;">Rate</th>
+                                    <th style="width: 8%;">Amount</th>
+                                    <th style="width: 7%;">Discount</th>
+                                    <th style="width: 7%;" *ngIf = "purchasesaller == false && select_composition == false && inclusivetype == false">IGST Rate</th>
+                                    <th style="width: 7%;" *ngIf = "purchasesaller == true && select_composition == false && inclusivetype == false">SGST</th>
+                                    <th style="width: 7%;" *ngIf = "purchasesaller == true && select_composition == false && inclusivetype == false">CGST</th>
+                                    <th style="width: 10%;">Total Amount</th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body table-discount">
+                                <tr *ngFor="let item of items; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <th>
+                                        <ng-select class="Serch-close" id="selectLedger" bindLabel="name"
+                                        placeholder="Select Item"
+                                        [(ngModel)]="item.item_id"
+                                        [disabled]="itemList == ''"
+                                        (change)="itemadded(item.item_id, i)"
+                                        appendTo="body"
+                                        [searchable]="true">
+                                        <ng-option [value]="item.uid" *ngFor="let item of itemList; let j = index">{{item.name}}</ng-option>
+                                        <ng-template ng-header-tmp>
+                                            <div class="error-msg" (click)="openItemAddModal()"  >
+                                                <h4>Create a New Item.</h4>
+                                            </div>
+                                        </ng-template>
+                                        </ng-select>
+                                    </th>
+                                    <th><input class="form-control" [(ngModel)]="item.description" value="{{item.description}}" type="text" id="description"/></th>
+                                    <th><input class="form-control" [(ngModel)]="item.hsn_code" readonly value="{{item.hsn_code}}" type="text" id="hsn_sac"/></th>
+                                    <th><input class="form-control text-set" [disabled]="!item.item_id"  [(ngModel)]="item.quantity"  value="{{item.quantity}}" (change)="calculate(item, i)" type="number" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$" onkeyup="if(this.value<0){this.value= this.value * -1}" id="quantity"/></th>
+                                    <th><input class="form-control text-set" [(ngModel)]="item.unit" value="{{item.unit}}" readonly type="text" id="unit"/></th>
+                                    <th><input class="form-control text-set" [disabled]="!item.item_id"  [(ngModel)]="item.price" value="{{item.price}}" (change)="calculate(item, i)" type="number" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$" onkeyup="if(this.value<0){this.value= this.value * -1}" id="rate"/></th>
+                                    <th><input class="form-control text-set" [ngModel]="getType(item.amount)" value="{{item.amount}}" readonly  type="text" id="amount"/></th>
+                                    <th>
+                                        <span style="width: 50%;"><input class="form-control text-set"  [disabled]="!item.item_id" [(ngModel)]="item.discount" value="{{item.discount}}" (change)="calculate(item, i)" type="number"  id="discount"/></span>
+                                        <span>
+                                            <select class="form-control add-less-type" [disabled]="!item.item_id"  (change)="calculate(item, i)" [(ngModel)]="item.discount_type">
+                                                <option value="percentage" >%</option>
+                                                <option value="flat" >Flat</option>
+                                            </select>
+                                        </span>
+                                     </th>
+                                     <th *ngIf = "purchasesaller == false && select_composition == false && inclusivetype == false"><input class="form-control text-set" [(ngModel)]="item.igst_tax" value="{{item.igst_tax}}" type="text" readonly id="igst_rate"/></th>
+                                    <th *ngIf = "purchasesaller == true && select_composition == false && inclusivetype == false"><input class="form-control text-set" [(ngModel)]="item.sgst" type="text" readonly id="sgst"/></th>
+                                    <th *ngIf = "purchasesaller == true && select_composition == false && inclusivetype == false"><input class="form-control text-set" [(ngModel)]="item.cgst" type="text" readonly id="cgst"/></th>
+                                    <th><input class="form-control text-set" [ngModel]="getType(item.total_amount)" value={{item.total_amount}} readonly type="text" id="total_amount"/></th>
+                                    <th><button class="add-btn remove-btn"  (click)="removeUser(i)">X</button></th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="12">
+                                        <button class="add-btn invoice-btn add-card-btn" (click)="addUser()"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD MORE </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                        <div class="table-responsive" *ngIf="select_composition == false">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                            <thead>
+                                <tr *ngFor="let tax of taxs; let i = index">
+                                    <td colspan="2"></td>
+                                    <td class="tax-set">{{tax.tax_name}}&nbsp;&nbsp;:</td>
+                                    <td class="pd-set"><input  class="text-set" [(ngModel)]="tax.tax_percentage" value="{{tax.tax_percentage - tax.tax_name}}" readonly type="text" id="gross_amount"/></td>
+                                    <td class="tax-set">Gross Amount&nbsp;&nbsp;:</td>
+                                    <td class="pd-set"><input class="text-set"  [ngModel]="getType(tax.amount)"  readonly type="text" id="gross_amount"/></td>
+                                    <td class="tax-set">Tax Amount&nbsp;&nbsp;:</td>
+                                    <td class="pd-set"><input  class="text-set" [ngModel]="getType(tax.tax_amount)" readonly type="text" id="gross_amount"/></td>
+                                </tr>
+                            </thead>
+                            </table>   
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                                <tbody>
+                                    <tr>
+                                        <td class="total-set">Add/Less :</td>
+                                        <td class="pd-set">
+                                            <ng-select id="discountledger" bindLabel="uid"
+                                                placeholder="Select Ledger"
+                                                [(ngModel)]="creditVoucher.discount_ledger"
+                                                [disabled]="discountledger == ''"
+                                                appendTo="body"
+                                                (change)="getdiscountLedgerData(creditVoucher.discount_ledger)"
+                                                [searchable]="true">
+                                                <ng-option [value]="disledger.uid" *ngFor="let disledger of discountledger" >{{disledger.name}}</ng-option>
+                                                <ng-template ng-header-tmp>
+                                                    <div class="error-msg" (click)="openLedgerAddModal()"  >
+                                                        <h4>Create a New Indirect Expenses Ledger.</h4>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-select>
+                                            <div class="error-msg" (click)="openLedgerAddModal()"  *ngIf="discountledger == ''">
+                                                <h4>Create a Indirect Expenses Ledger.</h4>
+                                            </div>
+                                        </td>
+                                        <td class="total-set">Add/Less Type :</td>
+                                        <td class="pd-set">
+                                            <select class="form-control add-less-type" (change)="totalPrice(creditVoucher.discount)" [(ngModel)]="creditVoucher.discount_type">
+                                            <option value="percentage" >Percentage</option>
+                                            <option value="flat" >Flat</option>
+                                            </select>
+                                        </td>
+                                        <td class="total-set"><span *ngIf="creditVoucher.discount_type == 'flat'" class="total-set"  >Amount :</span><span *ngIf="creditVoucher.discount_type == 'percentage'" class="total-set" >Percentage :</span></td>
+                                        <td class="pd-set"><input class="form-control text-set" [disabled]="!creditVoucher.discount_ledger" [(ngModel)]="creditVoucher.discount" (change)="totalPrice(creditVoucher.discount)" type="number"  id="gross_amount"/></td>
+                                        <td *ngIf="creditVoucher.discount_type == 'percentage'" class="total-set">Amount :</td>
+                                        <td *ngIf="creditVoucher.discount_type == 'percentage'"  class="pd-set">
+                                        <input class="form-control text-set" [(ngModel)]="creditVoucher.discount_percentage" disabled type="text" id="discount_percentage"/>
+                                        </td>
+                                        <td class="total-set">Sub Total :</td>
+                                        <td class="pd-set"><input class="form-control text-set" [ngModel]="getType(creditVoucher.sub_amount)"   readonly type="text" id="gross_amount"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td *ngIf="creditVoucher.discount_type == 'flat'" colspan="7" class="total-set">Total :</td>
+                                        <td *ngIf="creditVoucher.discount_type == 'percentage'" colspan="9" class="total-set">Total :</td>
+                                        <td class="pd-set"><input class="form-control text-set" [ngModel]="getType(creditVoucher.total_amount)" readonly type="text" id="gross_amount"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>   
+                        </div>
+                </div>
+                <div class="row teams_conditions mt-20">
+                    <div class="col-sm-12">
+                        <div class="forn-group">
+                            <label class="text-bold" for="narration">Narration</label>
+                            <textarea class="form-control text-font rounded-0"  [(ngModel)]="creditVoucher.narration" id="narration" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-sm-12">
+                        <a><button  (click)="done(createinvoice)" class="print-btn">DONE</button></a>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+
+    <ng-template #createinvoice let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">CONFIRMATION</h4>
+            <button type="button" class="close" aria-label="Close" routerLink="/admin/creditnote" routerLinkActive="active" (click)="d('Cross click')">
+               
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body done-modal">
+            <h1>Are you sure want to create this Credit Note Invoice.</h1>
+        </div>
+        <div class="modal-footer">
+            <button class="btn footer-btn" [disabled]="clicked" (click)="genratePrint()">YES</button>
+            <button class="btn footer-btn"  routerLink="/admin/creditnote" routerLinkActive="active"  (click)="c('close')">CANCEL</button>
+        </div>
+    </ng-template>
+
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

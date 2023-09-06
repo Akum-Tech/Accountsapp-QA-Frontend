@@ -1,0 +1,74 @@
+.header-filed h3 {
+    font-family: 'Gilroy-ExtraBold';
+    text-transform: capitalize;
+    font-size: 18px;
+    text-align: center;
+}
+.header-filed h3::after {
+    content: "";
+    display: block;
+    background-color: #ff575b;
+    height: 2px;
+    width: 10%;
+    margin: 8px auto;
+}
+.logo{
+    background: #fff;
+    border-radius: 3px;
+    height: 80px;
+    margin-right: 15px;
+    width: 100px;
+}
+.mt-set{
+    margin-top: 15px;
+}
+.display-btn{
+    font-family:'Gilroy-ExtraBold';
+    background-color: #ffa8a8;
+    color: #000 !important;
+    border-radius: 20px;
+    padding: 6px 30px !important;
+    font-size: 12px; 
+    margin-top: 30px;
+}
+
+.nav-tabs .nav-link{
+    position: relative;
+    display: block;
+    padding: 6px 17px;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #30304b;
+    font-weight: 500;
+    /* margin: 5px; */
+    background-color: #e1dddd40;
+    border: 1px solid #dee2e6ed;
+}
+.nav-tabs .active{
+    background-color: #30304b;
+    color: #fff;
+}
+.font-bold-set{
+    font-family: 'Gilroy-ExtraBold';
+}
+/* .reports th{
+    font-size: 11px;
+}
+.reports td{
+    font-size: 11px; 
+    color: #000;
+    font-weight: 500;
+} */
+
+/* =============================================== / Media Query Phone / ======================================================= */
+
+@media (min-width:320px) and (max-width: 480px) {
+    .display-btn{
+        margin-bottom: 20px;
+        margin-top: 0;
+        width: 50%;
+    }
+    .text-set{
+        text-align: center;
+    }
+}

@@ -1,0 +1,250 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid header-filed"> 
+         <ol class="breadcrumb">
+            <li>
+                <div class="header-filed set-title pd-10">
+                    <h3>Ledger Account : {{ledger.name?ledger.name:''}}</h3>
+                </div>
+            </li>
+
+            <li class="float-set">
+                <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button>
+                <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button>
+                <button class="btn action-btn dwnload-btn"> <i class="fa fa-download" aria-hidden="true"></i> </button> -->
+                <button (click)="printPage()" *ngIf="ledgerReportList != ''" class="add-btn">PRINT</button>
+            </li> 
+
+        </ol>
+        
+         <!-- ----------------------------------- REPORT VIEW DESIGN ------------------------------- -->
+       
+           
+            <div class="row date-select">
+                <div class="col-sm-3">
+                    <label for="stock_group" class="text-bold">Select Ledger</label>
+                    <ng-select id="selectLedger" bindLabel="name"
+                    placeholder="Select Ledger"
+                    [(ngModel)]="ledger"
+                    value="-1"
+                    (change)="getLedgerselect(ledger)"
+                    [searchable]="true">
+                    <ng-option [value]="ledger" *ngFor="let ledger of ledgerList; let l = index" >{{ledger.name}}</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="startdate" [max]="current_periad_enddate" [min]="current_periad_startdate" placeholder="Select Start Date" [(ngModel)]="ledgerreport.start_date">
+                        <mat-datepicker-toggle matSuffix [for]="startdate" ></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-6 input-group">
+                    <mat-form-field class="width-set mt-set">
+                        <input matInput [matDatepicker]="enddate" [max]="current_periad_enddate" [min]="current_periad_startdate" placeholder="Select End Date"  [(ngModel)]="ledgerreport.end_date">
+                        <mat-datepicker-toggle matSuffix [for]="enddate" ></mat-datepicker-toggle>
+                        <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 text-set">
+                    <button type="button" class="btn display-btn" [disabled]="!ledgerreport.ledger_id || !ledgerreport.start_date || !ledgerreport.end_date" (click)="ledgerreportshow()" >DISPLAY</button>
+                </div>
+            </div>
+            <div class="sale-bill">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+                <div class="table-responsive"  *ngIf = "!loader && ledgerReportList != ''">
+                    <table class="table">
+                        <thead class="reports table-header">
+                            <tr>
+                                <th>Date</th>
+                                <th>Dr/Cr</th>
+                                <th>Particulars</th>
+                                <th>Voucher Type</th>
+                                <th>Voucher no.</th>
+                                <th>Dr.</th>
+                                <th>Cr.</th>
+                                <th style="width: 9%;">Balance</th>
+                            </tr>
+                        </thead>
+                       
+                        <tbody class="reports mb-20 table-body">
+                            <tr *ngFor="let JournalVoucher of ledgerReportList; let i = index" >
+                                <th>{{JournalVoucher.invoice_date | date:'dd MMM yyyy'}}</th>
+                                <th>{{JournalVoucher.type}}</th>
+                                <th>
+                                    <span *ngIf="JournalVoucher.receive_type == 'bank'">{{JournalVoucher.bank_name}}</span>
+                                    <span *ngIf="JournalVoucher.receive_type == 'bank'&& JournalVoucher.bank_name == ''">{{JournalVoucher.receive_type}}</span>
+                                    <span *ngIf="JournalVoucher.receive_type == 'cash'">{{JournalVoucher.receive_type}}</span>
+                                    <span *ngIf="JournalVoucher.ledger && JournalVoucher.ledger.name!=='' && !JournalVoucher.receive_type">{{JournalVoucher.ledger.name}}</span>
+                                    <span class="font-bold-set" *ngIf="JournalVoucher.open == true">Opening Balance</span>
+                                </th>
+                                <th>{{JournalVoucher.voucher_type}}</th>
+                                <th>{{JournalVoucher.invoice_id}}</th>
+                                <th class="text-set">{{getType(JournalVoucher.debitnumber)}}</th>
+                                <th class="text-set">{{getType(JournalVoucher.creditnumber)}}</th>
+                                <th  class="text-set" style="width: 9%;"> 
+                                    <span *ngIf="callbalance(JournalVoucher, i) > 0 ">{{getType(callbalance(JournalVoucher, i))}} Dr.</span><span *ngIf="callbalance(JournalVoucher, i) < 0 ">{{getType(-1*callbalance(JournalVoucher, i))}} Cr.</span>
+                                </th>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-bold-set">
+                                <th colspan="4"></th>
+                                <th>Total</th>
+                                <th class="text-set">{{getType(debitshowsum)}}</th>
+                                <th class="text-set">{{getType(creditshowsum)}}</th>
+                                <th style="width: 9%;"></th>
+                            </tr>
+                            <tr class="font-bold-set">
+                                <th colspan="3"></th>
+                                <th><span *ngIf="debitsum >= creditsum">Dr.</span><span  *ngIf="debitsum <= creditsum">Cr.</span></th>
+                                <th>Closing Balance</th>
+                                <th class="text-set"><span *ngIf="debitsum < creditsum">{{getType(convernumber)}}</span><span  *ngIf="debitsum > creditsum"></span></th>
+                                <th class="text-set"><span *ngIf="debitsum < creditsum"></span><span *ngIf="debitsum > creditsum">{{getType(convernumber)}}</span></th>
+                                <th style="width: 9%;"></th>
+                            </tr>
+                            <tr class="font-bold-set">
+                                <th colspan="4"></th>
+                                <th>Grand Total</th>
+                                <th  class="text-set"><span *ngIf="debitsum >= creditsum && debitsum != creditsum">{{getType(debitshowsum)}}</span>
+                                    <span *ngIf="debitsum <= creditsum && debitsum != creditsum">{{getType(creditshowsum)}}</span>
+                                    <span *ngIf="debitsum == creditsum">{{getType(debitshowsum)}}</span>
+                                </th>
+                                <th class="text-set"><span *ngIf="debitsum >= creditsum && debitsum != creditsum">{{getType(debitshowsum)}}</span>
+                                    <span *ngIf="debitsum <= creditsum && debitsum != creditsum">{{getType(creditshowsum)}}</span>
+                                    <span *ngIf="debitsum == creditsum">{{getType(debitshowsum)}}</span>
+                                </th>
+                                <th style="width: 9%;"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && ledgerReportList == ''">
+                    <h4>No Data Found .</h4>
+                </div> 
+            </div>
+
+        <!-- ----------------------------------- REPORT PRINT DESIGN ------------------------------- -->
+               <div id="print-section" style="display: none;">
+                <div class="printWrapper" style="width: 1000px; margin: 60px auto 0; border: 1px solid #ccc;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%;text-align: left;padding: 25px 10px;display: flex; justify-content: left; align-items: center;" class="company_name_set">
+                                    <img *ngIf="activecompany && activecompany.company_logo" src='{{imgbaseurl}}{{activecompany.company_logo}}' class="logo" style="vertical-align: middle;">
+                                    <h4 style="margin: 0;font-size: 32px;font-size: 20px;font-weight: 500;text-transform: capitalize;">{{activecompany['company_name']}}</h4>
+                                </td>
+                                <td style="width:50%;text-align: right;padding: 10px;padding-right: 20px;font-family: 'Roboto', sans-serif;">
+                                    <h1 style="margin: 0;font-size:26px;text-transform: uppercase;">LEDGER REPORT</h1>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="width:100%;border-top:1px solid #00000078;border-bottom:2px solid #00000078;">
+                        <tbody>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">LEDGER NAME </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{ledger.name?ledger.name:''}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">START DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{ledgerreport.start_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%;font-weight:500;background: #74716d66;padding: 12px;color: #000;border-right:1px solid #00000078;">END DATE </td>
+                                <td style="width:70%;font-weight:500;background: #d7d7d7;padding: 12px;color: #000;">{{ledgerreport.end_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" style="margin-bottom:1.5px;width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;">Date</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Dr/Cr</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Particulars</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Voucher Type</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Voucher no.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Dr.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Cr.</th>
+                                <th style="text-align:center;background:#ebebeb;padding:12px;border-left: 0.5px solid #00000078;">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let JournalVoucher of ledgerReportList; let i = index">
+                                <td style="width:12%;text-align:center;background:#74716d66;padding:8px;color:#000;;font-size: 14px;letter-spacing:0.5px;vertical-align:top;">{{JournalVoucher.invoice_date | date:'dd MMM yyyy'}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{JournalVoucher.type}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">
+                                    <span *ngIf="JournalVoucher.ledger && JournalVoucher.ledger.name!==''">{{JournalVoucher.ledger.name}}</span>
+                                    <span class="font-bold-set" *ngIf="JournalVoucher.open == true">Opening Balance</span>
+                                </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{JournalVoucher.voucher_type}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{JournalVoucher.invoice_id}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(JournalVoucher.debitAmount)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;">{{getType(JournalVoucher.creditAmount)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;"> 
+                                    <span *ngIf="callbalance(JournalVoucher, i) > 0 ">{{getType(callbalance(JournalVoucher, i))}} Dr.</span>
+                                    <span *ngIf="callbalance(JournalVoucher, i) < 0 ">{{getType(-1*callbalance(JournalVoucher, i))}} Cr.</span>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-top:1px solid #00000078;"> </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">Total </td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(debitsum)}}</td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">{{getType(creditsum)}}</td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-top:1px solid #00000078;"> </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="debitsum >= creditsum">Dr.</span><span  *ngIf="debitsum <= creditsum">Cr.</span>
+                                </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    Closing Balance
+                                </td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="debitsum < creditsum">{{getType(convernumber)}}</span><span  *ngIf="debitsum > creditsum"></span>
+                                </td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="debitsum < creditsum"></span><span *ngIf="debitsum > creditsum">{{getType(convernumber)}}</span>
+                                </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-top:1px solid #00000078;"> </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">Grand Total </td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="debitsum >= creditsum && debitsum != creditsum">{{getType(debitsum)}}</span>
+                                    <span *ngIf="debitsum <= creditsum && debitsum != creditsum">{{getType(creditsum)}}</span>
+                                    <span *ngIf="debitsum == creditsum">{{debitsum}}</span>
+                                </td>
+                                <td style="text-align:right;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;">
+                                    <span *ngIf="debitsum >= creditsum && debitsum != creditsum">{{getType(debitsum)}}</span>
+                                    <span *ngIf="debitsum <= creditsum && debitsum != creditsum">{{getType(creditsum)}}</span>
+                                    <span *ngIf="debitsum == creditsum">{{debitsum}}</span>
+                                </td>
+                                <td style="text-align:center;background:#d7d7d7;padding:8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase;vertical-align: top;border-left: 0.5px solid #00000078;border-top:1px solid #00000078;"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div> 
+        <!-- ----------------------------------- REPORT PRINT DESIGN END ------------------------------- -->
+      
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

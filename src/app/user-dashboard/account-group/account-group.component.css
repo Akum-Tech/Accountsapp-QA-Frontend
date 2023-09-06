@@ -1,0 +1,9 @@
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+  }
+  /* ::ng-deep .ng-select .ng-has-value .ng-placeholder {
+    display: block;
+} */
+.modal-body {
+  padding: 20px 15px 150px 15px !important;
+}

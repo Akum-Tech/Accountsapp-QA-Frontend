@@ -1,0 +1,345 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper" >
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Organization Info</li>
+                 <button  (click)="openAddInfo(addtemplate)" *ngIf="infolist == ''" class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD INFO</button>
+              </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && infolist != ''">
+                            <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                            <thead class="table-header">
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Company Name</th>
+                                    <!-- <th>Company Logo</th> -->
+                                    <th>Email</th>
+                                    <th>GST Number</th>
+                                    <th>Phone Number</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody class="mb-20 table-body">
+                                <tr *ngFor="let info of infolist;let i= index" >
+                                    <td>{{i+1}}</td>
+                                    <td>{{info.company_name}}</td>
+                                    <td>{{info.email}}</td>
+                                    <td>{{info.gst_number}}</td>
+                                    <td>{{info.phone_number}}</td>
+                                    <!-- <td style="padding:3px;"><img [src]="info.logo? imgbaseurl+info.logo : ''" class="img-fluid img-fix" /></td> -->
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openInfoEditModal(Edittemplate, info)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+
+                                        <!-- <button class="btn action-btn action-btn-two" (click)="openTrailDeleteModal(deletetemplate, info)">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>   
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && infolist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ======================  ADD FREE TRAIL ================================== -->
+
+<ng-template #addtemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Add Organization Info</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="Addinfo" #TrailForm="ngForm">
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="Company Name">Company Name</label>
+                            <input class="form-control" type="text" formControlName="company_name" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.company_name">
+                                    <div class="error-message" *ngIf="Addinfo.get('company_name').hasError(validation.type) && (Addinfo.get('company_name').dirty || Addinfo.get('company_name').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                           <label for="gstnumber">GST Number</label>
+                           <input class="form-control" type="text" maxlength="15" formControlName="gst_number" />
+                           <div class="validation-errors">
+                              <ng-container *ngFor="let validation of validation_messages.gst_number" >
+                                 <div class="error-message" *ngIf="Addinfo.get('gst_number').hasError(validation.type) && (Addinfo.get('gst_number').dirty || Addinfo.get('gst_number').touched)">
+                                    {{ validation.message }}
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                           <label for="gstnumber">Service Code</label>
+                           <input class="form-control" type="text"  formControlName="service_code" />
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="cin_number">CIN Number</label>
+                            <input class="form-control" type="text" formControlName="cin_number" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                                <label for="phoneno">Phone Number</label> 
+                                <input class="form-control" formControlName="phone_number" (keypress)="numberOnly($event)" maxlength="10" type="text" autocomplete="nope"/>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of validation_messages.phone_number">
+                                        <div class="error-message" *ngIf="Addinfo.get('phone_number').hasError(validation.type) && (Addinfo.get('phone_number').dirty || Addinfo.get('phone_number').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="Email">Email</label> 
+                            <input class="form-control" type="text" formControlName="email" optionLabel="text" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.email">
+                                    <div class="error-message" *ngIf="Addinfo.get('email').hasError(validation.type) && (Addinfo.get('email').dirty || Addinfo.get('email').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="companypan">Pan Number</label>
+                            <input class="form-control" type="text" formControlName="pan_number" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.pan_number">
+                                    <div class="error-message" *ngIf="Addinfo.get('pan_number').hasError(validation.type) && (Addinfo.get('pan_number').dirty || Addinfo.get('pan_number').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                            <label>Company Logo</label>
+                            <div class="logo-img">
+                                <label class="input-group">
+                                    <input type="file" name="logo" ic="file" (change)="onChangeSetImagePath($event)" style="width: 100%; height: 5px; z-index: 10; opacity: 0;" />
+                                    <input type="text" style="z-index: 0;" readonly="readonly" class="form-control upload-img" placeholder="Image" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text chooseimage-btn" id="basic-addon2">CHOOSE LOGO</span>
+                                    </div>
+                                </label>
+                                <div class="upload-img-box" *ngIf="defaultImage">
+                                    <img [src]="defaultImage" style="width: 100%; height: 100%;" class="img-fluid" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control rounded-0" formControlName="address" placeholder="address" rows="5"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="teams_condition">Teams & Conditions</label>
+                            <textarea class="form-control rounded-0" formControlName="terms" placeholder="Teams & Conditions" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked || !Addinfo.valid" (click)="Addorganizationinfo()">SAVE</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+
+<!-- ======================  EDIT FREE TRAIL ================================== -->
+<ng-template #Edittemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Organization Info</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="Editinfo" #TrailForm="ngForm">
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="Company Name">Company Name</label>
+                            <input class="form-control" type="text" formControlName="company_name" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.company_name">
+                                    <div class="error-message" *ngIf="Editinfo.get('company_name').hasError(validation.type) && (Editinfo.get('company_name').dirty || Editinfo.get('company_name').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                           <label for="gstnumber">GST Number</label>
+                           <input class="form-control" type="text" maxlength="15" formControlName="gst_number" />
+                           <div class="validation-errors">
+                              <ng-container *ngFor="let validation of validation_messages.gst_number" >
+                                 <div class="error-message" *ngIf="Editinfo.get('gst_number').hasError(validation.type) && (Editinfo.get('gst_number').dirty || Editinfo.get('gst_number').touched)">
+                                    {{ validation.message }}
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                           <label for="gstnumber">Service Code</label>
+                           <input class="form-control" type="text"  formControlName="service_code" />
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="cin_number">CIN Number</label>
+                            <input class="form-control" type="text" formControlName="cin_number" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                                <label for="phoneno">Phone Number</label> 
+                                <input class="form-control" formControlName="phone_number" (keypress)="numberOnly($event)" maxlength="10" type="text" autocomplete="nope"/>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of validation_messages.phone_number">
+                                        <div class="error-message" *ngIf="Editinfo.get('phone_number').hasError(validation.type) && (Editinfo.get('phone_number').dirty || Editinfo.get('phone_number').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="Email">Email</label> 
+                            <input class="form-control" type="text" formControlName="email" optionLabel="text" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.email">
+                                    <div class="error-message" *ngIf="Editinfo.get('email').hasError(validation.type) && (Editinfo.get('email').dirty || Editinfo.get('email').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="companypan">Pan Number</label>
+                            <input class="form-control" type="text" formControlName="pan_number" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.pan_number">
+                                    <div class="error-message" *ngIf="Editinfo.get('pan_number').hasError(validation.type) && (Editinfo.get('pan_number').dirty || Editinfo.get('pan_number').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-group">
+                            <label>Company Logo</label>
+                            <div class="logo-img">
+                                <label class="input-group">
+                                    <input type="file" name="logo" ic="file" (change)="onChangeSetImagePath($event)" style="width: 100%; height: 5px; z-index: 10; opacity: 0;" />
+                                    <input type="text" style="z-index: 0;" readonly="readonly" class="form-control upload-img" placeholder="Image" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text chooseimage-btn" id="basic-addon2">CHOOSE LOGO</span>
+                                    </div>
+                                </label>
+                                <div class="upload-img-box" *ngIf="defaultImage">
+                                    <img [src]="defaultImage" style="width: 100%; height: 100%;" class="img-fluid" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control rounded-0" formControlName="address" placeholder="address" rows="5"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="teams_condition">Teams & Conditions</label>
+                            <textarea class="form-control rounded-0" formControlName="terms" placeholder="Teams & Conditions" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked || !Editinfo.valid" (click)="editorganizationinfo()">SAVE DETAIL</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+<!-- =========================== DELETE SUBSCRIPTION MODAL ============================== -->
+<!-- <ng-template #deletetemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">CONFIRMATION</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body delete-modal">
+        <h1>Are You Sure to Delete This Subscription Plan ?</h1>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn" (click)="deleteplan(deleteData)">YES</button>
+        <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+    </div>
+</ng-template> -->
+
+<app-admin-footer></app-admin-footer>

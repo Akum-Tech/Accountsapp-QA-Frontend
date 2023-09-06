@@ -1,0 +1,120 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <button [routerLink]="['/admin/journalvoucher']" routerLinkActive="active" class="add-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</button>
+                </li>
+
+                
+                <li class="float-set">     
+                    <!-- <button class="btn action-btn wa-btn "> <i class="fa fa-whatsapp" aria-hidden="true"></i> </button> -->
+                    <button  [routerLink]="['/admin/edit-journal', journalvoucher.uid]"  class="btn action-btn "><i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                    <button class="btn action-btn share-btn "> <i class="fa fa-share-alt-square" aria-hidden="true"></i> </button>
+                    <!-- <button class="btn action-btn sms-btn"> <i class="fa fa-commenting" aria-hidden="true"></i> </button> -->
+                    <button class="btn action-btn dwnload-btn" (click)="downloadAsPDF()"> <i class="fa fa-download" aria-hidden="true"></i> </button>
+    
+                    <button (click)="printPage()" class="add-btn">PRINT</button>
+                    <button (click)="Nextvoucherprint()" class="add-btn">Next <i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                    <button (click)="Previousvoucherprint()" class="add-btn"><i class="fa fa-step-backward" aria-hidden="true"></i>Previous</button>
+                </li>
+
+            </ol>
+
+
+             <!-- ----------------------------------- INVOICE PRINT DESIGN ------------------------------- -->
+             <div id="print-section" #downloadpdf>
+                <div class="printWrapper" style="margin: 10px auto 0;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;">
+                        <tbody>
+                            <tr>
+                                <td style="width:12%; text-align: left;border: 0.5px solid #868686; border-right: none; border-bottom: none;" class="company_name_set">
+                                    <img *ngIf="invoicelogo && invoicelogo" src={{invoicelogo}} style="width: 80px;">
+                                </td>
+                                <td style="width: 18%; border: none; border-top: 0.5px solid #868686;">
+                                    {{activecompany['company_name']}}
+                                </td>
+                                <td style="width: 12%; border: none;border-top: 0.5px solid #868686;">
+                                </td>
+                                <td style="width:58%;text-align: right;padding: 10px;padding-right: 20px;border: 0.5px solid #868686; border-bottom: none; font-size: 15px;font-weight: 500;">
+                                    JOURNAL INVOICE
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td colspan="2" style="width:50%;font-weight:500;background-color: #b6b6b6;padding:5px  12px;color: #000;font-size: 12px;border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">INVOICE ID</td>
+                                <td colspan="2" style="font-size: 12px;width:50%;font-weight:500;background-color: #d7d7d7;padding: 5px 12px;color: #000; border: none;border-right: 0.5px solid #868686;">{{journalvoucher.invoice_id}}</td>
+                            </tr>
+                           <tr>
+                                <td colspan="2" style="width:40%;font-weight:500;background-color: #b6b6b6;padding:5px  12px;color: #000; font-size: 12px; border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">VOUCHER DATE</td>
+                                <td colspan="2" style="font-size: 12px;width:60%;font-weight:500;background-color: #d7d7d7;padding: 5px 12px;color: #000; border: none;border-right: 0.5px solid #868686;">{{journalvoucher.invoice_date | date:'dd MMM yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width:40%;font-weight:500;background-color: #b6b6b6;padding:5px  12px;color: #000; font-size: 12px; border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">PURPOSE</td>
+                                <td colspan="2" style="font-size: 12px;width:60%;font-weight:500;background-color: #d7d7d7;padding: 5px 12px;color: #000; border: none;border-right: 0.5px solid #868686;">{{journalvoucher.purpose_voucher?journalvoucher.purpose_voucher.name:'' || ''}}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767; width:5%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px; ">S.No.</td>
+                                <td style="border: none; border-right:0.5px solid #676767; width:45%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Ledger Name</td>
+                                <td style="border: none; border-right:0.5px solid #676767; width:25%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Type</td>
+                                <td style="border: none; border-right: 0.5px solid #868686; width:25%; text-align:center; background-color:#c7c7c7; padding:12px; color: #000;font-size: 12px;">Amount</td>
+                            </tr>
+
+                            <tr  *ngFor="let itemledger of ledgers; let i = index">
+                                <td style="width:6.2%; text-align:center; background-color:#c7c7c7; padding:8px;color:#000;;font-size: 14px; letter-spacing:0.5px; vertical-align:top; border: none; border-left: 0.5px solid #868686; border-right:0.5px solid #676767;">{{i+1}}</td>
+                                <td style="text-align:center; background-color:#dedede; padding:8px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase; vertical-align: top; border: none; border-right:0.5px solid #676767;">{{itemledger.VoucherLedger?itemledger.VoucherLedger.name:'' || ''}}</td>
+                                <td style="text-align:center; background-color:#dedede; padding:8px; font-size:12px; letter-spacing:0.5px; text-transform:uppercase; vertical-align: top; border: none; border-right:0.5px solid #676767;">{{itemledger.type}}</td>
+                                <td style="text-align:right; background-color:#dedede; padding:8px 12px 8px 8px; font-size:14px; letter-spacing:0.5px; text-transform:uppercase; vertical-align: top; border: none; border-right: 0.5px solid #868686;">{{getType(itemledger.amount)}}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="3" style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:left; padding:12px; color: #000; border:0.5px solid #676767; border-left: 0.5px solid #868686; padding: 5px !important;">
+                                    TOTAL AMOUNT :
+                                </td>
+                                <td style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:right; padding:12px; color: #000; border:0.5px solid #676767; border-left: none; border-right: 0.5px solid #868686; padding: 5px !important;">
+                                    {{getType(journalvoucher.total_amount)}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4" style="background-color: #dedede; font-weight: 600; font-size: 12px; text-align:left; padding:12px; color: #000; border:0.5px solid #676767; border-left: 0.5px solid #868686; border-right: 0.5px solid #868686; padding: 5px !important;">
+                                    AMOUNT IN WORDS : {{inWords(amountconvert)}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4" style="border: 0.5px solid #676767; font-weight:500; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: right; padding: 10px 20px 10px 30px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+                                    <p style="text-transform:uppercase;margin:0; padding-bottom:50px; font-size:12px;">For 
+                                        <span  *ngIf="activecompany.company_name == '' ">GSTAPPS</span><span *ngIf="activecompany.company_name != '' ">{{activecompany['company_name']}}</span> </p>
+                                    <p style="text-transform:uppercase;margin:0; font-size:12px;">Authorised Signatory</p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4" style="border: 0.5px solid #676767; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: left; padding: 10px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+                                    <p style="text-transform:uppercase; margin:0;">all disputes subject to jurisdiction of courts in new delhi.</p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4" style="border: 0.5px solid #676767; background-color: #b6b6b6; color: #000; font-size: 12px; text-align: center; padding: 10px !important; border-right: 0.5px solid #868686; border-left: 0.5px solid #868686;">
+                                    <p *ngIf="journalvoucher.company && journalvoucher.company.city && journalvoucher.company.city.name && journalvoucher.company.city.state.name " style="text-transform:uppercase;margin:0;">Address : {{journalvoucher.company.city.name}}, {{journalvoucher.company.city.state.name}} </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

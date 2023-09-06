@@ -1,0 +1,19 @@
+
+.mat-dialog-content {
+    display: contents;
+}
+::ng-deep span.ng-clear-wrapper.ng-star-inserted {
+    display: none !important;
+}
+
+/* ::ng-deep .ng-dropdown-panel {
+    z-index: 1052 !important;
+} */
+
+.ng-dropdown-panel .scroll-host {
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    display: block;
+  }
+  

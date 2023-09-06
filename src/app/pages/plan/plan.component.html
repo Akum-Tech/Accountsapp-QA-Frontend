@@ -1,0 +1,120 @@
+<header>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-6 col-sm-2">
+                <a routerLink="/home" routerLinkActive="active" class="logoBox"><img src="assets/images/logo.png" class="logo"></a>
+            </div>
+            <div class="col-6 col-sm-10"></div>
+        </div>
+    </div>
+</header>
+
+<main *ngIf="Userdata != ''">
+    <div class="container pt-5 pb-5">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12 col-sm-5">
+                <div class="userDetails mb-3">
+                    <h3>User Details</h3>
+                    <p><b>Name :</b>{{Userdata.name}}</p>
+                    <p><b>Email :</b> {{Userdata.email}}</p>
+                    <p><b>Phone Number :</b> {{Userdata.phone}}</p>
+                </div>
+                <div class="userDetails mb-3">
+                    <h3>Current Plan Details</h3>
+                    <p>{{Userdata.currentplan.months}} Months Plan. <b>₹<span>{{Userdata.currentplan.total}}/-</span></b></p>
+                    <p>
+                        <span *ngIf="Userdata.serverdate <= Userdata.subscription_end_date ">Your Plan Expire on <b> {{Userdata.subscription_end_date | date:'dd MMM yyyy'}}</b></span>
+                        <span class="Plan_error" *ngIf="Userdata.serverdate >= Userdata.subscription_end_date">Your Plan has been Expired <b>{{Userdata.subscription_end_date | date:'dd MMM yyyy'}}</b></span>
+
+                        <!-- <span class="Plan_error" *ngIf="2022-01-11 >= 2021-01-25">Your Plan has been Expired <b> {{Userdata.subscription_end_date | date:'dd MMM yyyy'}}</b></span> -->
+                    </p>
+                </div>
+                <div class="buttonRow text-center">
+                    <button type="button" class="upgradeBtn" (click)="butplanshow()">Upgrade Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- =========================== BUY PLAN LIST SHOW ============================== -->
+
+
+<div id="content-wrapper" *ngIf="buyplanlist != ''" class="pl-0">
+    <div class="container-fluid">
+
+        <div class="packages-plans">
+            <div class="container">
+                <div class="form_heding">
+                    <h1>PACKAGES PLANS</h1>
+                </div>
+                <div class="row" >
+                    <div *ngFor="let buyplan of buyplanlist" class="col-sm-4 col-lg-4 col-12 col-md-12">
+                        <div class="card draw card-body">
+                            <h3>{{buyplan.months}} Months Plan</h3>
+                            <ul>
+                                <li><span>Basic</span> <span> ₹{{buyplan.basic}}</span></li>
+                                <li><span>GST </span> <span> ₹{{buyplan.gst}}</span> </li>
+                                <li><span>Value </span> <span> ₹{{buyplan.total}}</span>  </li> 
+                            </ul>
+                            <button class="btn-buy" >
+                                <!-- (click)="buyplanget(buyplan)" -->
+                                <!-- <span style="width: 10%;" *ngIf="activeuser.subscription_end_date != null">Upgrade Plan</span> -->
+                                <span style="width: 10%;" (click)="sendotpclick(buyplan)">Buy Plan</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<!-- =========================== ERROR MESSAGE SHOW ============================== -->
+
+
+<ng-template #planexpiremodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"> MESSAGE</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/home" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body done-modal header-filed">
+       <h1>Invalid URL..!   Please Enter Valid URL.</h1>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn footer-btn" routerLink="/home" routerLinkActive="active" (click)="d('Cross click')">OK</button>
+    </div>
+</ng-template>
+
+<!-- =========================== VERIFICATION MOBILENO. & PASSWORD MODAL ============================== -->
+
+<ng-template  #verifymodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">VERIFICATION</h4>
+        <button type="button" class="close" aria-label="Close" routerLink="/home" routerLinkActive="active" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body mtb-30">        
+        <form [formGroup]="otpverifyform" #optverify="ngForm" autocomplete="off">
+            <!--  *ngIf="this.emailverify == 0" -->
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="Email">OTP Verification</label> 
+                        <input class="form-control otp-input-set" type="text" (keypress)="numberOnly($event)" formControlName="otp" optionLabel="text"/>
+                    </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div class="form-group mt-30">
+                        <button class="btn otp-btn" (click)="resendotpverifydone()">Resend OTP</button>
+                        <button class="btn otp-btn" (click)="otpverifydone()">Verify</button>
+                    </div>
+                </div>
+            </div> 
+        </form>
+    </div>
+</ng-template>

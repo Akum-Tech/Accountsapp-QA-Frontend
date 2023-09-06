@@ -1,0 +1,153 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <div class="unit-form">
+                <div class="container-fluid">
+                    
+                    <!-- Breadcrumbs-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a routerLink="/admindashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a routerLink="/admin-userdetail">Users</a>
+                        </li>
+                        <li class="breadcrumb-item active">User Detail View</li>
+                            <button [routerLink]="['/admin-userdetail']" routerLinkActive="active" class="add-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</button>
+                      </ol>
+                    
+                   
+
+                    <div class="header-filed set-title pd-10">
+                        <h3>User Detail Show</h3>
+                    </div>
+
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+
+                    <div class="user-detail-view" *ngIf = "!loader" >
+                        <div class="printWrapper">
+                            <div class="row">
+                                <div class="col-sm-4 col-6 user-col">   
+                                    <h3>User Name : </h3>
+                                    <h3>Email ID : </h3>
+                                    <h3>Phone No. : </h3>
+                                    <h3>Creation Date : </h3>
+                                    <h3>Update Date : </h3>
+                                    <h3>Subscription End Date : </h3>
+                                </div>
+                                <div *ngIf="Userdata != ''" class="col-sm-8 col-6 user-col-view" >
+                                    <h2 >{{Userdata.name}}</h2>
+                                    <h2>{{Userdata.email}}</h2>
+                                    <h2>{{Userdata.phone}}</h2>
+                                    <h2>{{Userdata.creation_date | date:'dd MMM yyyy'}}</h2>
+                                    <h2>{{Userdata.updated_date | date:'dd MMM yyyy'}}</h2>
+                                    <span>
+                                        <h2 [ngClass]="{'date-btn': Userdata.subscription_end_date != '', 'date-btn-red': !Userdata.subscription_end_date || Userdata.subscription_end_date < Userdata.serverdate}">
+                                            <span>{{Userdata.subscription_end_date | date:'dd MMM yyyy'}}</span>
+                                            <span *ngIf="!Userdata.subscription_end_date">NULL</span>
+                                        </h2>
+                                    </span>
+                                    <span>
+                                        <button class="btn action-btn edit-date-plan"  (click)="opendateEditModal(Edittemplate, Userdata)" rounded="true" data-toggle="modal">
+                                       Edit  <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>  
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-12 company-title">  
+                                    <h1>Company Details</h1> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                                        <thead class="user-header company-header">
+                                            <tr>
+                                                <th>SI. No.</th>
+                                                <th>Book start</th>
+                                                <th>Company Name</th>
+                                                <th>Financial Year Start</th>
+                                                <th>Financial Year End</th>
+                                                <th>Composition Dealer</th>
+                                                <!-- <th>Auto Ledger SHow</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody class="mb-20 user-table-body">
+                                            <tr *ngFor="let company of companylistshow; let i = index;">
+                                                <td>{{i+1}}</td>
+                                                <td>{{company.bookstart_date | date:'dd MMM yyyy'}}</td>
+                                                <td>{{company.company_name}}</td>
+                                                <td>{{company.financial_start  | date:'dd MMM yyyy'}}</td>
+                                                <td>{{company.financial_end  | date:'dd MMM yyyy'}}</td>
+                                                <td>{{company.composition_dealer}}</td>
+                                                <!-- <td>
+                                                    <button [routerLink]="['/auto_ledger_list', company.uid]"  routerLinkActive="active" class="btn action-btn clr-change"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                    <div class="company-msg" *ngIf="companylistshow == ''">
+                                        <h4>company is not created .</h4>
+                                    </div>  
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && Userdata == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+
+        <!-- ================== EDIT USER SUBSCRIPTION END DATE MODAL =================== -->
+        <ng-template #Edittemplate>
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Subscription End Date</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="user-form">
+                    <form  [formGroup]="dateform" #DateForm="ngForm">
+                        <div class="date-set">
+                            <span>
+                                <div class="form-group mt-25">
+                                    <label for="subscription_date">Subscription End Date</label>
+                                </div>
+                            </span>
+                            <span>
+                                <div class="input-group">
+                                    <mat-form-field class="width-set">
+                                        <input matInput [matDatepicker]="picker" [min]="subscription_start_date" formControlName="subscription_end_date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn footer-btn"(click)="editsubscriptiondate()">SAVE</button>
+                <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+            </div>
+        </ng-template>
+
+
+        </div>
+    </div>
+</div>
+
+
+<app-admin-footer></app-admin-footer>

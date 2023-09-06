@@ -1,0 +1,65 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <div class="unit-form">
+                <div class="container-fluid">
+                    
+                    <!-- Breadcrumbs-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a routerLink="/admindashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Users</li>
+                    </ol>
+
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && userlist != ''">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <!-- <th>SI. No.</th> -->
+                                    <th>Creation Date</th>
+                                    <th>Name</th>
+                                    <th>Email ID</th>
+                                    <th>Phone Number</th>
+                                    <th>Subscription End Date</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                 <tr *ngFor="let users of userlist; let i = index;">
+                                        <!-- <td>{{i+1}}</td> -->
+                                        <td>{{users.creation_date | date:'dd MMM yyyy'}}</td>
+                                        <td>{{users.name}}</td>
+                                        <td>{{users.email}}</td>
+                                        <td>{{users.phone}}</td>
+                                        <td>{{users.subscription_end_date | date:'dd MMM yyyy'}}
+                                            <span *ngIf="!users.subscription_end_date">NULL</span>
+                                        </td>
+                                        <td>
+                                            <button [routerLink]="['/userdetail-view', users.uid]"  routerLinkActive="active" class="btn action-btn clr-change"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                        </td>
+                                   </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && userlist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-admin-footer></app-admin-footer>

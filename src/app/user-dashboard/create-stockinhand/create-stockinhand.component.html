@@ -1,0 +1,241 @@
+<app-user-header></app-user-header>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <app-user-menu></app-user-menu>
+        <div id="content-wrapper" (click)="openbuyplaneModal()">
+            <div class="container-fluid">
+                <!-- Breadcrumbs-->
+                <!-- <ng-template #stockinhandmodal let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title"> STOCK IN HAND INVOICE</h4>
+                        <button type="button" class="close" aria-label="Close" routerLink="/stock_report" routerLinkActive="active" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body header-filed">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row mt-30">
+                                    <div class="col-sm-4 col-4">
+                                        <div class="form-group">
+                                            <label for="type" class="text-bold">Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-8">
+                                        <mat-radio-group aria-label="Select an option" [(ngModel)]="stockinhand.type">
+                                        <mat-radio-button value="credit" (click)="show(true)">Credit</mat-radio-button>
+                                        <mat-radio-button value="debit" (click)="show(false)">Debit</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <mat-form-field class="width-set">
+                                        <input matInput [matDatepicker]="invoicedate" [min]="current_periad_startdate" [max]="current_periad_enddate" placeholder="Stock In Hand Invoice Date" [(ngModel)]="stockinhand.invoice_date" >
+                                        <mat-datepicker-toggle matSuffix [for]="invoicedate"></mat-datepicker-toggle>
+                                        <mat-datepicker #invoicedate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="stock_group" class="text-bold">Choose Stock Ledger</label>
+                                    <ng-select id="selectLedger" bindLabel="name"
+                                    placeholder="Select Stock Ledger"
+                                    [(ngModel)]="ledger"
+                                    value="-1"
+                                    appendTo="body"
+                                    [disabled]="ledgerfilter == ''"
+                                    (change)="getledgerData(ledger)"
+                                    >
+                                    <ng-option [value]="ledger" *ngFor="let ledger of ledgerfilter">{{ledger.name}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn footer-btn" [disabled]="!stockinhand.type || !stockinhand.ledger_id || !stockinhand.invoice_date " (click)="d('salessave')">NEXT</button>
+                    </div>
+                </ng-template> -->
+                <!-- =========================================================================================== -->
+                <div class="sales-form">
+                    <!-- <div class="container-fluid"> -->
+                        <div class="form header-filed">
+                            <div class="row">
+                                <div class="col-sm-4 col-5">
+                                    <div class="input-group">
+                                        <mat-form-field class="width-set">
+                                            <input matInput [matDatepicker]="invoicedate" [min]="current_periad_startdate" [max]="current_periad_enddate" placeholder="Stock In Hand Invoice Date" [(ngModel)]="stockinhand.invoice_date" >
+                                            <mat-datepicker-toggle matSuffix [for]="invoicedate"></mat-datepicker-toggle>
+                                            <mat-datepicker #invoicedate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-7  set-title">
+                                    <h2>STOCK IN HAND INVOICE</h2>
+                                </div>
+                            </div>
+                            <!-- <div class="row brder-top">
+                                <div class="salesinvoiceview">
+                                    <button type="button" class="btn sale-btn add-btn" (click)="open(stockinhandmodal)">EDIT</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="text-bold">Stock Name :</span>
+                                    <span  *ngIf="ledger.account_group && ledger.account_group.name!==''">{{ledger.name}}</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="text-bold">
+                                        Type :
+                                    </span>
+                                    <span>
+                                        <mat-radio-group aria-label="Select an option" disabled [(ngModel)]="stockinhand.type">
+                                        <mat-radio-button *ngIf="stockinhand.type !==''"  value="credit">Credit</mat-radio-button>
+                                        <mat-radio-button *ngIf="stockinhand.type !==''"  value="debit">Debit</mat-radio-button>
+                                        </mat-radio-group>
+                                    </span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <span class="text-bold">Invoice Date :</span>
+                                        <span  *ngIf="stockinhand.invoice_date !==''"> {{stockinhand.invoice_date | date : 'dd-MMM-yyyy'}}</span>
+                                    </div>
+                                </div> 
+                            </div>-->
+                            <div class="sale-bill">
+                                <div class="table-responsive">
+                                    <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                                    <thead class="table-header">
+                                        <tr>
+                                            <th style="width: 4%;">Si No.</th>
+                                            <th style="width: 15%;">Item name</th>
+                                            <th style="width: 15%;">Type</th>
+                                            <th style="width: 7%;">Quantity</th>
+                                            <th style="width: 7%;">Unit</th>
+                                            <th style="width: 7%;">Rate</th>
+                                            <th style="width: 7%;" >Amount</th>
+                                            <th style="width: 8%;" >Discount</th>
+                                            <!-- <th style="width: 7%;" >IGST Rate</th> -->
+                                            <th style="width: 10%;">Total Amount</th>
+                                            <th style="width: 5%;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="mb-20 table-body table-discount">
+                                        <tr *ngFor="let item of items; let i = index">
+                                            <th>{{i+1}}</th>
+                                            <th>
+                                                <ng-select class="Serch-close" id="selectLedger" bindLabel="name"
+                                                placeholder="Select Item"
+                                                [(ngModel)]="item.item_id"
+                                                [disabled]="itemList == ''"
+                                                appendTo="body"
+                                                (change)="itemadded(item.item_id, i)"
+                                                [searchable]="true">
+                                                <ng-option [value]="item.uid" *ngFor="let item of itemList; let j = index">{{item.name}}</ng-option>
+                                                <ng-template ng-header-tmp>
+                                                    <div class="error-msg" (click)="openItemAddModal()"  >
+                                                        <h4>Create a New Item.</h4>
+                                                    </div>
+                                                </ng-template>
+                                                </ng-select>
+                                                <div class="error-msg" (click)="openItemAddModal()"  *ngIf="itemList == ''">
+                                                    <h4>Create a New Item.</h4>
+                                                </div>
+                                            </th>
+                                            <!-- <th><input class="form-control" [(ngModel)]="item.description" value="{{item.description}}" type="text" id="description"/></th>
+                                            <th><input class="form-control" [(ngModel)]="item.hsn_code" readonly value="{{item.hsn_code}}" type="text" id="hsn_sac"/></th> -->
+                                            <th>
+                                                <!-- [(ngModel)]="stockinhand.type" -->
+                                                <mat-radio-group aria-label="Select an option" [(ngModel)]="item.type">
+                                                    <mat-radio-button value="credit" >Credit</mat-radio-button>
+                                                    <mat-radio-button value="debit" >Debit</mat-radio-button>
+                                                </mat-radio-group>
+                                            </th>
+                                            <th><input class="form-control text-set"  [disabled]="!item.item_id" [(ngModel)]="item.quantity"  value="{{item.quantity}}" (change)="calculate(item, i)" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}"  pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="quantity"/></th>
+                                            <th><input class="form-control text-set" [(ngModel)]="item.unit" value="{{item.unit}}" readonly type="text"  id="unit"/></th>
+                                            <th><input class="form-control text-set" [disabled]="!item.item_id"  [(ngModel)]="item.price" value="{{item.price}}" (change)="calculate(item, i)" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}"  pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="rate"/></th>
+                                            <th><input class="form-control text-set" [ngModel]="getType(item.amount)" value="{{item.amount}}" readonly  type="text" id="amount"/></th>
+                                            <th>
+                                                <span><input class="form-control text-set"  [disabled]="!item.item_id" [(ngModel)]="item.discount" value="{{item.discount}}" (change)="calculate(item, i)" type="number" id="discount"/></span>
+                                                <span>
+                                                    <select class="form-control add-less-type" [disabled]="!item.item_id"  (change)="calculate(item, i)" [(ngModel)]="item.discount_type">
+                                                        <option value="percentage" >%</option>
+                                                        <option value="flat" >Flat</option>
+                                                    </select>
+                                                </span>
+                                            </th>
+                                            <!-- <th><input class="form-control text-set" [(ngModel)]="item.igst_tax" value="{{item.igst_tax}}" type="text" readonly id="igst_rate"/></th> -->
+                                            <th><input class="form-control text-set" [ngModel]="getType(item.total_amount)" value={{item.total_amount}} readonly type="text" id="total_amount"/></th> 
+                                            <th><button class="add-btn remove-btn"  (click)="removeUser(i)">X</button></th>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="12">
+                                            <button class="add-btn invoice-btn add-card-btn" (click)="addUser()"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD MORE </button>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="12">
+                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                </table>   
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="20">
+                                        <tbody>
+                                           
+                                            <tr>
+                                                <!-- <td *ngIf="stockinhand.discount_type == 'flat'" colspan="7" class="total-set">Total :</td> -->
+                                                <td colspan="9" class="total-set">Total :</td>
+                                                <td class="pd-set"><input class="form-control text-set" [ngModel]="getType(stockinhand.total_amount)" readonly type="text" id="gross_amount"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>   
+                                </div>
+                            </div>
+                            <div class="row teams_conditions mt-20">
+                                <div class="col-sm-12">
+                                    <div class="forn-group">
+                                        <label class="text-bold" for="teams_conditions">Narration</label>
+                                        <textarea class="form-control text-font rounded-0"  [(ngModel)]="stockinhand.narration" id="narration" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-20">
+                                <div class="col-sm-12">
+                                    <a><button (click)="done(createinvoice)" class="print-btn">DONE</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+
+                <ng-template #createinvoice let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title">CONFIRMATION</h4>
+                        <button type="button" class="close" aria-label="Close" routerLink="/admin/stock_report" routerLinkActive="active" (click)="d('Cross click')">
+                        
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body done-modal">
+                        <h1>Are you sure want to create this Stock In Hand Invoice.</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn footer-btn" [disabled]="clicked" (click)="genrateVoucher()">YES</button>
+                        <button class="btn footer-btn"  routerLink="/admin/stock_report" routerLinkActive="active"  (click)="c('close')">CANCEL</button>
+                    </div>
+                </ng-template>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+<app-user-footer></app-user-footer>

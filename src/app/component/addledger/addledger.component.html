@@ -1,0 +1,336 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper"> 
+        <div class="container-fluid">
+            <div class="component-header set-title pd-10">
+                <h3>Add Ledger Detail</h3>
+            </div>
+            <div class="item-form pd-20">
+               <form  [formGroup]="ledgerform" #LedgerForm="ngForm">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input class="form-control" type="text" id="name"  formControlName="name"/>
+                        <div class="validation-errors">
+                           <ng-container *ngFor="let validation of validation_messages.name" >
+                              <div class="error-message" *ngIf="ledgerform.get('name').hasError(validation.type) && (ledgerform.get('name').dirty || ledgerform.get('name').touched)">
+                                 {{ validation.message }}
+                              </div>
+                           </ng-container>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                        <label for="account_group">Account Group</label>
+                        <ng-select  bindLabel="name" bindValue="uid"
+                           placeholder="Select Account Group"
+                           formControlName="account_group_id"
+                           (change)="getAccountGroupid($event)"
+                           appendTo="body"
+                           [searchable]="true">
+                           <ng-option  *ngFor="let AccountGroup of accountlist; let i = index" [value]="AccountGroup.uid">{{AccountGroup?.name}}</ng-option>
+                           <ng-template ng-header-tmp>
+                              <div class="error-msg" (click)="openSubGroupmodal()">
+                                 <h4>Create a New Sub Account Groups.</h4>
+                              </div>
+                            </ng-template>
+                        </ng-select>
+                        <div class="validation-errors">
+                           <ng-container *ngFor="let validation of validation_messages.account_group_id" >
+                              <div class="error-message" *ngIf="ledgerform.get('account_group_id').hasError(validation.type) && (ledgerform.get('account_group_id').dirty || ledgerform.get('account_group_id').touched)">
+                                 {{ validation.message }}
+                              </div>
+                           </ng-container>
+                        </div>
+                     </div>
+                  </div>
+       
+                  <div class="col-sm-6 col-6">
+                     <div class="form-group">
+                        <label for="gst holder">GST Holder</label>
+                        <div class="form-group">
+                           <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" class="custom-control-input" id="true" (click)="gstshow(true)" value="true" name="is_gst" formControlName="is_gst" [checked]="is_gstshow==true" mdbInput>
+                              <label class="custom-control-label" for="true">Yes</label>
+                           </div>
+                           <div class="custom-control custom-radio custom-control-inline">
+                              <input type="radio" class="custom-control-input" id="false" (click)="gstshow(false)"  name="is_gst" value="false" formControlName="is_gst"  [checked]="is_gstshow==false" mdbInput>
+                              <label class="custom-control-label" for="false">No</label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+       
+                  <div  *ngIf = "is_gstshow == true" class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label for="area">GST Number</label>
+                        <input class="form-control" type="text" maxlength="15" formControlName="gst_number" />
+                        <div class="validation-errors">
+                           <ng-container *ngFor="let validation of validation_messages.gst_number" >
+                              <div class="error-message" *ngIf="ledgerform.get('gst_number').hasError(validation.type) && (ledgerform.get('gst_number').dirty || ledgerform.get('gst_number').touched)">
+                                 {{ validation.message }}
+                              </div>
+                           </ng-container>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <label for="amount">Opening Balance as on ({{activecompany['bookstart_date'] | date : 'dd-MMM-yyyy'}})</label>
+                     <div class="row">
+                        <div class="col-sm-5 col-6">
+                           <div class="form-group">
+                              <input class="form-control" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  formControlName="amount"/>
+                           </div>
+                        </div>
+                        <div class="col-sm-7 col-6">
+                           <div class="form-group">
+                              <div class="custom-control custom-radio custom-control-inline">
+                                 <input type="radio" class="custom-control-input" id="debit" formControlName="opening_balance" value="debit" name="opening_balance" mdbInput [checked]="true">
+                                 <label class="custom-control-label" for="debit">Dr.</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                 <input type="radio" class="custom-control-input" id="credit" formControlName="opening_balance"  name="opening_balance" value="credit" mdbInput>
+                                 <label class="custom-control-label" for="credit">Cr.</label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div *ngIf="selectedType == 'Bank (A)' || selectedType == 'Bank (L)'">
+                  <div class="row">
+                     
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                        <label for="stateid">State</label>
+                        <ng-select  bindLabel="name"
+                              placeholder="Select State"
+                              formControlName="state_id"
+                              appendTo="body"
+                              (change)="getCityList($event)"
+                              [searchable]="true">
+                              <ng-option *ngFor="let state of statelist; let i = index" [value]="state.id">{{state.name}}</ng-option>
+                        </ng-select>
+                       
+                        
+                     </div>
+                  </div>
+                     <div  class="col-sm-6">
+                        <div class="form-group">
+                           <label for="account_holder_name">Account Holder Name</label>
+                           <input class="form-control" type="text" id="account_holder_name" formControlName="account_holder_name"/>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="bank_account_number">Bank Account Number</label>
+                           <input class="form-control" type="text" maxlength="15" id="bank_account_number" formControlName="bank_account_number"/>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="ifsc_code">IFSC</label>
+                           <input class="form-control"  type="text" maxlength="11" id="ifsc_code" formControlName="ifsc"/>
+                           <div class="validation-errors">
+                              <ng-container *ngFor="let validation of validation_messages.ifsc" >
+                                 <div class="error-message" *ngIf="ledgerform.get('ifsc').hasError(validation.type) && (ledgerform.get('ifsc').dirty || ledgerform.get('ifsc').touched)">
+                                    {{ validation.message }}
+                                 </div>
+                              </ng-container>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="bank_name">Bank Name</label>
+                           <input class="form-control" type="text" id="bank_name" formControlName="bank_name"/>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="branch_name">Branch Name</label>
+                           <input class="form-control" type="text" id="branch_name" formControlName="bank_branch"/>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group  mt-30">
+                           <div class="row">
+                              <div class="col-sm-5 col-5">
+                                 <div class="form-group">
+                                    <label for="default_bank">Default Bank</label>
+                                 </div>
+                              </div>
+                              <div class="col-sm-7 col-7">
+                                 <div class="form-group">
+                                  <mat-radio-group aria-label="Select an option"  formControlName="is_default_bank">
+                                     <mat-radio-button style="margin-right: 50px;" value="true" >Yes</mat-radio-button>
+                                     <mat-radio-button value="false" [checked]="true" >No</mat-radio-button>
+                                  </mat-radio-group>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div  *ngIf="selectedType == 'Purchase Accounts'  || selectedType == 'Sales Accounts'" class="purchase">
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="branch_name">Tax slab</label>
+                           <select class="form-control" formControlName="taxes_slab_id" >
+                              <option *ngFor="let taxes of taxelist; let i = index" value="{{taxes.id}}">{{taxes.title}}</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group  mt-30">
+                           <div class="row">
+                              <div class="col-sm-5 col-5">
+                                 <div class="form-group">
+                                    <label for="purchasesaller">Purchase Saller</label>
+                                 </div>
+                              </div>
+                              <div class="col-sm-7 col-7">
+                                 <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                       <input type="radio" class="custom-control-input" id="local"  value="local" name="state_status" formControlName="state_status" mdbInput [checked]="true">
+                                       <label class="custom-control-label" for="local">Local</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                       <input type="radio" class="custom-control-input" id="outersat"   name="state_status" value="outersat" formControlName="state_status" mdbInput>
+                                       <label class="custom-control-label" for="outersat">Outer State</label>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div  *ngIf="selectedType == 'Capital Account' || selectedType == 'Sundry Debtors' || selectedType == 'Sundry Creditors'" class="capita_account">
+                  <div class="row">
+                     
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                        <label for="stateid">State</label>
+                        <ng-select  bindLabel="name"
+                              placeholder="Select State"
+                              formControlName="state_id"
+                              appendTo="body"
+                              (change)="getCityList($event)"
+                              [searchable]="true">
+                              <ng-option *ngFor="let state of statelist; let i = index" [value]="state.id">{{state.name}}</ng-option>
+                        </ng-select>
+                       
+                     </div>
+                  </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label for="number">Phone Number</label>
+                           <input class="form-control" (keypress)="numberOnly($event)" minlength="10" maxlength="10" type="text" id="number"  formControlName="phone_number"/>
+                           <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.phone_number">
+                                <div class="error-message" *ngIf="ledgerform.get('phone_number').hasError(validation.type) && (ledgerform.get('phone_number').dirty || ledgerform.get('phone_number').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label for="email">Email</label>
+                           <input class="form-control" type="email" id="email"  formControlName="email"/>
+                           <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.email">
+                                <div class="error-message" *ngIf="ledgerform.get('email').hasError(validation.type) && (ledgerform.get('email').dirty || ledgerform.get('email').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label for="cinnumber">CIN Number</label>
+                           <input class="form-control" type="text" id="cinnumber"  formControlName="cin_number"/>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label for="website">Website</label>
+                           <input class="form-control" type="text" id="website"  formControlName="website"/>
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label for="jurisdiction">Jurisdiction</label>
+                           <input class="form-control" type="text" id="jurisdiction"  formControlName="jurisdiction"/>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="address">Address</label>
+                           <textarea class="form-control rounded-0" formControlName="street" rows="3"></textarea>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div  *ngIf="selectedType == 'Taxes'" class="taxes">
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <div class="form-group mt-30">
+                           <div class="row">
+                              <div class="col-sm-7 col-7">
+                                 <div class="form-group">
+                                    <label for="cess">Cess</label>
+                                 </div>
+                              </div>
+                              <div class="col-sm-5 col-5">
+                                 <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                       <input type="radio" class="custom-control-input" id="yes" (click)="show(true)" value="yes" name="cess" formControlName="cess" mdbInput>
+                                       <label class="custom-control-label" for="yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                       <input type="radio" class="custom-control-input" id="no" (click)="show(false)"  name="cess" value="no" formControlName="cess" [checked]="true" mdbInput>
+                                       <label class="custom-control-label" for="no">No</label>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label for="branch_name" >Tax slab</label>
+                           <select class="form-control" formControlName="taxes_slab_id"  >
+                              <option *ngFor="let taxes of taxelist; let i = index" value="{{taxes.id}}">{{taxes.title}}</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div *ngIf = "cessblock == true" class="col-sm-6">
+                        <div class="form-group">
+                           <label for="tax">Tax</label>
+                           <input class="form-control" type="text" id="cess_tax" formControlName="cess_tax"/>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               </form>
+            </div>
+            
+            <div class="modal-footer Component-footer">
+                <button class="btn footer-btn" [disabled]="clicked" (click)="addledger()">ADD LEDGER</button>
+                <button class="btn footer-btn" (click)="closeledger()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-user-footer></app-user-footer>
+

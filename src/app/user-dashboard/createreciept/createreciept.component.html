@@ -1,0 +1,124 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- =========================================================================================== -->
+            <ng-template #receiptmodal let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Receipt</h4>
+                    <button type="button" class="close" aria-label="Close" routerLink="/admin/receipt" routerLinkActive="active" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body header-filed">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <mat-form-field class="width-set">
+                                    <input matInput [matDatepicker]="voucherdate" [min]="current_periad_startdate"  [max]="current_periad_enddate" placeholder="Voucher Date" [(ngModel)]="recieptvoucher.invoice_date">
+                                    <mat-datepicker-toggle matSuffix [for]="voucherdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #voucherdate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock_group" class="text-bold">Choose Ledger</label>
+                                <div class="loader_setAll">
+                                    <circle-progress *ngIf = "loader" [percent]="99"
+                                            [percent]="99" 
+                                            [radius]="20"
+                                            [space]="2"
+                                            [backgroundPadding]="0"
+                                            [outerStrokeWidth]="3"
+                                            [innerStrokeWidth]="1"
+                                            [outerStrokeColor]="'#30304b'"
+                                            [innerStrokeColor]="'#30304b80'"
+                                            [animation]="true"
+                                            [showSubtitle]="false"
+                                            [titleFontSize]="8"
+                                            [unitsFontSize]="8"
+                                            [animationDuration]="500" >
+                                    </circle-progress>
+                                </div>
+                                <ng-select  *ngIf = "!loader" id="selectLedger" bindLabel="name"
+                                placeholder="Select Ledger"
+                                [(ngModel)]="ledger"
+                                value="-1"
+                                appendTo="body"
+                                [disabled]="ledgerList == ''"
+                                (change)="getLedgerData(ledger)"
+                                [searchable]="true">
+                                <ng-option [value]="ledger" *ngFor="let ledger of ledgerList" >{{ledger.name}}</ng-option>
+                                <ng-template ng-header-tmp>
+                                    <div class="error-msg" (click)="openLedgerAddModal()"  >
+                                        <h4>Create a New Ledger.</h4>
+                                    </div>
+                                </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock_group" class="text-bold">Receive In (through bank/cash)</label>
+                                <ng-select id="selectLedger" bindLabel="name"
+                                placeholder="Receive In "
+                                [(ngModel)]="receiveledger"
+                                value="-1"
+                                appendTo="body"
+                                [disabled]="ledgerBankList == ''"
+                                (change)="getbankLedgerData(receiveledger)"
+                                [searchable]="true">
+                                <ng-option [value]="receiveledger" *ngFor="let receiveledger of ledgerBankList" >{{receiveledger.name}}</ng-option>
+                                </ng-select>
+                                <div class="error-msg" (click)="openLedgerAddModal()"  *ngIf="ledgerBankList == ''">
+                                    <h4>Create a Cash or Bank Ledger.</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock_group" class="text-bold">Enter Amount</label>
+                                <input class="form-control" type="number" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$" [(ngModel)]="recieptvoucher.total_amount"  id="amount" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="forn-group mt-10">
+                                    <label class="text-bold" for="Narration">Narration</label>
+                                    <textarea class="form-control text-font rounded-0"  [(ngModel)]="recieptvoucher.narration" id="Narration" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn footer-btn"  [disabled]="!recieptvoucher.ledger_id || !recieptvoucher.total_amount || !recieptvoucher.invoice_date || !recieptvoucher.receive_id "  (click)="done(createinvoice)" >SAVE</button>
+                </div>
+            </ng-template>
+            <!-- =========================================================================================== -->
+            <ng-template #createinvoice let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title">CONFIRMATION</h4>
+                    <button type="button" class="close" aria-label="Close" routerLink="/admin/receipt" routerLinkActive="active" (click)="d('Cross click')">
+                       
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body done-modal">
+                    <h1>Are you sure want to create this Receipt Invoice.</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" [disabled]="clicked" (click)="genrateVoucher()">YES</button>
+                    <button class="btn footer-btn"  routerLink="/admin/receipt" routerLinkActive="active"  (click)="c('close')">CANCEL</button>
+                </div>
+            </ng-template>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

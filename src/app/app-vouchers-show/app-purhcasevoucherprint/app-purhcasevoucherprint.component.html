@@ -1,0 +1,285 @@
+
+
+    <!-- ----------------------------------- INVOICE PRINT DESIGN ------------------------------- -->
+
+    <div *ngIf="voucherAppshow" id="print-section" >
+        <table cellpadding="0" cellspacing="0" style="width:100%; margin-bottom: 0;">
+            <tbody>
+               <tr>
+                  <td style="width:100%;text-align:center;padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;">
+                     <input type="hidden" name="value"  value="{{purchasevoucher.uid}}">
+                     <h1 style="margin: 0;font-size:16px;text-transform: uppercase;">TAX INVOICE</h1>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         <table cellpadding="0" cellspacing="0" style="width:100%; margin-bottom: 0;">
+            <tbody>
+               <tr>
+                  <td style="width:25%;text-align:center;padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;">
+                    <img *ngIf="purchasevoucher.company && purchasevoucher.company.company_logo != ''" src='{{imgbaseurl}}{{purchasevoucher.company.company_logo}}' class="logo" style="vertical-align: middle;">
+                  </td>
+                  <td class="company-address" style="width:70%; text-align:left; padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;">
+                     <h1 class="company-name" *ngIf="purchasevoucher.company" style="font-size:15px; text-transform: capitalize; margin: 0; margin-bottom:2px;">{{purchasevoucher.company.company_name}}</h1>
+                     <p style="margin:0;" *ngIf="purchasevoucher.company && purchasevoucher.company.city && purchasevoucher.company.city.name && purchasevoucher.company.city.state.name "><b style="font-weight: 500; font-size: 12px;">Address  : {{purchasevoucher.company.street}} <span *ngIf="purchasevoucher.company.street != ''">,</span> {{purchasevoucher.company.area}} <span *ngIf="purchasevoucher.company.area != ''">,</span> {{purchasevoucher.company.city.name}}, {{purchasevoucher.company.city.state.name}} </b></p>
+                     <table cellpadding="0" cellspacing="0" style="width:100%; border: none;">
+                        <tr>
+                           <td style="padding:0; border: none; width: 50%;">
+                              <p style="margin:3px 0;" ><b style="font-weight: 500; font-size: 12px;">Phone No : <span *ngIf="purchasevoucher.company && purchasevoucher.company.phone_number != ''">{{purchasevoucher.company.phone_number}}</span></b></p>
+                           </td>
+                           <td style="padding:0; border: none; width: 50%;">
+                              <p style="margin:3px 0;"><b style="font-weight: 500; font-size: 12px;">Email :  <span *ngIf="purchasevoucher.company && purchasevoucher.company.email != ''">{{purchasevoucher.company.email}}</span></b></p>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td style="padding:0; border: none; width: 50%;">
+                              <p style="margin:3px 0; font-size: 12px;">GSTN :   <span *ngIf="purchasevoucher.company && purchasevoucher.company.gst_number != ''">{{purchasevoucher.company.gst_number}}</span></p>
+                           </td>
+                           <td style="padding:0; border: none; width: 50%;">
+                              <p style="margin:3px 0;font-size: 12px;">PAN :  <span *ngIf="purchasevoucher.company && purchasevoucher.company.company_pan_number != ''">{{purchasevoucher.company.company_pan_number}}</span></p>
+                           </td>
+                        </tr>
+                     </table>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         <table cellpadding="0" cellspacing="0" class="buyerTable" style="width:100%;margin-bottom: 0;">
+            <tbody>
+               <tr>
+                  <td style="width: 25%;vertical-align: top; padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;">
+                     <b style="font-weight: 500; font-size: 12px;">Buyer</b>
+                     <h4 *ngIf="purchasevoucher.PurchaseLedger" style="margin:4px 0;font-weight:400;font-size: 12px;">{{purchasevoucher.PurchaseLedger.name}}</h4>
+                     <h5 style="margin:4px 0;font-weight:400;font-size: 12px;"></h5>
+                     <h5 style="margin:4px 0;font-weight:400;font-size: 12px;"></h5>
+                     <p style="margin:4px 0;font-weight:400;font-size: 12px;">GSTIN No : </p>
+                     <p style="margin:4px 0;font-weight:400;font-size: 12px;">Place of Supply : </p>
+                  </td>
+                  <td style="width: 25%;vertical-align: top; padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;">
+                     <b style="font-weight: 500; font-size: 12px;">Shiiping (consignee)</b>
+                     <h4 style="margin:4px 0;font-weight:400;font-size: 12px;">{{purchasevoucher.shipping_address}}</h4>
+                     <h5 style="margin:4px 0;font-weight:400;font-size: 12px;"></h5>
+                     <h5 style="margin:4px 0;font-weight:400;font-size: 12px;"></h5>
+                     <p style="margin:4px 0;font-weight:400;font-size: 12px;">GSTIN No : </p>
+                     <p style="margin:4px 0;font-weight:400;font-size: 12px;">Place of Supply : </p>
+                  </td>
+                  <td style="width: 35%; text-align: center; padding: 0 !important;vertical-align: top;">
+                     <table cellpadding="0" cellspacing="0" style="width:100%;">
+                        <thead>
+                           <tr>
+                              <td style="width: 50%; padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;text-align:center;"><b style="font-weight: 500; font-size: 12px;">Invoice No.</b></td>
+                              <td style="width: 50%; padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;text-align:center;"><b style="font-weight: 500; font-size: 12px;">Date</b></td>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td style="height: 103px;padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;text-align:center;"><b style="font-weight: 500; font-size: 12px;">{{purchasevoucher.invoice_id}}</b></td>
+                              <td style="height: 103px;padding:5px;font-family: 'Roboto', sans-serif; border: 1px solid #868686;text-align:center;"><b style="font-weight: 500; font-size: 12px;">{{purchasevoucher.invoice_date | date:'dd MMM yyyy'}}</b></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         
+         <table cellpadding="0" cellspacing="0" class="quantityTable" style="width:100%;">
+            <thead>
+               <tr style="background-color: #ccc;">
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Supply of Goods/Service</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Description</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">HSN Code</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Units</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Quantity</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Rates</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Discount</th>
+                  <th style="font-size:12px;padding:5px;font-family: 'Roboto', sans-serif; border: 0.5px solid #868686;text-align:center;">Amount</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of items; let i = index">
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; border-left:0.5px solid #868686; border-right:0.5px solid #868686;">{{item.name}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; border-right:0.5px solid #868686;">{{item.description}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align:center; border-right:0.5px solid #868686;">{{item.hsn_code}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right; border-right:0.5px solid #868686;">{{item.unit}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right; border-right:0.5px solid #868686;">{{getType(item.quantity)}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align:right; border-right:0.5px solid #868686;">{{getType(item.price)}}</td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align:right; border-right:0.5px solid #868686;">{{item.discount}} 
+                    <span  *ngIf="item.discount_type == 'percentage' && item.discount != ''">(%)</span>
+                    <span *ngIf="item.discount_type == 'flat' ">(Flat)</span>
+                  </td>
+                  <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align:right; border-right:0.5px solid #868686;">{{getType(item.total_amount)}}</td>
+               </tr>
+               <tr>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-left:0.5px solid #868686;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                  <td style="padding:5px;font-family: 'Roboto', sans-serif;border-top: none; border-right:0.5px solid #868686;text-align: right;font-size:12px;">0.00</td>
+               </tr>
+               <tr *ngFor="let item of taxesdata; let i = index">
+                 <td *ngIf="item.ledger" style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-top: none; border-bottom: none; text-align: right;border-right:0.5px solid #868686;border-left:0.5px solid #868686;">{{item.ledger.name}}</td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right;border-right:0.5px solid #868686;">{{item.amount}}</td>
+              </tr>
+              <tr>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right;border-right:0.5px solid #868686;border-left:0.5px solid #868686;">Other</td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right;border-right:0.5px solid #868686;"> 
+                    <span  *ngIf="purchasevoucher.discount_type == 'percentage'">(%)</span>
+                    <span *ngIf="purchasevoucher.discount_type == 'flat' ">(Flat)</span>  {{getType(purchasevoucher.discount)}} 
+              </td>
+              </tr>
+              <tr>
+                 <td style="padding:5px;font-size: 12px;font-family: 'Roboto', sans-serif; text-align: right;border-right:0.5px solid #868686;border-left:0.5px solid #868686;">Round off</td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;border-right:0.5px solid #868686;"></td>
+                 <td style="padding:5px;font-size: 12px;text-align: right;border-right:0.5px solid #868686;">
+                    <span *ngIf="purchasevoucher.roundoff_value != '' && purchasevoucher.roundoff_value != null">{{getType(purchasevoucher.roundoff_value)}}</span>
+                 </td>
+              </tr>
+              <tr class="amountTable">
+                 <td colspan="3" style="padding:5px; text-align:right; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p style="font-size: 12px; margin:2px 0px;">Amount Chargeable (in words):</p>
+                    <p *ngIf="amountconvert != ''" style="margin:2px 0px;"><b style="font-weight: 500; font-size: 12px;">{{inWords(amountconvert)}} .</b></p>
+                 </td>
+                 <td colspan="4" style="text-align:right;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;"><b style="font-weight: 500; font-size: 12px;">Total</b></td>
+                 <td style="text-align: right;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;"><b style="font-weight: 500; font-size: 12px;">{{getType(purchasevoucher.total_amount)}}</b></td>
+                 
+              </tr>
+              </tbody>
+          </table> 
+
+          <table *ngIf="selectedlocal == 'yes'" cellpadding="0" cellspacing="0" class="quantityTable" style="width:100%;">
+             <tbody>
+                <tr class="amountTable" style="background: #ccc;">
+                   <td colspan="2" rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>HSN/SAC</p>
+                   </td>
+                   <td rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Taxable Value</td>
+                   <td colspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Central (CGST)</td>
+                   <td colspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">State (SGST)</td>
+                   <td rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Total Value</td>
+                </tr>
+                <tr class="amountTable" style="background: #ccc;">
+                   <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>Rate</p>
+                   </td>
+                   <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>Amount</p>
+                   </td>
+                   <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>Rate</p>
+                   </td>
+                   <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>Amount</p>
+                   </td>
+                </tr>
+                <tr *ngFor="let item of items; let i = index" class="amountTable">
+                   <td colspan="2" style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.hsn_code}}</p>
+                   </td>
+                   <td style="text-align: right;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.total_amount}}</p>
+                   </td>
+                   <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.igst_tax/2}}%</p>
+                   </td>
+                   <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.taxamount/2}}</p>
+                   </td>
+                   <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.igst_tax/2}}%</p>
+                   </td>
+                   <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.taxamount/2}}</p>
+                   </td>
+                   <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                      <p>{{item.Total_sum_Item}}</p>
+                   </td>
+                </tr>
+
+                <tr class="amountTable" style="height: 180px;">
+                  <td colspan="5" style="vertical-align:top; text-align: left;padding:8px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                     <p *ngIf="purchasevoucher.company">{{purchasevoucher.company.terms}}</p>
+                  </td>
+                  <td colspan="3" style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                     <p style="margin-bottom:0"><b style="font-weight: 500; font-size: 13px;">For <span  *ngIf="purchasevoucher.company.company_name == '' ">GSTAPPS</span><span *ngIf="purchasevoucher.company.company_name != '' ">{{purchasevoucher.company.company_name}}</span> </b></p>
+                     <p style="margin:0">Authorised Signatory</p>
+                  </td>
+              </tr>
+             </tbody>
+          </table> 
+
+          <table *ngIf="selectedlocal == 'no'" cellpadding="0" cellspacing="0" class="quantityTable" style="width:100%;">
+           <tbody>
+              <tr class="amountTable" style="background: #ccc;">
+                 <td colspan="2" rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>HSN/SAC</p>
+                 </td>
+                 <td rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Taxable Value</td>
+                 <td colspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Integrated Tax</td>
+                 <td rowspan="2" style="font-size:12px;text-align: center; padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">Total Value</td>
+              </tr>
+              <tr class="amountTable" style="background: #ccc;">
+                 <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>Rate</p>
+                 </td>
+                 <td style="font-size:12px;text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>Amount</p>
+                 </td>
+              </tr>
+              <tr *ngFor="let item of items; let i = index" class="amountTable">
+                 <td colspan="2" style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>{{item.hsn_code}}</p>
+                 </td>
+                 <td style="text-align: right;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>{{item.total_amount}}</p>
+                 </td>
+                 <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>{{item.igst_tax}}%</p>
+                 </td>
+                 <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>{{item.taxamount}}</p>
+                 </td>
+                 <td style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                    <p>{{item.Total_sum_Item}}</p>
+                 </td>
+              </tr>
+
+              <tr class="amountTable" style="height: 180px;">
+               <td colspan="5" style="vertical-align:top; text-align: left;padding:8px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                  <p *ngIf="purchasevoucher.company">{{purchasevoucher.company.terms}}</p>
+               </td>
+               <td colspan="3" style="text-align: center;padding:5px; font-family: 'Roboto', sans-serif; border:1px solid #868686;">
+                  <p style="margin-bottom:0"><b style="font-weight: 500; font-size: 13px;">For <span  *ngIf="purchasevoucher.company.company_name == '' ">GSTAPPS</span><span *ngIf="purchasevoucher.company.company_name != '' ">{{purchasevoucher.company.company_name}}</span> </b></p>
+                  <p style="margin:0">Authorised Signatory</p>
+               </td>
+            </tr>
+           </tbody>
+        </table>
+
+     </div>
+
+     <!-- ----------------------------------- INVOICE PRINT DESIGN END ------------------------------- -->
+
+
+
+

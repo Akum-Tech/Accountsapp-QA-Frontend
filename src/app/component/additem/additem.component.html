@@ -1,0 +1,299 @@
+
+<mat-dialog-content class="modal-set">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Item Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeledger()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="item-form">
+            <form  [formGroup]="itemsform" #ItemsForm="ngForm" (ngSubmit)="additems()">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input class="form-control" type="text" id="name" formControlName="name" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.name" >
+                                    <div class="error-message" *ngIf="itemsform.get('name').hasError(validation.type) && (itemsform.get('name').dirty || itemsform.get('name').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="stock_group">Stock Group</label>
+                            <ng-select  bindLabel="name"
+                            placeholder="Select Stock Group"
+                            formControlName="stock_group_id"
+                            (change)="getStockGroupid($event)"
+                            [searchable]="true">
+                            <ng-option *ngFor="let StockGroup of stocklist; let i = index" [value]="StockGroup.uid">{{StockGroup.stock_name}}</ng-option>
+                            <!-- <ng-template ng-header-tmp>
+                                <div class="error-msg" (click)="openStockAddModal()"  >
+                                    <h4>Create a New Stock Group.</h4>
+                                </div>
+                            </ng-template> -->
+                            </ng-select>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.stock_group_id" >
+                                    <div class="error-message" *ngIf="itemsform.get('stock_group_id').hasError(validation.type) && (itemsform.get('stock_group_id').dirty || itemsform.get('stock_group_id').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <!-- <div class="error-msg" (click)="openStockAddModal()" *ngIf="stocklist == ''">
+                              <h4>Please Create a Stock Group</h4>
+                            </div>  -->
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Unit">Unit</label>
+                        <ng-select  bindLabel="name"
+                            placeholder="Select Unit"
+                            formControlName="unit"
+                            [searchable]="true">
+                            <ng-option *ngFor="let Units of unitlist; let i = index" [value]="Units.id">{{Units.uqc}}({{Units.quantity_description}})</ng-option>
+                        </ng-select>
+                        <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.unit" >
+                                <div class="error-message" *ngIf="itemsform.get('unit').hasError(validation.type) && (itemsform.get('unit').dirty || itemsform.get('unit').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="quantity">Opening Quantity as on ({{activecompany['bookstart_date']}})</label>
+                        <input class="form-control" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  (change)="calculate($event)" id="quantity" formControlName="quantity"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="rate">Rate</label>
+                        <input class="form-control" (change)="calculate($event)" maxlength="15" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="rate" formControlName="rate"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="hsn_code">HSN Code</label>
+                        <input class="form-control" type="text" maxlength="8" id="hsn_code" formControlName="hsn_code"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group mt-30">
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label for="cess">Cess</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="yes" (click)=" show(true)" value="yes" name="cess" formControlName="cess" mdbInput>
+                                        <label class="custom-control-label" for="yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="no" (click)="show(false)"  name="cess" value="no" formControlName="cess" [checked]="true" mdbInput>
+                                        <label class="custom-control-label" for="no">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="branch_name" >IGST rate</label>
+                        <select class="form-control" formControlName="taxes_slab_id">
+                        <option  *ngFor="let taxes of taxelist; let i = index" value="{{taxes.id}}" [selected] ="taxes === 0">{{taxes.title}}</option>
+                        </select>
+                        <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.taxes_slab_id" >
+                                <div class="error-message" *ngIf="itemsform.get('taxes_slab_id').hasError(validation.type) && (itemsform.get('taxes_slab_id').dirty || itemsform.get('taxes_slab_id').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf = "cessblock == true" class="col-sm-6">
+                    <div class="form-group">
+                        <label for="tax">Tax</label>
+                        <input class="form-control" type="text" id="cess_tax" formControlName="cess_tax"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="total_value">Total Value</label>
+                        <input class="form-control" type="text" value={{getType(totalVal)}} id="total_value" formControlName="total_value" disabled/>
+                    </div>
+                </div>
+            </div>
+            </form>
+    </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="modal-footer">
+    <button class="btn footer-btn" [disabled]="clicked"  (click)="additems()">ADD ITEMS</button>
+    <button class="btn footer-btn" (click)="closeledger()">CANCEL</button>
+</mat-dialog-actions>
+
+
+
+<!-- <app-user-header></app-user-header>
+<div id="wrapper">
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper"> 
+        <div class="container-fluid">
+            <div class="component-header set-title pd-10">
+                <h3>Add Item Detail</h3>
+            </div>
+            <div class="item-form pd-20">
+                <form  [formGroup]="itemsform" #ItemsForm="ngForm" (ngSubmit)="additems()">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input class="form-control" type="text" id="name" formControlName="name" />
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.name" >
+                                    <div class="error-message" *ngIf="itemsform.get('name').hasError(validation.type) && (itemsform.get('name').dirty || itemsform.get('name').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="stock_group">Stock Group</label>
+                            <ng-select  bindLabel="name"
+                            placeholder="Select Stock Group"
+                            formControlName="stock_group_id"
+                            (change)="getStockGroupid($event)"
+                            [searchable]="true">
+                            <ng-option *ngFor="let StockGroup of stocklist; let i = index" [value]="StockGroup.uid">{{StockGroup.stock_name}}</ng-option>
+                            <ng-template ng-header-tmp>
+                                <div class="error-msg" (click)="openStockAddModal()"  >
+                                    <h4>Create a New Stock Group.</h4>
+                                </div>
+                            </ng-template>
+                            </ng-select>
+                            <div class="validation-errors">
+                                <ng-container *ngFor="let validation of validation_messages.stock_group_id" >
+                                    <div class="error-message" *ngIf="itemsform.get('stock_group_id').hasError(validation.type) && (itemsform.get('stock_group_id').dirty || itemsform.get('stock_group_id').touched)">
+                                        {{ validation.message }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="error-msg" (click)="openStockAddModal()" *ngIf="stocklist == ''">
+                              <h4>Please Create a Stock Group</h4>
+                            </div> 
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Unit">Unit</label>
+                        <ng-select  bindLabel="name"
+                            placeholder="Select Unit"
+                            formControlName="unit"
+                            [searchable]="true">
+                            <ng-option *ngFor="let Units of unitlist; let i = index" [value]="Units.id">{{Units.uqc}}({{Units.quantity_description}})</ng-option>
+                        </ng-select>
+                        <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.unit" >
+                                <div class="error-message" *ngIf="itemsform.get('unit').hasError(validation.type) && (itemsform.get('unit').dirty || itemsform.get('unit').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="quantity">Opening Quantity as on ({{activecompany['bookstart_date']}})</label>
+                        <input class="form-control" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  (change)="calculate($event)" id="quantity" formControlName="quantity"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="rate">Rate</label>
+                        <input class="form-control" (change)="calculate($event)" maxlength="15" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="rate" formControlName="rate"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="hsn_code">HSN Code</label>
+                        <input class="form-control" type="text" maxlength="8" id="hsn_code" formControlName="hsn_code"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group mt-30">
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label for="cess">Cess</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="yes" (click)=" show(true)" value="yes" name="cess" formControlName="cess" mdbInput>
+                                        <label class="custom-control-label" for="yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="no" (click)="show(false)"  name="cess" value="no" formControlName="cess" [checked]="true" mdbInput>
+                                        <label class="custom-control-label" for="no">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="branch_name" >IGST rate</label>
+                        <select class="form-control" formControlName="taxes_slab_id">
+                        <option  *ngFor="let taxes of taxelist; let i = index" value="{{taxes.id}}" [selected] ="taxes === 0">{{taxes.title}}</option>
+                        </select>
+                        <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.taxes_slab_id" >
+                                <div class="error-message" *ngIf="itemsform.get('taxes_slab_id').hasError(validation.type) && (itemsform.get('taxes_slab_id').dirty || itemsform.get('taxes_slab_id').touched)">
+                                    {{ validation.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf = "cessblock == true" class="col-sm-6">
+                    <div class="form-group">
+                        <label for="tax">Tax</label>
+                        <input class="form-control" type="text" id="cess_tax" formControlName="cess_tax"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="total_value">Total Value</label>
+                        <input class="form-control" type="text" value={{getType(totalVal)}} id="total_value" formControlName="total_value" disabled/>
+                    </div>
+                </div>
+            </div>
+            </form>
+            </div>
+            
+            <div class="modal-footer Component-footer">
+                <button class="btn footer-btn" [disabled]="clicked"  (click)="additems()">ADD ITEMS</button>
+                <button class="btn footer-btn" (click)="closeledger()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-user-footer></app-user-footer> -->

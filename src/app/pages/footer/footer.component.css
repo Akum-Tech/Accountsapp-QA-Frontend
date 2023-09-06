@@ -1,0 +1,121 @@
+footer{
+    background: #f7f8fb;
+    position: relative;
+  }
+  .footer-widget{
+    font-family:"sofiaPro-Bold";
+  }
+  .footer-widget .footer-logo{
+    width: 160px;
+  }
+  .footer-social{
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  .footer-social a{
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 50px;
+    line-height: 35px;
+    text-align: center;
+    background-color: #fff;
+    transition: 0.3s all ease-in-out;
+    filter: drop-shadow(0px 3px 6px rgba(67, 67, 67, 0.3));
+  }
+  .footer-social a svg{
+    fill:#6c757d;
+    height: 18px;
+  }
+  .footer-social a:hover{
+    background-color: #1441eb;
+  }
+  .footer-social a:hover svg{
+    fill: #fff;
+  }
+  .footer-widget h4{
+    margin-bottom: 30px;
+  }
+  .footer-widget ul{
+    padding: 0;
+  }
+  .footer-widget ul li{
+    list-style: none;
+    line-height: 23px;
+    margin-bottom: 12px;
+  }
+  .footer-widget ul li a{
+    color: #6C757D;
+    font-family: "Sofiapro-Light";
+  }
+  .footer-widget ul li a:hover{
+    color: #1441EB;
+  }
+  .footer-widget span{
+    display: table-cell;
+    padding-right: 10px;
+    font-family: "Sofiapro-Light";
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    color: #6c757d;
+  }
+  .footer-widget span svg{
+    fill: #6C757D;
+    height: 20px;
+  }
+  .footer-map{
+    position: absolute;
+    top: 75px;
+    width: 500px;
+    left: 20%;
+    animation-name: left-right-move;
+    animation-duration: 25s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .playStoreBtn {
+    margin-top: 40px;
+  }
+  .playStoreBtn img{
+    height: 45px;
+    margin-right: 15px;
+  }
+  .copy-right{
+    padding:15px;
+    background: #e6eaf3;
+  }
+  .copy-right p{
+    margin: 0;
+    font-family:"Sofiapro-Light";
+    font-weight: 300;
+    font-size: 15px;
+    color: #6c757d;
+  }
+
+  .copy-right span{
+    color:#1441EB;
+  }
+  
+
+  @media (min-width: 1200px){
+    .container {
+        max-width: 1400px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-map{
+      display: none;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .playStoreBtn img{
+      height: 40px;
+    }
+    .footer-map{
+      display: none;
+    }
+}

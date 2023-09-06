@@ -1,0 +1,71 @@
+<app-user-header></app-user-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <div class="packages-plans mtb-30">
+                <div class="container-fluid">
+                    <div class="form_heding">
+                        <h3>VIEW YOUR PACKAGES PLANS</h3>
+                    </div>
+                    <div class="plan-form mt-50">
+                        <div class="container-fluid">
+                            <div class="loader_setAll">
+                                <circle-progress *ngIf = "loader" [percent]="99" >
+                                </circle-progress>
+                            </div>
+                            <div class="table-responsive" *ngIf = "!loader && viewbuylist != ''">
+                                <table class="table" [mfData]="viewbuylist" #mf="mfDataTable" [mfRowsOnPage]="20">
+                                    <thead class="table-header">
+                                        <tr>
+                                            <th>Si No.</th>
+                                            <th>Subscription ID</th>
+                                            <th>Creation Date</th>
+                                            <th>Update Date</th>
+                                            <th>Amount</th>
+                                            <th>GST</th>
+                                            <th>Total Amount</th>
+                                            <th style="text-align: center;">Download Invoice</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="mb-20 table-body">
+                                        <tr  *ngFor="let buyplan of mf.data ; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{buyplan.subscription_id}}</td>
+                                            <td>{{buyplan.creation_date | date:'dd MMM yyyy'}}</td>
+                                            <td>{{buyplan.updated_date | date:'dd MMM yyyy'}}</td>
+                                            <td>{{buyplan.amount}}</td>
+                                            <td>{{buyplan.gst}}</td>
+                                            <td>{{buyplan.total}}</td>
+                                            <td style="text-align: center;">
+                                                <!--  (click)="Downloadinvoice(Edittemplate, Item)"  -->
+                                                <button class="btn action-btn" (click)="Downloadinvoice(buyplan.id)" rounded="true" data-toggle="modal">
+                                                    <i class="fa fa-download action-icon" aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>   
+                            </div>
+                            <div class="Reports-error-msg" *ngIf="viewbuylist == '' && !loader">
+                                <h4>No Buy Plan .</h4>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="invoice-link" style="text-align: center;">
+                <h4 *ngIf="InvoiceDownload"><a (click)="goToLink(InvoiceDownload)">Click here to download Invoice</a></h4>
+            </div> -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<app-user-footer></app-user-footer>
+

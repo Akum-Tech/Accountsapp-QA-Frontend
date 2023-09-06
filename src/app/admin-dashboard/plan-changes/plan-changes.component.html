@@ -1,0 +1,259 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper" >
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Subscription Plan</li>
+                <button  (click)="openAddBuyplan(addtemplate)"  class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD Subscription Plan</button>
+            </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader  && buyplanlist != '' ">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <th>Number</th>
+                                    <th>Title</th>
+                                    <th>Plan For Months</th>
+                                    <th>Basic Amount</th>
+                                    <th>GST Amount</th>
+                                    <th>Tax</th>
+                                    <th>Status</th>
+                                    <th>Total Amount</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                 <tr *ngFor="let plan of buyplanlist; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{plan.title}}</td>
+                                    <td>{{plan.months}} Months</td>
+                                    <td>{{plan.basic}}</td>
+                                    <td>{{plan.gst}}</td>
+                                    <td>{{plan.tax['title']}}</td>
+                                    <td>{{plan.status}}</td>
+                                    <td>{{plan.total}}</td>
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openPlanEditModal(Edittemplate, plan)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <!-- <button class="btn action-btn action-btn-two" (click)="openPlanDeleteModal(deletetemplate, plan)">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button> -->
+                                    </td>
+                                   </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && buyplanlist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ======================  ADD SUBSCRIPTION DETAIL ================================== -->
+<ng-template #addtemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Add Subscription Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="addPlanform" #PlanForm="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="title">Plan Name</label>
+                            <input class="form-control" type="text" id="title" formControlName="title"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="months">Plan For Months </label>
+                            <input class="form-control" type="text" (keypress)="numberOnly($event)" id="months" maxlength="2" formControlName="months"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Tax">Select Tax</label>
+                            <ng-select  bindLabel="name"
+                                placeholder="Select Tax"
+                                formControlName="taxid"
+                                (change)="taxesset($event)"
+                                appendTo="body"
+                                [searchable]="true">
+                                <ng-option *ngFor="let Taxes of taxeslist; let i = index" [value]="Taxes">{{Taxes.title}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="total">Total Amount</label>
+                            <input class="form-control" type="number" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="total" (change)="calculate()" formControlName="total"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="basic">Basic Amount</label>
+                            <input class="form-control" type="number" value={{BasicAmount}}  id="basic" disabled formControlName="basic"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="gst">GST Amount</label>
+                            <input class="form-control" type="number" value="{{gstAmount}}"  id="gst" maxlength="5" formControlName="gst" disabled/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="status">Active Status</label>
+                            <div class="form-group">
+                                <div class="custom-control custom-radio custom-control-inline" style="margin-right: 30%;">
+                                   <input type="radio" class="custom-control-input" id="1"  value="1" formControlName="status" name="status"  mdbInput >
+                                   <label class="custom-control-label" for="1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                   <input type="radio" class="custom-control-input" id="0" value="0" name="status"  formControlName="status" mdbInput>
+                                   <label class="custom-control-label"  for="0">No</label>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                    
+                   
+                    <!-- <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input class="form-control" type="text" id="description" formControlName="description"/>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked && !addPlanform.valid" (click)="addsubscriptionPlan()">ADD PLAN</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+
+<!-- ======================  EDIT SUBSCRIPTION DETAIL ================================== -->
+<ng-template #Edittemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Subscription Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="addPlanform" #PlanForm="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="title">Plan Name</label>
+                            <input class="form-control" type="text" id="title" formControlName="title"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="months">Plan For Months </label>
+                            <input class="form-control" type="text" (keypress)="numberOnly($event)" id="months" maxlength="2" formControlName="months"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Tax">Select Tax</label>
+                            <ng-select  bindLabel="name"
+                                placeholder="Select Tax"
+                                formControlName="taxid"
+                                (change)="taxesset($event)"
+                                appendTo="body"
+                                [searchable]="true">
+                                <ng-option *ngFor="let Taxes of taxeslist; let i = index" [value]="Taxes">{{Taxes.title}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="total">Total Amount</label>
+                            <input class="form-control" type="number" pattern="^\s*(?=.*[0-9]*)\d*(?:\.\d{1,2})?\s*$"  id="total" (change)="calculate()" formControlName="total"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="basic">Basic Amount</label>
+                            <input class="form-control" type="number" value={{BasicAmount}}  id="basic" disabled formControlName="basic"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="gst">GST Amount</label>
+                            <input class="form-control" type="number" value="{{gstAmount}}"  id="gst" maxlength="5" formControlName="gst" disabled/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="status">Active Status</label>
+                            <div class="form-group">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                   <input type="radio" class="custom-control-input" id="1"  value="1" formControlName="status" name="status"  mdbInput >
+                                   <label class="custom-control-label" for="1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                   <input type="radio" class="custom-control-input" id="0" value="0" name="status"  formControlName="status" mdbInput>
+                                   <label class="custom-control-label"  for="0">No</label>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                  
+                      <!-- <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input class="form-control" type="text" id="description" formControlName="description"/>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked && !addPlanform.valid " (click)="editsubscriptionPlan()">SAVE DETAIL</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+<!-- =========================== DELETE SUBSCRIPTION MODAL ============================== -->
+<ng-template #deletetemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">CONFIRMATION</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body delete-modal">
+        <h1>Are You Sure to Delete This Subscription Plan ?</h1>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn" (click)="deleteplan(deleteData)">YES</button>
+        <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+    </div>
+</ng-template>
+
+<app-admin-footer></app-admin-footer>

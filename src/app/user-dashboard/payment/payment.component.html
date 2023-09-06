@@ -1,0 +1,121 @@
+<app-user-header></app-user-header>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-user-menu></app-user-menu>
+    <div id="content-wrapper" (click)="openbuyplaneModal()">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <h2 style="text-align: center; color:#5156be">Payment Voucher</h2>
+                <!-- <li class="breadcrumb-item">
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Voucher</a>
+                </li>
+                <li class="breadcrumb-item active">Payment</li> -->
+                <button [routerLink]="['/admin/createpayment', 'last','none','none']"  routerLinkActive="active" class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i>Create Payment</button>
+            </ol>
+            <div class="sale-bill mt-50">
+                <div class="loader_setAll">
+                    <circle-progress *ngIf = "loader" [percent]="99" >
+                    </circle-progress>
+                </div>
+                <div class="table-responsive" *ngIf = "!loader && paymentvoucherlist != ''">
+                    <table class="table" [mfData]="paymentvoucherlist" #mf="mfDataTable" [mfRowsOnPage]="20">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Si No.</th>
+                            <th>Voucher ID</th>
+                            <th>Voucher Date</th>
+                            <th>Name Of The Party</th>
+                            <th>Paid By</th>
+                            <th class="text-set">Amount</th>
+                            <th class="text-set" style="width: 12%;">Action</th>
+                            <!-- <th class="text-center Insert-btn">Before Create Invoice</th> -->
+                        </tr>
+                    </thead>
+                    <tbody class="mb-20 table-body">
+                        <tr [routerLink]="['/admin/printpaymentvoucher', PaymentVoucher.uid]"  routerLinkActive="active" *ngFor="let PaymentVoucher of mf.data; let i = index">
+                            <th>{{(config.itemsPerPage*(config.currentPage-1))+i+1}}</th>
+                            <th>{{PaymentVoucher.invoice_id}}</th>
+                            <th>{{PaymentVoucher.invoice_date | date:'dd MMM yyyy'}}</th>
+                            <th>{{PaymentVoucher.PaymentBuyer?PaymentVoucher.PaymentBuyer.name:'' || ''}}</th>
+                            <th>{{PaymentVoucher.PaymentReciver?PaymentVoucher.PaymentReciver.name:'' || ''}}</th>
+                            <th class="text-set"><i class="fa fa-inr" aria-hidden="true"></i> {{getType(PaymentVoucher.total_amount)}}</th>
+                            <th class="text-set">
+                                <!-- <button [routerLink]="['/admin/edit-payment', PaymentVoucher.uid]"  routerLinkActive="active" class="btn action-btn "><i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                <button [routerLink]="['/admin/printpaymentvoucher', PaymentVoucher.uid]"  routerLinkActive="active" class="btn action-btn clr-change"><i class="fa fa-eye" aria-hidden="true"></i></button> -->
+                                <button (click)="openvoucherCancelModal(cancelinvoice, PaymentVoucher)" class="btn action-btn btn-canle"><i class="fa fa-ban" aria-hidden="true"></i></button>
+                                <button (click)="openvoucherDeleteModal(deleteinvoice, PaymentVoucher)" class="btn action-btn action-btn-two"><i class="fa fa-trash action-icon" aria-hidden="true"></i></button>
+                                <button [routerLink]="['/admin/createpayment', 'before', PaymentVoucher.uid, PaymentVoucher.invoice_date ]" routerLinkActive="active" class="btn action-btn add-btn" style="display: flex;align-items: center;"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                           
+                            </th>
+                            <!-- <th class="text-center Insert-btn">
+                                <button [routerLink]="['/admin/createpayment', 'before', PaymentVoucher.uid, PaymentVoucher.invoice_date ]" routerLinkActive="active" class="add-btn after-before"><i class="fa fa-plus-circle" aria-hidden="true"></i>Insert Invoice</button>&nbsp;&nbsp;
+                            </th> -->
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                               <td class="Paginationset" colspan="12">
+                                <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
+                                <ul  class="pagination">
+                                    <li [ngClass]="{disabled:config.currentPage === 1}" class="page-item first-item" (click)="pageChange(1)"><i class="fa fa-fast-backward" aria-hidden="true"></i> First </li>
+                                    <li [ngClass]="{disabled:config.currentPage === 1}"  (click)="pageChange(config.currentPage-1)" class="page-item previous-item"> <i class="fa fa-step-backward" aria-hidden="true"></i> Previous </li>
+                                    <li *ngFor="let page of config.pager"  (click)="pageChange(page)" [ngClass]="{active:config.currentPage === page}" class="page-item number-item page-number">{{page}} </li>
+                                    <li [ngClass]="{disabled:config.currentPage === config.pager.length}" (click)="pageChange(config.currentPage + 1)" class="page-item next-item">Next <i class="fa fa-step-forward" aria-hidden="true"></i></li>
+                                    <li [ngClass]="{disabled:config.currentPage === config.pager.length}" (click)="pageChange(config.pager.length)" class="page-item last-item">Last <i class="fa fa-fast-forward" aria-hidden="true"></i></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    </table>   
+                </div>
+                <div class="Reports-error-msg"  *ngIf="!dataNotFount && paymentvoucherlist == ''">
+                    <h4>No Data Found .</h4>
+                </div> 
+            </div>
+            
+            <!-- -------------------------------CANCEL CONFIRMATION ------------------------------ -->
+            <ng-template #cancelinvoice let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title">CONFIRMATION</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body done-modal">
+                    <h1>Are you sure want to Cancel this Payment Invoice.</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" (click)="gotoCancel(cancelData)">YES</button>
+                    <button class="btn footer-btn" (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+               <!-- -------------------------------DELETE CONFIRMATION ------------------------------ -->
+               <ng-template #deleteinvoice let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title">CONFIRMATION</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                    
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body done-modal">
+                    <h1>Are you sure want to Delete this Payment Invoice.</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn footer-btn" (click)="gotodDelete(deleteData)">YES</button>
+                    <button class="btn footer-btn" (click)="modalRef.hide()">CANCEL</button>
+                </div>
+            </ng-template>
+            
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<app-user-footer></app-user-footer>

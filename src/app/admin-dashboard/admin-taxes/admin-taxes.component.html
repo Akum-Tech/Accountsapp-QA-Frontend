@@ -1,0 +1,186 @@
+<app-admin-header></app-admin-header>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="content-wrapper" >
+        <!-- (click)="openbuyplaneModal()" -->
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/admindashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Taxes</li>
+                <button  (click)="openAddTax(addtemplate)"  class="add-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i> ADD TAX</button>
+            </ol>
+            <div class="masteraccount-form">
+                <div class="container-fluid">
+                    <div class="loader_setAll">
+                        <circle-progress *ngIf = "loader" [percent]="99" >
+                        </circle-progress>
+                    </div>
+                    <form>
+                        <div class="table-responsive" *ngIf = "!loader && taxeslist != ''">
+                            <table class="table " datatable [dtOptions]="dtOptions">
+                                <thead class="table-header">
+                                  <tr>
+                                    <th style="width: 10%;">Number</th>
+                                    <!-- <th style="width: 25%;">State Type</th> -->
+                                    <!-- <th style="width: 25%;">Type</th> -->
+                                    <th style="width: 20%;">Tax</th>
+                                    <th>Title</th>
+                                    <th style="width: 10%;">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody  class="mb-20 table-body">
+                                 <tr *ngFor="let taxes of taxeslist;let i= index">
+                                    <td>{{i+1}}</td>
+                                    <!-- <td *ngIf="taxes.state_type">{{taxes.state_type}}</td> -->
+                                    <!-- <td *ngIf="!taxes.state_type">null</td>
+                                    <td *ngIf="taxes.state_type">{{taxes.type}}</td>
+                                    <td *ngIf="!taxes.state_type">null</td> -->
+                                    <td >{{taxes.tax}}%</td>
+                                    <td>{{taxes.title}}</td>
+                                    <td>
+                                        <button class="btn action-btn"  (click)="openTaxEditModal(Edittemplate, taxes)" rounded="true" data-toggle="modal">
+                                        <i class="fa fa-pencil-square-o action-icon" aria-hidden="true"></i></button>
+                                        <!-- <button class="btn action-btn action-btn-two" (click)="openTaxDeleteModal(deletetemplate, taxes)">
+                                        <i class="fa fa-trash action-icon" aria-hidden="true"></i></button> -->
+                                    </td>
+                                   </tr>
+                                </tbody>
+                            </table>   
+                        </div>
+                    </form>
+                    <div class="Reports-error-msg"  *ngIf="!dataNotFount && taxeslist == ''">
+                        <h4>No Data Found .</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ======================  ADD TAX DETAIL ================================== -->
+<ng-template #addtemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Add Tax Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="addtaxform" #TaxForm="ngForm" (ngSubmit)="addtax()">
+            <div class="row">
+                <!-- <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="state_type">State Type</label>
+                        <select class="form-control" formControlName="state_type">
+                            <option>Globe</option>
+                            <option>Local</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select class="form-control" formControlName="type">
+                            <option>Purchase</option>
+                            <option>Sales</option>
+                        </select>
+                    </div>
+                </div> -->
+                <!-- title -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input class="form-control" type="text" id="title" formControlName="title" />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="tax">Tax</label>
+                        <input class="form-control" (keypress)="numberOnly($event)" maxlength="2" type="text" id="tax" formControlName="tax" />
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" [disabled]="clicked" (click)="addtax()">ADD TAX</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+<!-- ======================  EDIT TAX DETAIL ================================== -->
+<ng-template #Edittemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Tax Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="Bank-form">
+            <form  [formGroup]="addtaxform" #TaxForm="ngForm" (ngSubmit)="edittax()">
+            <div class="row">
+                <!-- <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="state_type">State Type</label>
+                        <select class="form-control" formControlName="state_type">
+                            <option>Globe</option>
+                            <option>Local</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select class="form-control" formControlName="type">
+                            <option>Purchase</option>
+                            <option>Sales</option>
+                        </select>
+                    </div>
+                </div> -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input class="form-control" type="text" id="title" formControlName="title" />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="tax">Tax</label>
+                        <input class="form-control" disabled (keypress)="numberOnly($event)" maxlength="2" type="text" id="tax" formControlName="tax" />
+                        <div class="error-msg">
+                            <h4>You can't Change the Tax .</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn save-btn" (click)="edittax()">SAVE DETAIL</button>
+        <button class="btn footer-btn"  (click)="modalRef.hide()">CANCEL</button>
+    </div>
+</ng-template>
+<!-- =========================== DELETE TAX MODAL ============================== -->
+<ng-template #deletetemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">CONFIRMATION</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body delete-modal">
+        <h1>Are You Sure to Delete This tax ?</h1>
+    </div>
+    <div class="modal-footer">
+        <button class="btn footer-btn" (click)="deletetax(deleteData)">YES</button>
+        <button class="btn footer-btn" (click)="modalRef.hide()">NO</button>
+    </div>
+</ng-template>
+
+<app-admin-footer></app-admin-footer>
