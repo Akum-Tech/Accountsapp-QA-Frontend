@@ -40,7 +40,7 @@ export class CompanyComponent implements OnInit {
   role: string
   gstvalidation: any;
   setvalue: any;
-
+subUsercheck:boolean
   subcriptiondata: any = [];
   subcription_end_date: any;
   server_date: any;
@@ -496,7 +496,7 @@ export class CompanyComponent implements OnInit {
 
   getCompanyList() {
     this.companyService.getcompany({ user_id: this.localStorageService.getuserUId() }).subscribe(data => {
-      console.log('data from companyt----------->', data)
+      console.log('data from companylist----------->', data.company)
       let userInfo = this.localStorageService.getuserinfo();
       if (data === null || data === undefined) {
         this.messagePanelService.ShowPopupMessageWithLocalization('An error occured, please try again later', this.globals.messageCloseTime, this.globals.messageType.error);
@@ -504,16 +504,23 @@ export class CompanyComponent implements OnInit {
         if (data.company.length > 0) {
           this.companyList = data.company;
           let companyData = data.company
-          let checkset = [...new Set(companyData.map(x => x.user_id))]
-          console.log('checkset---------->',checkset)
-          for (let i = 0; i < checkset.length; i++) {
-            if (checkset[i] == userInfo.uid) {
-              this.role = 'Admin'
-            }else{
-              this.role = 'SubUser'
-            }
-          }
-
+   
+          // let checkset = [...new Set(companyData.map(x => x.user_id))]
+          // console.log('checkset---------->',checkset)
+          // console.log('userInfo.uid----->',userInfo.uid)
+          // for (let i = 0; i < checkset.length; i++) {
+          //   if (checkset[i] != userInfo.uid) {
+          //     console.log('here---->')
+          //     this.role = 'SubUser'
+          //     this.subUsercheck=true
+          //   }else{
+          //     console.log('here123---->')
+              
+          //     this.role = 'Admin'
+          //     this.subUsercheck=false
+          //   }
+          // }
+          // this.companyList = data.company;
         } else {
           this.companyList = data.company;
           this.messagePanelService.ShowPopupMessageWithLocalization(data['message'], this.globals.messageCloseTime, this.globals.messageType.success);

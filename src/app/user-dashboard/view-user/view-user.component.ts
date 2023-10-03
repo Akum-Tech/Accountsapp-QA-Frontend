@@ -59,7 +59,7 @@ export class ViewUserComponent implements OnInit {
     // const login = this.loginform.value
 
     let emailcheck = this.loginform.controls['email'].value;
-
+    let subUsername=this.loginform.controls['subUsername'].value;
 
     if (!emailcheck) {
       this.messagePanelService.ShowPopupMessageWithLocalization("Please Enter Vaild Email ID OR Phonr Number", this.globals.messageCloseTime, this.globals.messageType.error);
@@ -87,11 +87,11 @@ export class ViewUserComponent implements OnInit {
       }
 
       console.log('login form value ------->', obj)
-      // this.service.checkUser(obj).subscribe(data => {
-      let data = {}
-      data['success'] = true;
-      // data['message'] = 'Existing User';
-      data['message'] = 'New User'
+      this.service.checkUser(obj).subscribe(data => {
+      // let data = {}
+      // data['success'] = true;
+      // // data['message'] = 'Existing User';
+      // data['message'] = 'New User'
       // console.log('data----->', data)
       if (data === null || data === undefined) {
         this.messagePanelService.ShowPopupMessageWithLocalization('An error occured, please try again later', this.globals.messageCloseTime, this.globals.messageType.error);
@@ -118,18 +118,21 @@ export class ViewUserComponent implements OnInit {
 
             this.check1 = true;
             this.invite = false;
-            obj['user_id'] = this.userInfo.uid
-            obj['company_id'] = this.companyInfo.uid
-            obj['username'] = this.userInfo.name
+            obj['mainUser_id'] = this.userInfo.uid
+            obj['mainUsername'] = this.userInfo.name
+            obj['mainUseremail'] = this.userInfo.email
+            obj['mainUserPhone'] = this.userInfo.phone
+           
+            obj['subUsername'] = this.userInfo.subUsername
             obj['application_type'] = this.userInfo.application_type
+            obj['company_id'] = this.companyInfo.uid
             obj['companyName'] = this.companyInfo.company_name
-            obj['subUser_id'] = ''
           }
         }
         console.log('obj---->', obj)
         this.inviteUser(obj)
       }
-      // })
+      })
     }
   }
   inviteUser(obj) {

@@ -226,7 +226,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h4>{{role}}</h4>
+                                    <div>{{company.role}}</div>
+                                    <!-- <div *ngIf="subUsercheck==false">
+                                        <h4>{{role}}</h4>
+                                    </div>
+                                    <div *ngIf="subUsercheck==true">
+                                        <h4>{{role}}</h4>
+                                    </div> -->
+                                 
                                 </div>
                                 <div class="display-body" (click)="gotoDashBoard(company)">
                                     <ul>
